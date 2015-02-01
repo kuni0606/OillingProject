@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io.connect();
+        var $form = $('#form');
+        function emailcheck () {
+            var email_v = document.getElementById('email');
+            socket.emit('emailcheck', email_v.value, function (data) {
+                if (data) {
+                } else {
+                    alert("중복된 이메일입니다.");
+                    email_v.focus();
+                }
+            });
+        };
+        function form_check()
+        {
+            var form = document.frm;
+            if(form.pw.value != form.pw_confirm.value)
+            {
+                alert("비밀번호가 서로 다릅니다.");
+                form.pw_confirm.focus();
+                return false;
+            }
+            return true;
+        }
+        /*
+        $form.submit(function() {
+            var $email = document.getElementById('email').value;
+            var $name = document.getElementById('name').value;
+            var $pw = document.getElementById('pw').value;
+            var $phone = document.getElementById('phone').value;
+            var regist = {};
+            regist['email'] = $email;
+            regist['name'] = $name;
+            regist['pw'] = $pw;
+            regist['phone'] = $phone;
+            socket.emit('regist', regist, function (data) {
+                if (data) {
+                    alert('We sent a verification email to '+$email +'.');
+                    window.location = 'http://127.0.0.1:3000/';
+                } else {
+                    alert('Join, Fail!!');
+                }
+            });
+        });
+        */
+    </script>
+</head>
+<body>
+<form method="post" name="frm">
+    <span>Email</span><input type="email" name="email" id="email" size="25" maxlength="25" required="required" onblur="emailcheck()" ><br/>
+    <span>Name</span><input type="text" name="name" id="name" size="25" required="required" pattern="^[a-zA-Z가-힣]{1,15}$"><br/>
+    <span>Password</span><input type="password" name="pw" id="pw" size="25" maxlength="15" required="required"><br/>
+    <span>Confirm Password</span><input type="password" name="pw_confirm" size="25" maxlength="15" required="required"><br/>
+    <span>Phone</span><input type="tel" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/>
+    <input type="submit" value="Join" onclick="form_check()"><input type="reset" value="Reset" required="required">
+</form>
+</body>
+</html>
