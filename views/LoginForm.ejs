@@ -6,8 +6,11 @@
 </head>
 <body>
 <form method="post">
-    <span>Email</span><input type="email" name="email" id="email" size="25" maxlength="25" required="required"><br/>
-    <span>Password</span><input type="password" name="pw" size="25" maxlength="15" required="required"><br/>
+    <fieldset>
+    <legend>Login</legend>
+    <p>Email</p><input type="email" name="email" id="email" size="25" maxlength="25" required="required">
+    <p>Password</p><input type="password" name="pw" size="25" maxlength="15" required="required">
+    </fieldset>
     <input type="submit" value="Login"><input type="button" value="Join" onclick="location.href='/login/join'">
 </form>
 </body>

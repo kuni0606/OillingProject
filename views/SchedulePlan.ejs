@@ -18,14 +18,14 @@
             var dif = two_t.getTime() - one_t.getTime();
             var count = 0;
             dif = (dif / (1000*3600*24)) + 1; //프로젝트 진행 기간을 계산
-            document.getElementById('p_c').value = dif;
+            document.getElementById('p_r').value = dif;
             if(dif>31){ // 만약 진행 기간이 31보다 작으면 1일 2일로 표시하고 31보다 크면 1주차 2주차로 표시함
                 document.getElementById('p_type').value = 1; //type이 1이면 주차로 표시하겠다는 의미임. default:0은 날짜로 표시
                 one_t.setDate( one_t.getDate()-one_t.getDay() ); // 주차의 시작, 끝의 기준은 무조건 일요일로 계산.
                 for(;one_t<= two_t;++count) { one_t.setDate(one_t.getDate()+7); } //프로젝트 기간이 총 몇주차인지 계산
-                document.getElementById('p_c').value = count;
+                document.getElementById('p_r').value = count;
             }
-            //alert(document.getElementById('p_c').value);
+            //alert(document.getElementById('p_r').value);
             return true;
         }
     </script>
@@ -37,7 +37,7 @@ exist
 <form method="post" name="p">
     Start  <input type="date" name="p_sdate" id="p_sdate" required="required"> End <input type="date" name="p_edate" id="p_edate" required="required"><br/>
     Job(max:15)  <input type="number" name="p_job" id="p_job" value="5" min="1" max="15"><br/>
-    <input type="hidden" name="p_type" id="p_type" value="0"> <input type="hidden" name="p_c" id="p_c">
+    <input type="hidden" name="p_type" id="p_type" value="0"> <input type="hidden" name="p_r" id="p_r">
     <input type="submit" value="Plan" onclick="return plan_check();">
 </form>
 <% }%>

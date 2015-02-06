@@ -33,8 +33,13 @@ router.post('/plan', function(req, res) {
     var p_edate = req.body.p_edate;
     var p_job = req.body.p_job;
     var p_type = req.body.p_type;
-    var p_c = req.body.p_c;
-    db.query("INSERT INTO schedule_form VALUES (?,?,?,?,?,?)", [mysql.escape(req.session.ridx),mysql.escape(p_sdate),mysql.escape(p_edate),mysql.escape(p_job),mysql.escape(p_type),mysql.escape(p_c)], function() {});
+    var p_r = req.body.p_r;
+    db.query("INSERT INTO schedule_form VALUES (?,?,?,?,?,?)", [mysql.escape(req.session.ridx),mysql.escape(p_type),mysql.escape(p_job),mysql.escape(p_r),mysql.escape(p_sdate),mysql.escape(p_edate)], function(err) {
+        if(err)
+        {
+            console.log("plan insert error : "+err);
+        }
+    });
     res.send("plan");
 
 });
