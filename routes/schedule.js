@@ -15,8 +15,7 @@ router.use(session({secret:'secret key'}));
 /* GET users listing. */
 router.get('/plan', function(req, res) {
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(req.session.ridx)+' and User_master = '+mysql.escape(req.session.uidx), function(error, result) {
-        //if(result[0]){
-        if(1){
+        if(result[0]){
             db.query('SELECT * FROM schedule_form WHERE  room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
                 if(result[0]){
                     res.render('SchedulePlan', {title: 'Schedule Plan Page', exist:1});
@@ -26,18 +25,16 @@ router.get('/plan', function(req, res) {
                 }
             });
         }
-        else{
-            res.send("권한이 없습니다.");
-        }
+        else{ res.send("권한이 없습니다."); }
     });
 });
 router.post('/plan', function(req, res) {
-    var s_date = req.body.s_date;
-    var e_date = req.body.e_date;
-    var job = req.body.job;
-    db.query("INSERT INTO confirm VALUES (?,?)", [idx.uidx,email_key], function() {
-
-    });
+    var p_sdate = req.body.p_sdate;
+    var p_edate = req.body.p_edate;
+    var p_job = req.body.p_job;
+    var p_type = req.body.p_type;
+    var p_c = req.body.p_c;
+    db.query("INSERT INTO schedule_form VALUES (?,?,?,?,?,?)", [mysql.escape(req.session.ridx),mysql.escape(p_sdate),mysql.escape(p_edate),mysql.escape(p_job),mysql.escape(p_type),mysql.escape(p_c)], function() {});
 
 });
 /* GET users listing. */

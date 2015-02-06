@@ -6,14 +6,26 @@
     <script>
         function plan_check()
         {
-            var one = document.getElementById('s_date').value;
-            var two = document.getElementById('e_date').value;
-            if(one >= two)
+            var one = document.getElementById('p_sdate').value;
+            var two = document.getElementById('p_edate').value;
+            if(one >= two) //완료날짜가 시작날짜보다 커야됨
             {
                 alert("프로젝트 진행 날짜를 확인해주세요.");
                 return false;
             }
-            //alert("okay");
+            var one_t = new Date(one);
+            var two_t = new Date(two);
+            var dif = two_t.getTime() - one_t.getTime();
+            var count = 0;
+            dif = (dif / (1000*3600*24)) + 1; //프로젝트 진행 기간을 계산
+            document.getElementById('p_c').value = dif;
+            if(dif>31){ // 만약 진행 기간이 31보다 작으면 1일 2일로 표시하고 31보다 크면 1주차 2주차로 표시함
+                document.getElementById('p_type').value = 1; //type이 1이면 주차로 표시하겠다는 의미임. default:0은 날짜로 표시
+                one_t.setDate( one_t.getDate()-one_t.getDay() ); // 주차의 시작, 끝의 기준은 무조건 일요일로 계산.
+                for(;one_t<= two_t;++count) { one_t.setDate(one_t.getDate()+7); } //프로젝트 기간이 총 몇주차인지 계산
+                document.getElementById('p_c').value = count;
+            }
+            //alert(document.getElementById('p_c').value);
             return true;
         }
     </script>
@@ -23,8 +35,9 @@
 exist
 <% } else {%>
 <form method="post" name="p">
-    Start  <input type="date" name="s_date" id="s_date" required="required"> End <input type="date" name="e_date" id="e_date" required="required"><br/>
-    Job(max:15)  <input type="number" name="job" id="job" value="5" min="1" max="15"><br/>
+    Start  <input type="date" name="p_sdate" id="p_sdate" required="required"> End <input type="date" name="p_edate" id="p_edate" required="required"><br/>
+    Job(max:15)  <input type="number" name="p_job" id="p_job" value="5" min="1" max="15"><br/>
+    <input type="hidden" name="p_type" id="p_type" value="0"> <input type="hidden" name="p_c" id="p_c">
     <input type="submit" value="Plan" onclick="return plan_check();">
 </form>
 <% }%>

@@ -16,7 +16,7 @@ router.use(session({secret:'secret key'}));
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
     req.session.uidx = 1;
-    req.session.ridx = 2;
+    req.session.ridx = 1;
     ///////////test/////////////////
     res.render('Mainpage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
 });
