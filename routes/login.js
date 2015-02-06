@@ -47,7 +47,8 @@ router.post('/', function(req, res) {
         else // 가입하셨어~
         {
             if(user_info.confirm) //이메일 인증 하셨어~o
-            {
+            { //세션 생성
+                req.session.uidx = user_info.uidx;
                 req.session.email = user_info.email;
                 req.session.name = user_info.name;
                 res.redirect('/login');

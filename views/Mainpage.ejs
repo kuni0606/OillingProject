@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/stylesheets/avgrund_style.css">
+    <link rel="stylesheet" href="/stylesheets/avgrund.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/jquery-2.1.3.min.js"></script>
+    <script src="/javascripts/jquery.avgrund.js"></script>
+    <script>
+        var socket = io.connect();
+        function check_auth () {
+            /*
+            var one = '<%=s_ridx%>';
+            alert(one);
+            */
+            socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
+                if (data) {//프로젝트 관리자
+                    $(function() {
+                        $('#show').avgrund({
+                            height: 100,
+                            width: 200,
+                            holderClass: 'custom',
+                            showClose: true,
+                            showCloseText: 'Close',
+                            enableStackAnimation: true,
+                            onBlurContainer: '.container',
+                            //프로젝트계획 혹은 진행
+                            //고쳐~~~~~~아래링크~~~~~~~~localhost~~~~~~~~~
+                            template: '<br/><div>' +
+                            '<a href="#" class="twitter" onclick="pla()">Plan</a>' +
+                            '<a href="#" class="dribble" onclick="pro()">Progress</a>' +
+                            '</div>'
+                        });
+                    });
+                } else { //걍 팀원
+
+                }
+            });
+        }
+        function pla(){window.open( 'http://localhost:3000/schedule/plan','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+        function pro(){window.open( 'http://naver.com','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+    </script>
+</head>
+<body>
+<input type="button" value="프로젝트 진행 관리" id="show" onclick="check_auth()">
+</body>
+</html>

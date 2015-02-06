@@ -9,7 +9,7 @@ var debug = require('debug')('OillingProject:server');
 var http = require('http');
 var socketio = require('socket.io');
 var mysql = require('mysql');
-var io = null;
+var io;
 var emailcheck = 0; //중복이메일 체크
 
 var db = mysql.createConnection({
@@ -48,7 +48,7 @@ io = socketio.listen(server);
 io.sockets.on('connection', function (socket) {
 
   socket.on('emailcheck', function (data, callback) {
-    var sql = 'SELECT * FROM user WHERE email = ' + db.escape(data);
+    var sql = 'SELECT * FROM user WHERE email = ' + mysql.escape(data);
     db.query(sql, function(err, results) {
       if (!results[0]) {
         emailcheck = 1; // 아이디 없을시 회원가입 가능하게.
@@ -60,17 +60,31 @@ io.sockets.on('connection', function (socket) {
       }
     })
   })
-/*
-  socket.on('regist', function (data, callback) {
-    var regist = data;
-    if (emailcheck == 1) {
-      callback(true);
-      db.query('INSERT INTO user (email, name, pw, phone) VALUES (?, ?, ?, ?)', [regist['email'], regist['name'], regist['pw'], regist['phone'] ]);
-    } else {
-      callback(false);
-    }
-  });
-  */
+
+  socket.on('auth_check', function (data, callback) {
+    db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(data.ridx)+' and User_master = '+mysql.escape(data.uidx), function(error, result) {
+     // if (result[0]) {// 프로젝트 관리자~
+      if (1) {// 프로젝트 관리자~
+        callback(true);
+      }
+      else {// 걍 팀원~
+        callback(false);
+      }
+    });
+
+  })
+
+  /*
+    socket.on('regist', function (data, callback) {
+      var regist = data;
+      if (emailcheck == 1) {
+        callback(true);
+        db.query('INSERT INTO user (email, name, pw, phone) VALUES (?, ?, ?, ?)', [regist['email'], regist['name'], regist['pw'], regist['phone'] ]);
+      } else {
+        callback(false);
+      }
+    });
+    */
 
 });
 /**
