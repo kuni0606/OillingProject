@@ -35,6 +35,7 @@ router.post('/plan', function(req, res) {
     var p_type = req.body.p_type;
     var p_c = req.body.p_c;
     db.query("INSERT INTO schedule_form VALUES (?,?,?,?,?,?)", [mysql.escape(req.session.ridx),mysql.escape(p_sdate),mysql.escape(p_edate),mysql.escape(p_job),mysql.escape(p_type),mysql.escape(p_c)], function() {});
+    res.send("plan");
 
 });
 /* GET users listing. */
