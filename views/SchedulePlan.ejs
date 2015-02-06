@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title><%=title%></title>
     <script>
-        function plan_check()
+        function plan_check() // 프로젝트의 기간과 그에 따른 정보를 schedule_form 테이블에 넣고 post 형식으로 이 url 그대로 reload
         {
             var one = document.getElementById('p_sdate').value;
             var two = document.getElementById('p_edate').value;
-            if(one >= two) //완료날짜가 시작날짜보다 커야됨
-            {
+            if(one >= two) {//완료날짜가 시작날짜보다 커야됨
                 alert("프로젝트 진행 날짜를 확인해주세요.");
                 return false;
             }
@@ -31,9 +30,9 @@
     </script>
 </head>
 <body>
-<% if (exist) {%>
+<% if (exist) {%> <!--계획한 일정이 있을 경우-->
 exist
-<% } else {%>
+<% } else {%> <!--계획한 일정이 없을 경우 먼저 날짜랑 job을 입력받아야겠지-->
 <form method="post" name="p">
     Start  <input type="date" name="p_sdate" id="p_sdate" required="required"> End <input type="date" name="p_edate" id="p_edate" required="required"><br/>
     Job(max:15)  <input type="number" name="p_job" id="p_job" value="5" min="1" max="15"><br/>

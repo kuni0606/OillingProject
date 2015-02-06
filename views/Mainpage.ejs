@@ -16,7 +16,7 @@
             alert(one);
             */
             socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
-                if (data) {//프로젝트 관리자
+                if (data) {//프로젝트 관리자가 계획or진행을 선택한다.
                     $(function() {
                         $('#show').avgrund({
                             height: 100,
@@ -33,13 +33,13 @@
                             '</div>'
                         });
                     });
-                } else { //걍 팀원
+                } else { //걍 팀원은 진행만 볼 수 있다.
 
                 }
             });
         }
         //고쳐~~~~~~아래링크~~~~~~~~localhost~~~~~~~~~
-        function pla(){window.open( 'http://210.118.74.149:3000/schedule/plan','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+        function pla(){window.open( 'http://localhost:3000/schedule/plan','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
         function pro(){window.open( 'http://naver.com','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
     </script>
 </head>
