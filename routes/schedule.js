@@ -31,9 +31,9 @@ router.get('/plan', function(req, res) {
 router.post('/plan', function(req, res) {
     var p_sdate = req.body.p_sdate;
     var p_edate = req.body.p_edate;
-    var p_job = req.body.p_job;
-    var p_type = req.body.p_type;
-    var p_r = req.body.p_r;
+    var p_job = parseInt(req.body.p_job);
+    var p_type = parseInt(req.body.p_type);
+    var p_r = parseInt(req.body.p_r);
     db.query("INSERT INTO schedule_form VALUES (?,?,?,?,?,?)", [mysql.escape(req.session.ridx),mysql.escape(p_type),mysql.escape(p_job),mysql.escape(p_r),mysql.escape(p_sdate),mysql.escape(p_edate)], function(err) {
         if(err)
         {
