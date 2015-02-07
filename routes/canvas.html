@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>CanvasPage</title>
+    <link rel="stylesheet" href="/farbtastic.css" type = "text/css"/>
+    <link rel="stylesheet" href="/jquery-ui-1.11.2/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/jquery-ui-1.11.2/jquery-ui.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/farbtastic.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/demo_room.css" />
+    <script type="text/javascript" src="/js/demo_multiparty.js"></script>
+    <script>
+        function Point(event, target) {
+            this.x = event.pageX - $(target).position().left;
+            this.y = event.pageY - $(target).position().top;
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            var width = 5;
+            var color = '#000000';
+            var isDown = false;
+            var newPoint, oldPoint;
+            canvas.onmousedown = function(event){
+                isDown = true;
+                oldPoint = new Point(event, this);
+            };
+            canvas.onmouseup = function(){
+                isDown = false;
+            };
+            canvas.onmousemove = function(event){
+                if(isDown){
+                    newPoint = new Point(event, this);
+
+                    socket.emit('draw', {
+                        width: width,
+                        color: color,
+                        x1: oldPoint.x,
+                        y1: oldPoint.y,
+                        x2: newPoint.x,
+                        y2: newPoint.y
+                    });
+                    oldPoint = newPoint;
+                }
+            };
+
+            var socket = io.connect();
+            socket.emit('join', '<%=room%>');
+            socket.on('line', function(data){
+                context.lineWidth = data.width;
+                context.strokeStyle = data.color;
+                context.beginPath();
+                context.moveTo(data.x1, data.y1);
+                context.lineTo(data.x2, data.y2);
+                context.stroke();
+            });
+
+            $('#colorpicker').farbtastic(function(data){
+                color = data;
+            });
+
+            $('button[id="eraser"]').click(function(event){
+                color = $('#eraser').val();
+            });
+
+            $('option[id="globalAlpha"]').click(function(event){
+                context.globalAlpha = $('#globalAlpha').val();
+            });
+
+            $('#slider').slider({
+                max:20, min:1,
+                value: 5,
+                change: function(event, ui){
+                    width = ui.value;
+                }
+            });
+
+            $('#slider1').slider({
+                max:10, min:1,
+                value: 0.1,
+                change: function(event, ui){
+                    canvas.globalAlpha = ui.value;
+               }
+            });
+
+            $('button[id="btnDel"]').click(function(event){
+                context.clearRect(0,0, canvas.width, canvas.height);
+                context.beginPath();
+                localStorage.removeItem('imgData');
+            });
+            socket.on('create_room', function(data){
+               // alert(data);
+                $('#show_con').append('<dd style="margin:0px; text-align: center">' + data + '님이 '+data+'번 방에 접속 하셨습니다.</dd>');
+                scroll_down();
+            });
+            //socket.on('confirm_room', function(data){
+            //    $('#show_con').append('<dd style="margin:0px; text-align: center">' + data + '님이 '+data.room+'번 방에 접속 하셨습니다.</dd>');
+            //});
+
+            function scroll_down() {
+
+                var aa = document.getElementById('c_room');
+                if(aa.scrollHeight > aa.offsetHeight) {
+                    aa.scrollTop = aa.scrollHeight - aa.offsetHeight;
+                }
+            }
+
+            $('#btn').click(function(){
+                if($("#txt").val()!==''){
+                    var message = {
+                        msg: $('#txt').val(),
+                        user: $('#room').val()
+                    };
+                    socket.emit('message', message);
+                    socket.emit('message_me', message);
+                    $("#txt").val('');
+                }
+            });
+            $("#txt").keyup(function(event){
+                if($("#txt").val()!==''){
+                    if(event.which==13){
+                        var message = {
+                            msg: $('#txt').val(),
+                            user: $('#room').val()
+                        };
+                        socket.emit('message', message);
+                        socket.emit('message_me', message);
+                        $("#txt").val('');
+                    }
+                }
+            });
+            socket.on('message', function(data){
+                $('#show_con').append('<dd style="margin:2px; text-align: left; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
+                scroll_down();
+                $('#txt').val('');
+            });
+
+            socket.on('message_me', function(data){
+                $('#show_con').append('<dd style="margin:2px; text-align: right; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
+                scroll_down();
+                $('#txt').val('');
+            })
+        });
+    </script>
+</head>
+<body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">
+<div style="margin:0 auto;">
+    <div class="plat" style="display:table-row">
+        <div class="plat_child" style="display:table-cell; float:left;">
+        <table border="10">
+            <tr>
+                <td rowspan="4">
+                    <!--캔버스-->
+                    <canvas id="canvas" width="600" height="400"></canvas>
+                </td>
+                <td height="200">
+                    <!--색상 선택기-->
+                    <div id="colorpicker"></div>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">
+                    <!--슬라이더: 펜 두께-->
+                    <div id="slider"></div>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">
+                    <!--슬라이더: 농도 조절-->
+                    <select>
+                        <option id="globalAlpha" value="0.1">0.1</option>
+                    </select>
+                    <div id="slider1"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="background: orange;"><button id="btnDel">화면삭제</button>
+                <button id="eraser" value="rgb(255,255,255)">지우개</button>
+                <button id="straight">직선</button></td>
+            </tr>
+        </table></div>
+        <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
+        <div id="chat">
+            <div style = "width:270px; height:300px; overflow:auto; border:solid 5px;" id="c_room">
+                <dl id = "show_con">
+                </dl>
+            </div>
+            <input type="text" style="width:255px;" id="txt"/><input type="button" value="Enter" id="btn"/>
+        </div></div>
+    </div><br/>
+    <div class="plat"  style="display:table-row, block; width:1500px; height:260px;">
+        <div id="fullpage" style="height:300px;" >
+        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box0" width="250" height="250" muted="muted" volume="0"></video></div>
+        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box1" width="250" height="250" ></video></div>
+        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box2" width="250" height="250" ></video></div>
+        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box3" width="250" height="250"  ></video></div>
+        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box4" width="250" height="250"  ></video></div>
+        </div>
+        <div id="textentryBox" onsubmit="sendText()" style="border:solid 3px;" >
+            <input type="text" id="textentryField"  class="transit boxcommon" /><br>
+        </div>
+
+        <img id="killButton" class="transit boxCommon" onclick="killActiveBox()" src="/images/button_close.png" style="display:none;z-index:3" alt="close button" />
+        <img id="muteButton" class="transit boxCommon" onclick ="muteActiveBox()" src="/images/button_mute.png" style="display:none;z-index:3" alt="mute button" />
+        <img id="textEntryButton" class="transit boxCommon" onclick ="showTextEntry()" src="/images/textEntry.png" style="z-index:3;display:none" alt="text button" />
+    </div>
+
+</div>
+</body>
+</html>

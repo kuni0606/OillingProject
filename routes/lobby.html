@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>lobbyPage</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.getJSON('/room', function(data){
+                $.each(data, function(index, item){
+                    $('<button></button>').attr({'data-room': item}).button().appendTo('#cont');
+                });
+            });
+            var socket = io.connect();
+            socket.on('create_room', function(data) {
+                $('<button ></button>').attr({'data-room': data}).text('Room Numbers : ' + data).appendTo('#cont');
+            });
+
+            $(document).on('#cont > button', 'click', function(){
+                var room = $(this).attr('data-room');
+                location.href = '/canvas/' + room;
+            });
+
+            $('body > button').click(function(){
+                var room = $('#room').val();
+                var username = $('#username').val();
+                socket.emit('confirm_user', username);
+                socket.emit('create_room', room);
+                location.href = '/canvas/' + room;
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>Oilling Project</h1>
+<p>Managing your project more easily</p>
+<span>아이디 : <input tpye = "text" id="username" /></span><span>Room name : </span><input id="room" type="text" /><button class="create">Create ROOM</button>
+<hr/>
+<div id="cont" class="btn-lg" style="width:100px;"></div>
+
+<!--<div id="container">-->
+</div>
+</body>
+</html>

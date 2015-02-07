@@ -115,18 +115,16 @@ var sharedVideoHeight = 1;
 function reshape1of2(parentw, parenth) {
     if( layout=== 'p' ) {
         return {
-            left: (parentw-sharedVideoWidth)/2,
-            top:  (parenth -sharedVideoHeight*2)/3,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            //left: (parentw-sharedVideoWidth)/2,
+            //top:  (parenth -sharedVideoHeight*2)/3,
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
     else {
         return{
-            left: (parentw-sharedVideoWidth*2)/3,
-            top:  (parenth -sharedVideoHeight)/2,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
 }
@@ -136,18 +134,14 @@ function reshape1of2(parentw, parenth) {
 function reshape2of2(parentw, parenth){
     if( layout=== 'p' ) {
         return {
-            left: (parentw-sharedVideoWidth)/2,
-            top:  (parenth -sharedVideoHeight*2)/3 *2 + sharedVideoHeight,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
     else {
         return{
-            left: (parentw-sharedVideoWidth*2)/3 *2 + sharedVideoWidth,
-            top:  (parenth -sharedVideoHeight)/2,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
 }
@@ -155,18 +149,14 @@ function reshape2of2(parentw, parenth){
 function reshape1of3(parentw, parenth) {
     if( layout=== 'p' ) {
         return {
-            left: (parentw-sharedVideoWidth)/2,
-            top:  (parenth -sharedVideoHeight*3)/4 ,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
     else {
         return{
-            left: (parentw-sharedVideoWidth*2)/3,
-            top:  (parenth -sharedVideoHeight*2)/3,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
 }
@@ -174,18 +164,14 @@ function reshape1of3(parentw, parenth) {
 function reshape2of3(parentw, parenth){
     if( layout=== 'p' ) {
         return {
-            left: (parentw-sharedVideoWidth)/2,
-            top:  (parenth -sharedVideoHeight*3)/4*2+ sharedVideoHeight,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
     else {
         return{
-            left: (parentw-sharedVideoWidth*2)/3*2+sharedVideoWidth,
-            top:  (parenth -sharedVideoHeight*2)/3,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
 }
@@ -193,18 +179,14 @@ function reshape2of3(parentw, parenth){
 function reshape3of3(parentw, parenth) {
     if( layout=== 'p' ) {
         return {
-            left: (parentw-sharedVideoWidth)/2,
-            top:  (parenth -sharedVideoHeight*3)/4*3+ sharedVideoHeight*2,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
     else {
         return{
-            left: (parentw-sharedVideoWidth*2)/3*1.5+sharedVideoWidth/2,
-            top:  (parenth -sharedVideoHeight*2)/3*2+ sharedVideoHeight,
-            width: sharedVideoWidth,
-            height: sharedVideoHeight
+            width: 300,//sharedVideoWidth,
+            height: 300//sharedVideoHeight
         };
     }
 }
@@ -212,36 +194,28 @@ function reshape3of3(parentw, parenth) {
 
 function reshape1of4(parentw, parenth) {
     return {
-        left: (parentw - sharedVideoWidth*2)/3,
-        top: (parenth - sharedVideoHeight*2)/3,
-        width: sharedVideoWidth,
-        height: sharedVideoHeight
+        width: 300,//sharedVideoWidth,
+        height: 300//sharedVideoHeight
     };
 }
 
 function reshape2of4(parentw, parenth) {
     return {
-        left: (parentw - sharedVideoWidth*2)/3*2+ sharedVideoWidth,
-        top: (parenth - sharedVideoHeight*2)/3,
-        width: sharedVideoWidth,
-        height: sharedVideoHeight
+        width: 300,//sharedVideoWidth,
+        height: 300//sharedVideoHeight
     };
 }
 function reshape3of4(parentw, parenth) {
     return {
-        left: (parentw - sharedVideoWidth*2)/3,
-        top: (parenth - sharedVideoHeight*2)/3*2 + sharedVideoHeight,
-        width: sharedVideoWidth,
-        height: sharedVideoHeight
+        width: 300,//sharedVideoWidth,
+        height: 300//sharedVideoHeight
     };
 }
 
 function reshape4of4(parentw, parenth) {
     return {
-        left: (parentw - sharedVideoWidth*2)/3*2 + sharedVideoWidth,
-        top: (parenth - sharedVideoHeight*2)/3*2 + sharedVideoHeight,
-        width: sharedVideoWidth,
-        height: sharedVideoHeight
+        width: 300,//sharedVideoWidth,
+        height: 300//sharedVideoHeight
     };
 }
 
@@ -688,7 +662,7 @@ function appInit() {
 
     // easyrtc.setVideoBandwidth(20);
     easyrtc.setRoomOccupantListener(callEverybodyElse);
-    easyrtc.easyApp("easyrtc.room", "box0", ["box1", "box2", "box3"], loginSuccess, loginFailure);
+    easyrtc.easyApp("easyrtc.room", "box0", ["box1", "box2", "box3", "box4"], loginSuccess, loginFailure);
     easyrtc.setPeerListener(messageListener);
     easyrtc.setDisconnectListener( function() {
         easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
