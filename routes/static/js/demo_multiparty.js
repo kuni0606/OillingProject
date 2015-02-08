@@ -1,8 +1,8 @@
 
 
 var activeBox = -1;  // nothing selected
-var aspectRatio = 4/3;  // standard definition video aspect ratio
-var maxCALLERS = 3;
+var aspectRatio = 5/4;  // standard definition video aspect ratio
+var maxCALLERS = 4;
 var numVideoOBJS = maxCALLERS+1;
 var layout;
 
@@ -22,7 +22,7 @@ function reshapeFull(parentw, parenth) {
         height:parenth
     };
 }
-
+/*
 function reshapeTextEntryBox(parentw, parenth) {
     return {
         left:parentw/4,
@@ -36,7 +36,7 @@ function reshapeTextEntryField(parentw, parenth) {
     return {
         width:parentw -40
     }
-}
+}*/
 
 var margin = 20;
 
@@ -357,7 +357,7 @@ var reshapeThumbs = [
     },
 ];
 
-
+/*
 function killButtonReshaper(parentw, parenth) {
     var imagew = 128;
     var imageh = 128;
@@ -367,9 +367,9 @@ function killButtonReshaper(parentw, parenth) {
     else {
         return setThumbSizeButton(0.1, -.01, -.51, parentw, parenth, imagew, imageh);
     }
-}
+}*/
 
-
+/*
 function muteButtonReshaper(parentw, parenth) {
     var imagew = 32;
     var imageh = 32;
@@ -379,8 +379,8 @@ function muteButtonReshaper(parentw, parenth) {
     else {
         return setThumbSizeButton(0.10, 0.01, -.51, parentw, parenth, imagew, imageh);
     }
-}
-
+}*/
+/*
 function reshapeTextEntryButton(parentw, parenth) {
     var imagew = 32;
     var imageh = 32;
@@ -391,12 +391,12 @@ function reshapeTextEntryButton(parentw, parenth) {
         return setThumbSizeButton(0.10, 0.01, .51, parentw, parenth, imagew, imageh);
     }
 }
-
-
+*/
+/*
 function handleWindowResize() {
-    var fullpage = document.getElementById('fullpage');
-    fullpage.style.width = window.innerWidth + "px";
-    fullpage.style.height = window.innerHeight + "px";
+    //var fullpage = document.getElementById('fullpage');
+    //fullpage.style.width = window.innerWidth + "px";
+    //fullpage.style.height = window.innerHeight + "px";
     connectCount = easyrtc.getConnectionCount();
 
     function applyReshape(obj,  parentw, parenth) {
@@ -425,16 +425,16 @@ function handleWindowResize() {
     }
 
     applyReshape(fullpage, window.innerWidth, window.innerHeight);
-}
+}*/
 
 
 function setReshaper(elementId, reshapeFn) {
     var element = document.getElementById(elementId);
     if( !element) {
-        alert("Attempt to apply to reshapeFn to non-existent element " + elementId);
+        //alert("Attempt to apply to reshapeFn to non-existent element " + elementId);
     }
     if( !reshapeFn) {
-        alert("Attempt to apply misnamed reshapeFn to element " + elementId);
+        //alert("Attempt to apply misnamed reshapeFn to element " + elementId);
     }
     element.reshapeMe = reshapeFn;
 }
@@ -445,8 +445,8 @@ function collapseToThumbHelper() {
         var id = getIdOfBox(activeBox);
         document.getElementById(id).style.zIndex = 2;
         setReshaper(id, reshapeThumbs[activeBox]);
-        document.getElementById('muteButton').style.display = "none";
-        document.getElementById('killButton').style.display = "none";
+        //document.getElementById('muteButton').style.display = "none";
+        //document.getElementById('killButton').style.display = "none";
         activeBox = -1;
     }
 }
@@ -454,11 +454,11 @@ function collapseToThumbHelper() {
 function collapseToThumb() {
     collapseToThumbHelper();
     activeBox = -1;
-    updateMuteImage(false);
-    handleWindowResize();
+    //updateMuteImage(false);
+    //handleWindowResize();
 
 }
-
+/*
 function updateMuteImage(toggle) {
     var muteButton = document.getElementById('muteButton');
     if( activeBox > 0) { // no kill button for self video
@@ -474,7 +474,7 @@ function updateMuteImage(toggle) {
     else {
         muteButton.style.display = "none";
     }
-}
+}*/
 
 
 function expandThumb(whichBox) {
@@ -488,13 +488,13 @@ function expandThumb(whichBox) {
         setReshaper(id, reshapeToFullSize);
         document.getElementById(id).style.zIndex = 1;
         if( whichBox > 0) {
-            document.getElementById('muteButton').style.display = "block";
-            updateMuteImage();
-            document.getElementById('killButton').style.display = "block";
+            //document.getElementById('muteButton').style.display = "block";
+            //updateMuteImage();
+            //document.getElementById('killButton').style.display = "block";
         }
     }
-    updateMuteImage(false);
-    handleWindowResize();
+    //updateMuteImage(false);
+    //handleWindowResize();
 }
 
 function prepVideoBox(whichBox) {
@@ -505,7 +505,7 @@ function prepVideoBox(whichBox) {
     };
 }
 
-
+/*
 function killActiveBox() {
     if( activeBox > 0) {
         var easyrtcid = easyrtc.getIthCaller(activeBox-1);
@@ -519,7 +519,7 @@ function killActiveBox() {
 
 function muteActiveBox() {
     updateMuteImage(true);
-}
+}*/
 
 
 
@@ -563,16 +563,16 @@ function loginSuccess() {
     expandThumb(0);  // expand the mirror image initially.
 }
 
-
+/*
 function cancelText() {
-    document.getElementById('textentryBox').style.display = "none";
-    document.getElementById('textEntryButton').style.display = "block";
-}
+    //document.getElementById('textentryBox').style.display = "none";
+    //document.getElementById('textEntryButton').style.display = "block";
+}*/
 
-
+/*
 function sendText(e) {
-    document.getElementById('textentryBox').style.display = "none";
-    document.getElementById('textEntryButton').style.display = "block";
+    //document.getElementById('textentryBox').style.display = "none";
+    //document.getElementById('textEntryButton').style.display = "block";
     var stringToSend = document.getElementById('textentryField').value;
     if( stringToSend && stringToSend != "") {
         for(var i = 0; i < maxCALLERS; i++ ) {
@@ -589,8 +589,8 @@ function sendText(e) {
 function showTextEntry() {
     document.getElementById('textentryField').value = "";
     document.getElementById('textentryBox').style.display = "block";
-    document.getElementById('textEntryButton').style.display = "none";
-    document.getElementById('textentryField').focus();
+    //document.getElementById('textEntryButton').style.display = "none";
+    //document.getElementById('textentryField').focus();
 }
 
 
@@ -668,29 +668,29 @@ function messageListener(easyrtcid, msgType, content) {
         }
     }
 }
-
+*/
 
 function appInit() {
 
     // Prep for the top-down layout manager
-    setReshaper('fullpage', reshapeFull);
+    //setReshaper('fullpage', reshapeFull);
     for(var i = 0; i < numVideoOBJS; i++) {
         prepVideoBox(i);
     }
-    setReshaper('killButton', killButtonReshaper);
-    setReshaper('muteButton', muteButtonReshaper);
-    setReshaper('textentryBox', reshapeTextEntryBox);
-    setReshaper('textentryField', reshapeTextEntryField);
-    setReshaper('textEntryButton', reshapeTextEntryButton);
+    //setReshaper('killButton', killButtonReshaper);
+    //setReshaper('muteButton', muteButtonReshaper);
+    //setReshaper('textentryBox', reshapeTextEntryBox);
+    //setReshaper('textentryField', reshapeTextEntryField);
+    //setReshaper('textEntryButton', reshapeTextEntryButton);
 
-    updateMuteImage(false);
-    window.onresize = handleWindowResize;
-    handleWindowResize(); //initial call of the top-down layout manager
+    //updateMuteImage(false);
+    //window.onresize = handleWindowResize;
+    //handleWindowResize(); //initial call of the top-down layout manager
 
 
     easyrtc.setRoomOccupantListener(callEverybodyElse);
-    easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3"], loginSuccess);
-    easyrtc.setPeerListener(messageListener);
+    easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess);
+    //easyrtc.setPeerListener(messageListener);
     easyrtc.setDisconnectListener( function() {
         easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
     });
@@ -699,10 +699,10 @@ function appInit() {
         boxUsed[slot+1] = true;
         if(activeBox == 0 ) { // first connection
             collapseToThumb();
-            document.getElementById('textEntryButton').style.display = 'block';
+            //document.getElementById('textEntryButton').style.display = 'block';
         }
         document.getElementById(getIdOfBox(slot+1)).style.visibility = "visible";
-        handleWindowResize();
+        //handleWindowResize();
     });
 
 
@@ -716,10 +716,10 @@ function appInit() {
 
             if( easyrtc.getConnectionCount() == 0 ) { // no more connections
                 expandThumb(0);
-                document.getElementById('textEntryButton').style.display = 'none';
-                document.getElementById('textentryBox').style.display = 'none';
+                //document.getElementById('textEntryButton').style.display = 'none';
+                //document.getElementById('textentryBox').style.display = 'none';
             }
-            handleWindowResize();
+            //handleWindowResize();
         },20);
     });
 }

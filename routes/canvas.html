@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
     <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/demo_room.css" />
-    <script type="text/javascript" src="/js/demo_multiparty.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/demo_room.css" />
+    <script type="text/javascript" src="/static/js/demo_multiparty.js"></script>
     <script>
         function Point(event, target) {
             this.x = event.pageX - $(target).position().left;
@@ -141,13 +141,11 @@
             socket.on('message', function(data){
                 $('#show_con').append('<dd style="margin:2px; text-align: left; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
                 scroll_down();
-                $('#txt').val('');
             });
 
             socket.on('message_me', function(data){
                 $('#show_con').append('<dd style="margin:2px; text-align: right; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
                 scroll_down();
-                $('#txt').val('');
             })
         });
     </script>
@@ -205,15 +203,14 @@
         <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box3" width="250" height="250"  ></video></div>
         <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box4" width="250" height="250"  ></video></div>
         </div>
-        <div id="textentryBox" onsubmit="sendText()" style="border:solid 3px;" >
+        <!--<div id="textentryBox" onsubmit="sendText()" style="border:solid 3px;" >
             <input type="text" id="textentryField"  class="transit boxcommon" /><br>
         </div>
 
-        <img id="killButton" class="transit boxCommon" onclick="killActiveBox()" src="/images/button_close.png" style="display:none;z-index:3" alt="close button" />
-        <img id="muteButton" class="transit boxCommon" onclick ="muteActiveBox()" src="/images/button_mute.png" style="display:none;z-index:3" alt="mute button" />
-        <img id="textEntryButton" class="transit boxCommon" onclick ="showTextEntry()" src="/images/textEntry.png" style="z-index:3;display:none" alt="text button" />
+        <img id="killButton" class="transit boxCommon" onclick="killActiveBox()" src="/images/button_close.png" style="display:none;z-index:3" alt="close button"/>
+        <img id="muteButton" class="transit boxCommon" onclick ="muteActiveBox()" src="/images/button_mute.png" style="display:none;z-index:3" alt="mute button" hidden />
+        <img id="textEntryButton" class="transit boxCommon" onclick ="showTextEntry()" src="/images/textEntry.png" style="z-index:3;display:none" alt="text button" hidden/>-->
     </div>
-
 </div>
 </body>
 </html>
