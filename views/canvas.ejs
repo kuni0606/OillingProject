@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>CanvasPage</title>
-    <link rel="stylesheet" href="/farbtastic.css" type = "text/css"/>
-    <link rel="stylesheet" href="/jquery-ui-1.11.2/jquery-ui.css"/>
+    <link rel="stylesheet" href="/stylesheets/farbtastic.css" type = "text/css"/>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="/jquery-ui-1.11.2/jquery-ui.js"></script>
+    <script src="/javascripts/jquery-ui.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/farbtastic.js"></script>
+    <script src="/javascripts/farbtastic.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
     <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/demo_room.css" />
-    <script type="text/javascript" src="/static/js/demo_multiparty.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/demo_room.css" />
+    <script type="text/javascript" src="/javascripts/demo_multiparty.js"></script>
     <script>
         function Point(event, target) {
             this.x = event.pageX - $(target).position().left;
@@ -107,7 +107,6 @@
             //});
 
             function scroll_down() {
-
                 var aa = document.getElementById('c_room');
                 if(aa.scrollHeight > aa.offsetHeight) {
                     aa.scrollTop = aa.scrollHeight - aa.offsetHeight;
@@ -115,9 +114,9 @@
             }
 
             $('#btn').click(function(){
-                if($("#txt").val()!==''){
+                if($("#txt").val() != ''){
                     var message = {
-                        msg: $('#txt').val(),
+                        msg: strip_tag ($('#txt').val()),
                         user: $('#room').val()
                     };
                     socket.emit('message', message);
@@ -126,10 +125,10 @@
                 }
             });
             $("#txt").keyup(function(event){
-                if($("#txt").val()!==''){
+                if($("#txt").val() != ''){
                     if(event.which==13){
                         var message = {
-                            msg: $('#txt').val(),
+                            msg: strip_tag ($('#txt').val()),
                             user: $('#room').val()
                         };
                         socket.emit('message', message);
@@ -141,13 +140,20 @@
             socket.on('message', function(data){
                 $('#show_con').append('<dd style="margin:2px; text-align: left; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
                 scroll_down();
+                scroll_down();
             });
 
             socket.on('message_me', function(data){
                 $('#show_con').append('<dd style="margin:2px; text-align: right; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
                 scroll_down();
+                scroll_down();
             })
         });
+
+        function strip_tag (str)
+        {
+            return str.replace(/(<([^>]+)>)/ig,"");
+        }
     </script>
 </head>
 <body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">

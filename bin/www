@@ -9,6 +9,8 @@ var debug = require('debug')('OillingProject:server');
 var http = require('http');
 var socketio = require('socket.io');
 var mysql = require('mysql');
+var ejs = require('ejs');
+var easyrtc = require('easyrtc');
 var io;
 var emailcheck = 0; //중복이메일 체크
 
@@ -45,7 +47,41 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 io = socketio.listen(server);
+var rtc=easyrtc.listen(app, io);
+io.set('log level', 2);
 io.sockets.on('connection', function (socket) {
+
+  socket.on('join', function(data){
+    socket.join(data);
+    socket.set('room', data);
+  });
+
+  socket.on('draw', function(data){
+    socket.get('room', function(err, room){
+      io.sockets.in(room).emit('line', data);
+    });
+  });
+
+  socket.on('clear', function(data){
+    socket.get('room', function(err, room){
+      io.sockets.in(room).emit('board', data);
+    });
+  });
+
+  socket.on('create_room', function(data){
+    io.sockets.emit('create_room', data.toString());
+  });
+
+  socket.on('confirm_user', function(data){
+    io.sockets.emit('confirm_user', data.toString());
+  });
+
+  socket.on('message', function(message){
+    socket.get('room', function(error, room){
+      socket.broadcast.in(room).emit('message', message);
+      socket.in(room).emit('message_me', message);
+    });
+  });
 
   socket.on('emailcheck', function (data, callback) {
     var sql = 'SELECT * FROM user WHERE email = ' + mysql.escape(data);
@@ -59,7 +95,7 @@ io.sockets.on('connection', function (socket) {
         callback(false);
       }
     })
-  })
+  });
 
   socket.on('auth_check', function (data, callback) {
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(data.ridx)+' and User_master = '+mysql.escape(data.uidx), function(error, result) {
@@ -71,7 +107,7 @@ io.sockets.on('connection', function (socket) {
       }
     });
 
-  })
+  });
 
   /*
     socket.on('regist', function (data, callback) {
@@ -117,7 +153,7 @@ function onError(error) {
 
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port
+    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
