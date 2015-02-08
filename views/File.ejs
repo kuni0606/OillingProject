@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>Cute file browser</title>
+
+
+	<!-- Include our stylesheet -->
+	<link href="/stylesheets/styles.css" rel="stylesheet"/>
+    <link href="/stylesheets/jquery.contextmenu.css" rel="stylesheet"/>
+</head>
+<body id="body">
+
+	<div class="filemanager" id="filemanager">
+
+		<div class="search">
+			<input type="search" placeholder="Find a file.." />
+		</div>
+
+		<div class="breadcrumbs"></div>
+
+		<ul class="data"></ul>
+
+		<div class="nothingfound">
+			<div class="nofiles"></div>
+			<span>No files here.</span>
+		</div>
+	</div>
+    <div class="upload">
+        <form id="uploadForm"
+              enctype="multipart/form-data"
+              action="/api/upload"
+              method="post">
+            <input type="file" id="userFileInput" name="userFile" />
+        </form>
+        <span id="status"></span>
+
+
+        <div id="progress">
+            <span id="percent">0%</span>
+
+            <div id="bar"></div>
+        </div>
+    </div>
+
+	<!-- Include our script files -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/javascripts/upload.js"></script>
+    <script src="/javascripts/script.js"></script>
+    <script src="/javascripts/jquery.contextmenu.js"></script>
+<script>
+
+</script>
+</body>
+</html>
