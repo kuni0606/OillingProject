@@ -2,9 +2,10 @@ var currentPath='';
 var originaldir;
 $(function(){
 
+
 	var filemanager = $('.filemanager'),
-		breadcrumbs = $('.breadcrumbs');
-	fileList = filemanager.find('.data');
+		breadcrumbs = $('.breadcrumbs'),
+	    fileList = filemanager.find('.data');
 
 	// Start by fetching the file data from scan route with an AJAX request
 
@@ -123,6 +124,12 @@ $(function(){
 				filemanager.find('span').show();
 			}
 			else {
+                var t = nextDir.split("/");
+                var o='';
+                for (var i =1;i< t.length;i++){
+                    o += t[i] + '/';
+                }
+                console.log(o);
 				breadcrumbsUrls.push(nextDir);
 			}
 

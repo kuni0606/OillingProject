@@ -1,6 +1,7 @@
 /**
  * Created by JaeHeon on 2015-02-08.
  */
+"use strict";
 
 var express = require('express');
 var router = express.Router();
@@ -15,17 +16,7 @@ router.get('/', function(req, res, next) {
     res.render('File', { title: 'File System'});
 });
 // Serve files from the current directory under the /files route
-/*
-app.use('/files', express.static(process.cwd(), {
-    index: false,
-    setHeaders: function(res, path){
 
-        // Set header to force files to download
-
-        res.setHeader('Content-Disposition', contentDisposition(path));
-
-    }
-}));*/
 // This endpoint is requested by our frontend JS
 router.use(function(req, res, next) {
     var t = req.query.currentPath;
@@ -74,11 +65,10 @@ router.post('/api/rndir/', function(req,res){
 });
 
 router.post('/api/upload/', function (req, res) {
-    //req.files.userFile.name.append('/'+id);
     res.send({image: false, file: req.files.userFile.originalname, savedAs: req.files.userFile.name});
 });
 router.get('/api/scan', function(req,res){
-    var tree = scan('.', 'files');
+    var tree = scan('.', 'home');
     res.send(tree);
 });
 module.exports = router;

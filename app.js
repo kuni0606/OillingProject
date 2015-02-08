@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var contentDisposition = require('content-disposition');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
@@ -37,6 +38,14 @@ app.use('/schedule', schedule);
 app.use('/file', file);
 app.use('/video',video);
 
+app.use('/home', express.static(process.cwd(), {
+    index: false,
+    setHeaders: function(res, path){
+
+        // Set header to force files to download
+        res.setHeader('Content-Disposition', contentDisposition(path));
+    }
+}));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

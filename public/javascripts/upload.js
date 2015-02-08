@@ -65,7 +65,7 @@ $(function () {
         var formData = new FormData();
         var file = document.getElementById('userFileInput').files[0];
         formData.append('userFile',file);
-        var spcp = currentPath.substr(6);
+        var spcp = currentPath.substr(5);
         var xhr = new XMLHttpRequest();
         xhr.overrideMimeType('application/json');
         xhr.open('post', '/file/api/upload/?currentPath='+spcp, true);
@@ -100,7 +100,7 @@ $(function () {
                 return false;
             }else{
                 var xhr = new XMLHttpRequest();
-                var spcp = currentPath.substr(6);
+                var spcp = currentPath.substr(5);
                 xhr.overrideMimeType('application/json');
                 xhr.open('post', '/file/api/mkdir/?currentPath='+spcp+'&folderName='+modal, true);
                 xhr.send();
@@ -128,7 +128,7 @@ $(function () {
                 return false;
             }else{
                 var xhr = new XMLHttpRequest();
-                var spcp = currentPath.substr(6);
+                var spcp = currentPath.substr(5);
                 xhr.overrideMimeType('application/json');
                 xhr.open('post', '/file/api/mkdir/?currentPath='+spcp+'&folderName='+modal, true);
                 xhr.send();
@@ -144,8 +144,8 @@ $(function () {
                 return false;
             }else{
                 var xhr = new XMLHttpRequest();
-                var spcp = currentPath.substr(6);
-                var opcp = originaldir.substr(6);
+                var spcp = currentPath.substr(5);
+                var opcp = originaldir.substr(5);
                 xhr.overrideMimeType('application/json');
                 xhr.open('post', '/file/api/rndir/?currentPath='+spcp+'&folderName='+modal+'&originalName='+opcp, true);
                 xhr.send();
@@ -158,7 +158,7 @@ $(function () {
             var modal = confirm("정말 삭제하시겠습니까?");
             if (modal==true){
                 var xhr = new XMLHttpRequest();
-                var opcp = originaldir.substr(6);
+                var opcp = originaldir.substr(5);
                 xhr.overrideMimeType('application/json');
                 xhr.open('post', '/file/api/unlink/?originalName='+opcp, true);
                 xhr.send();
