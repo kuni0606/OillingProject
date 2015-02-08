@@ -27,6 +27,7 @@
             var context = canvas.getContext('2d');
 
             var width = 5;
+            var alpha = 0.1;
             var color = '#000000';
             var isDown = false;
             var newPoint, oldPoint;
@@ -47,7 +48,8 @@
                         x1: oldPoint.x,
                         y1: oldPoint.y,
                         x2: newPoint.x,
-                        y2: newPoint.y
+                        y2: newPoint.y,
+                        gAlpha: alpha
                     });
                     oldPoint = newPoint;
                 }
@@ -62,6 +64,7 @@
                 context.moveTo(data.x1, data.y1);
                 context.lineTo(data.x2, data.y2);
                 context.stroke();
+                context.globalAlpha = data.gAlpha;
             });
 
             $('#colorpicker').farbtastic(function(data){
@@ -70,26 +73,27 @@
 
             $('button[id="eraser"]').click(function(event){
                 color = $('#eraser').val();
-            });
-
-            $('option[id="globalAlpha"]').click(function(event){
-                context.globalAlpha = $('#globalAlpha').val();
+                alpha = 1;
             });
 
             $('#slider').slider({
-                max:20, min:1,
-                value: 5,
+                max:25, min:1,
+                //value: 30,
                 change: function(event, ui){
                     width = ui.value;
                 }
             });
 
-            $('#slider1').slider({
+            /*$('#slider1').slider({
                 max:10, min:1,
-                value: 0.1,
+                value: 0.5,
                 change: function(event, ui){
-                    canvas.globalAlpha = ui.value;
+                    alpha = ui.value;
                }
+            });*/
+
+            $('select[id="optselector"]').click(function(event){
+               alpha=$('#optselector').val();
             });
 
             $('button[id="btnDel"]').click(function(event){
@@ -164,7 +168,7 @@
             <tr>
                 <td rowspan="4">
                     <!--캔버스-->
-                    <canvas id="canvas" width="600" height="400"></canvas>
+                    <canvas id="canvas" width="800" height="500"></canvas>
                 </td>
                 <td height="200">
                     <!--색상 선택기-->
@@ -180,11 +184,20 @@
             <tr>
                 <td height="25">
                     <!--슬라이더: 농도 조절-->
-                    <select>
-                        <option id="globalAlpha" value="0.1">0.1</option>
-                    </select>
                     <div id="slider1"></div>
-                </td>
+
+                <select id="optselector">
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4</option>
+                    <option value="0.5">0.5</option>
+                    <option value="0.6">0.6</option>
+                    <option value="0.7">0.7</option>
+                    <option value="0.8">0.8</option>
+                    <option value="0.9">0.9</option>
+                    <option value="1.0">1.0</option>
+                </select></td>
             </tr>
             <tr>
                 <td style="background: orange;"><button id="btnDel">화면삭제</button>
@@ -194,7 +207,7 @@
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
         <div id="chat">
-            <div style = "width:270px; height:300px; overflow:auto; border:solid 5px;" id="c_room">
+            <div style = "width:270px; height:400px; overflow:auto; border:solid 5px;" id="c_room">
                 <dl id = "show_con">
                 </dl>
             </div>
@@ -203,11 +216,11 @@
     </div><br/>
     <div class="plat"  style="display:table-row, block; width:1500px; height:260px;">
         <div id="fullpage" style="height:300px;" >
-        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box0" width="250" height="250" muted="muted" volume="0"></video></div>
-        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box1" width="250" height="250" ></video></div>
-        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box2" width="250" height="250" ></video></div>
-        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box3" width="250" height="250"  ></video></div>
-        <div class="plat_child" style="display:table-cell; width:250px; height:250px; border:solid 3px; margin-left:20px"><video id="box4" width="250" height="250"  ></video></div>
+        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box0" width="294" height="220" muted="muted" volume="0"></video></div>
+        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box1" width="294" height="220" ></video></div>
+        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box2" width="294" height="220" ></video></div>
+        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box3" width="294" height="220"  ></video></div>
+        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box4" width="294" height="220"  ></video></div>
         </div>
         <!--<div id="textentryBox" onsubmit="sendText()" style="border:solid 3px;" >
             <input type="text" id="textentryField"  class="transit boxcommon" /><br>
