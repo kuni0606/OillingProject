@@ -26,7 +26,7 @@ router.use(function(req, res, next) {
     var handler = multer({
         dest: './' + t,
         rename: function (fieldname, filename) {
-            return filename;
+            return filename.replace(/[^\s0-9가-힣a-zA-Z\-_]/g, '');
         }
 
     });
