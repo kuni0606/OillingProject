@@ -10,6 +10,7 @@ var multer = require('multer');
 var scan = require('./scan');
 var fs = require('fs');
 var rimraf = require('rimraf');
+var rootdir = 'file';
 
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
@@ -38,6 +39,7 @@ router.post('/api/mkdir/', function(req,res){
     var t = req.query.currentPath;
     var f = req.query.folderName;
     if (typeof t=='undefined') t='';
+    if (t=='') t=rootdir;
     if ( f==null) f='';
     try{
         console.log(rootPath+'/'+t+'/'+f);
@@ -60,6 +62,7 @@ router.post('/api/rndir/', function(req,res){
     var f = req.query.folderName;
     var o = req.query.originalName;
     if (typeof t=='undefined') t='';
+    if (t=='') t=rootdir;
     console.log(rootPath+'/'+o+'-->'+rootPath+'/'+t+'/'+f);
     fs.renameSync(rootPath+'/'+o,rootPath+'/'+t+'/'+f);
 });

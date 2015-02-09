@@ -66,6 +66,7 @@ $(function () {
         var file = document.getElementById('userFileInput').files[0];
         formData.append('userFile',file);
         var spcp = currentPath.substr(5);
+        if (spcp=='') spcp='file';
         var xhr = new XMLHttpRequest();
         xhr.overrideMimeType('application/json');
         xhr.open('post', '/file/api/upload/?currentPath='+spcp, true);
