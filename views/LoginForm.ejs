@@ -3,15 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        html{
+            height: 100%;
+            background-image: url("/views/Main.jpg"); background-size:100% 100%;
+        }
+        body{
+            position:absolute; top:0; bottom:0; right:0; left:0;
+            background-image: url("/views/Main.jpg"); background-size:100% 100%;
+        }
+    </style>
 </head>
 <body>
-<form method="post">
+<form method="post" class="form-horizontal" style="margin-top:450px;">
     <fieldset>
-    <legend>Login</legend>
-    <p>Email</p><input type="email" name="email" id="email" size="25" maxlength="25" required="required">
-    <p>Password</p><input type="password" name="pw" size="25" maxlength="15" required="required">
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputEmail1" class="col-sm-8 control-label">Email address</label>
+            <div class="col-lg-3">
+                <input type="email" class="form-control" placeholder="Enter e-mail" name="email" id="email" size="25" maxlength="25" required="required"><br/></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputPassword1" class="col-sm-8 control-label">Password</label>
+            <div class="col-lg-3">
+                <input type="password" class="form-control" placeholder="Enter password" name="pw" size="25" maxlength="15" required="required"><br/></div>
+        </div>
     </fieldset>
-    <input type="submit" value="Login"><input type="button" value="Join" onclick="location.href='/login/join'">
+    <input type="submit" class="btn btn-success" value="&nbsp;Login&nbsp;">&nbsp;<input type="button" class="btn btn-success" value="&nbsp;&nbsp;Join&nbsp;&nbsp;" onclick="location.href='/login/join'">
 </form>
 </body>
 </html>

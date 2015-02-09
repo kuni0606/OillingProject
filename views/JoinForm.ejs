@@ -5,6 +5,12 @@
     <title><%=title%></title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script>
         var socket = io.connect();
         var $form = $('#form');
@@ -53,16 +59,35 @@
     </script>
 </head>
 <body>
-<form method="post" name="frm">
+<form method="post" name="frm" class="form-horizontal" style="margin-top:400px;">
     <fieldset>
-        <legend>Join</legend>
-        <p>Email</p><input type="email" name="email" id="email" size="25" maxlength="25" required="required" onblur="emailcheck()" ><br/>
-        <p>Name</p><input type="text" name="name" id="name" size="25" required="required" pattern="^[a-zA-Z가-힣]{1,15}$"><br/>
-        <p>Password</p><input type="password" name="pw" id="pw" size="25" maxlength="15" required="required"><br/>
-        <p>Confirm Password</p><input type="password" name="pw_confirm" size="25" maxlength="15" required="required"><br/>
-        <p>Phone</p><input type="tel" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputEmail1" class="col-sm-8 control-label">Email address</label>
+            <div class="col-lg-3">
+            <input type="email" class="form-control" placeholder="Enter e-mail" name="email" id="email" size="25" maxlength="25" required="required" onblur="emailcheck()" ><br/></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputName1" class="col-sm-8 control-label">Email name</label>
+            <div class="col-lg-3">
+            <input type="text" class="form-control" placeholder="Enter name" name="name" id="name" size="25" required="required" pattern="^[a-zA-Z가-힣]{1,15}$"><br/></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputPassword1" class="col-sm-8 control-label">Password</label>
+            <div class="col-lg-3">
+            <input type="password" class="form-control" placeholder="Enter password" name="pw" id="pw" size="25" maxlength="15" required="required"><br/></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputPassword2" class="col-sm-8 control-label">Confirm password</label>
+            <div class="col-lg-3">
+            <input type="password" class="form-control" placeholder="Confirm password" name="pw_confirm" size="25" maxlength="15" required="required"><br/></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputPhone1" class="col-sm-8 control-label">Phone</label>
+            <div class="col-lg-3">
+            <input type="tel" class="form-control" placeholder="Enter phone-N" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/></div>
+        </div>
     </fieldset>
-    <input type="submit" value="Join" onclick="form_check()"><input type="reset" value="Reset" required="required">
+    <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;Join&nbsp;&nbsp;" onclick="form_check()">&nbsp;<input type="reset" class="btn btn-success" value="&nbsp;Reset&nbsp;" required="required">
 </form>
 </body>
 </html>

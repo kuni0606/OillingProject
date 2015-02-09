@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>CanvasPage</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/farbtastic.css" type = "text/css"/>
     <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -31,6 +37,9 @@
             var color = '#000000';
             var isDown = false;
             var newPoint, oldPoint;
+
+            context.fillStyle="#FFFFFF";
+            context.fillRect(0,0,canvas.width, canvas.height);
             canvas.onmousedown = function(event){
                 isDown = true;
                 oldPoint = new Point(event, this);
@@ -207,11 +216,11 @@
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
         <div id="chat">
-            <div style = "width:270px; height:400px; overflow:auto; border:solid 5px;" id="c_room">
+            <div style = "width:300px; height:500px; overflow:auto; border:solid 5px;" id="c_room">
                 <dl id = "show_con">
                 </dl>
             </div>
-            <input type="text" style="width:255px;" id="txt"/><input type="button" value="Enter" id="btn"/>
+            <input type="text" style="width:255px;" id="txt"/>&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
         </div></div>
     </div><br/>
     <div class="plat"  style="display:table-row, block; width:1500px; height:260px;">

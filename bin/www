@@ -47,7 +47,9 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 io = socketio.listen(server);
+
 var rtc=easyrtc.listen(app, io);
+
 io.set('log level', 2);
 io.sockets.on('connection', function (socket) {
 
