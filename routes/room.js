@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
     req.session.uidx = 1;
     req.session.ridx = 1;
     ///////////test/////////////////
-    res.render('Mainpage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+    res.render('Roompage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
 });
 
 
