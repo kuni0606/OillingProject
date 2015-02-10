@@ -24,7 +24,7 @@ router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버�
                     res.render('SchedulePlan', {title: 'Schedule Plan Page', exist:1, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
                 }
                 else{ //계획한 일정이 없을 경우 0으로 구별
-                    res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0});
+                    res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
                 }
             });
         }
@@ -104,12 +104,12 @@ router.post('/plan/setting', function(req, res) {
 router.post('/plan/init_color', function(req, res) {
     var ridx = req.body.ridx;
     var n_json={};
-    db.query('SELECT u.name, c.color, c.User_uidx FROM user u,schedule_color c WHERE c.Room_ridx = '+mysql.escape(ridx)+' and c.User_uidx = u.uidx;', function(error, result) {
+    db.query('SELECT u.name, c.color, c.User_uidx FROM user u,schedule_color c WHERE c.User_uidx = u.uidx and c.Room_ridx = '+mysql.escape(ridx)+';', function(error, result) {
         if(result[0])
         {
             n_json.color_info = result;
             n_json.leng = result.length;
-            console.log(n_json);
+            //console.log(n_json);
             res.send(n_json);
         }
         else{ res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0}); }
@@ -173,4 +173,118 @@ router.post('/plan/select_cell', function(req, res) {
         });
     }
 });
+
+//프로젝트 진행 페이지~~~~*************************************
+router.get('/progress', function(req, res) {
+    ///////////test/////////////////
+    req.session.uidx = 1;
+    req.session.ridx = 1;
+    ///////////test/////////////////
+    db.query('SELECT * FROM schedule_form WHERE  Room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
+        if(result[0]){ //이미 계획한 게 있으면 exist로 1로 구별하고
+            res.render('ScheduleProgress', {title: 'Schedule Progress Page', exist:1, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+        }
+        else{ //계획한 일정이 없을 경우 0으로 구별
+            res.render('ScheduleProgress', {title: 'Schedule Progress Page',exist:0, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+        }
+    });
+        /*else{
+            console.log("ridx:"+req.session.ridx+"uidx:"+req.session.uidx);
+            res.send("권한이 없습니다."); }*/
+});
+
+router.post('/progress/setting', function(req, res) {
+    var ridx = req.body.ridx;
+    var uidx = req.body.uidx;
+    var sf_form = 0, sj_job = 0,sd_data= 0,sp_progress= 0;
+    var temp = 0;
+    var n_json={};
+    var i=0;
+    var temp_arr;
+
+    db.query('SELECT * FROM schedule_form WHERE Room_ridx= '+mysql.escape(ridx), function(error, result) {
+        sf_form = result[0];
+        if(sf_form)
+        { //그 방의 계획된 일정이 있는지 확인하고 (아마도 이전에 검사했으니 이땐 99%있을거야)
+            n_json.type = sf_form.type;
+            n_json.col = sf_form.column;
+            n_json.row = sf_form.row;
+            n_json.s_date = sf_form.start_date;
+            n_json.e_date = sf_form.end_date;
+            db.query('SELECT sj_idx,job FROM schedule_job WHERE Room_ridx= '+mysql.escape(ridx)+' order by sj_idx', function(error, result) {
+                sj_job = result; //JOB 받아오고
+                temp_arr = new Array();
+                for(i=0;i<sj_job.length;++i){
+                    var temp_json = {};
+                    temp_json.sj_idx = sj_job[i].sj_idx;
+                    temp_json.job = sj_job[i].job;
+                    temp_arr.push(temp_json);
+                }
+                n_json.sj_job = temp_arr;
+                db.query('SELECT d.position, c.color, c.User_uidx FROM schedule_color c,schedule_data d WHERE d.Room_ridx = '+mysql.escape(ridx)+ ' and c.Room_ridx = d.Room_ridx and c.User_uidx = d.User_uidx order by d.position', function(error, result) {
+                    sd_data = result; //DATA와 COLOR 받아오고
+                    temp_arr = new Array();
+                    for(i=0;i<sd_data.length;++i){
+                        var temp_json2 = {};
+                        temp_json2.position = sd_data[i].position;
+                        temp_json2.color = sd_data[i].color;
+                        temp_json2.uidx = sd_data[i].User_uidx;
+                        temp_arr.push(temp_json2);
+                    }
+                    n_json.s_data = temp_arr;
+                    db.query('SELECT User_uidx, position FROM schedule_progress WHERE Room_ridx = '+mysql.escape(ridx)+ ' order by position', function(error, result) {
+                        sp_progress = result; // progresss data 받아오고
+                        temp_arr = new Array();
+                        for (i = 0; i < sp_progress.length; ++i) {
+                            var temp_json3 = {};
+                            temp_json3.uidx = sp_progress[i].User_uidx;
+                            temp_json3.position = sp_progress[i].position;
+                            temp_arr.push(temp_json3);
+                        }
+                        n_json.sp_progress = temp_arr;
+                        console.log(n_json);
+                        res.send(n_json);
+                    });
+
+                });
+            });
+        }
+        else{ res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0}); }
+    });
+});
+router.post('/progress/select_cell', function(req, res) {
+    var t = parseInt(req.body.t);
+    var ridx = parseInt(req.body.ridx);
+    var uidx = parseInt(req.body.uidx);
+    var pos = parseInt(req.body.pos);
+    if(t) {
+        db.query("INSERT INTO schedule_progress(Room_ridx,User_uidx,position) VALUES (?,?,?)", [mysql.escape(ridx),mysql.escape(uidx),mysql.escape(pos)], function(err) {
+            if(err) { console.log("progress select_cell error : "+err); }
+            else { res.send('okay'); }
+        });
+    }
+    else{
+        db.query('DELETE FROM schedule_progress WHERE Room_ridx='+mysql.escape(ridx)+' and position='+mysql.escape(pos), function(err) {
+            if(err) { console.log("progress select_cell error : "+err); }
+            else { res.send('okay'); }
+        });
+    }
+});
+router.post('/progress/init_color', function(req, res) {
+    var ridx = req.body.ridx;
+    var uidx = req.body.uidx;
+    db.query('SELECT u.name, c.color FROM user u,schedule_color c WHERE c.User_uidx = u.uidx and c.Room_ridx = '+mysql.escape(ridx)+' and c.User_uidx = '+mysql.escape(uidx)+';', function(error, result) {
+        if(result[0])
+        {
+            //console.log(result[0]);
+            res.send(result[0]);
+        }
+        else{ res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0}); }
+    });
+});
+
+
+
+
+
 module.exports = router;
