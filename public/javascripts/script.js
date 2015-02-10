@@ -1,5 +1,6 @@
 var currentPath='';
 var originaldir;
+var od;
 $(function(){
 
 
@@ -100,13 +101,68 @@ $(function(){
 		// Clicking on folders
         fileList.on('mouseup', 'li.folders' , function(e){
             e.preventDefault();
-            originaldir = $(this).find('a.folders').attr('href')
+            originaldir = $(this).find('a.folders').attr('href');
             console.log(originaldir);
         });
         fileList.on('mouseup', 'li.files' , function(e){
             e.preventDefault();
-            originaldir = $(this).find('a.files').attr('href')
+            originaldir = $(this).find('a.files').attr('href');
             console.log(originaldir);
+        });
+        fileList.on('dragstart', 'li.files' , function( event ){
+            event.preventDefault();
+            //if ( !$(event.target).is('.handle') ) return false;
+            od = $(this).find('a.files').attr('href');
+            return $( this ).css('opacity',.2);
+        });
+        fileList.on('dragstart', 'li.folders' , function( event ){
+            event.preventDefault();
+            //if ( !$(event.target).is('.handle') ) return false;
+            od = $(this).find('a.folders').attr('href');
+            return $( this ).css('opacity',.2);
+        });
+        fileList.on('dragend', 'li.folders' , function( event ){
+            event.preventDefault();
+            $(this).remove();
+            var td = $(this).find('a.folders').attr('href');
+            var xhr = new XMLHttpRequest();
+            var spcp = currentPath.substr(5);
+            var modal = td.split('/');
+            var opcp = od.substr(5);
+            var tmp = opcp.split('/');
+            console.log(modal +':'+ tmp);
+            if (modal[modal.length-1]!=tmp[tmp.length-1]) {
+                xhr.overrideMimeType('application/json');
+                xhr.open('post', '/file/api/rndir/?currentPath=' + spcp + '&folderName=' + modal[modal.length - 1] + '/' + tmp[tmp.length - 1] + '&originalName=' + opcp, true);
+                xhr.send();
+                location.reload(true);
+                console.log(td);
+            }else{
+                var nextDir = $(this).find('a.folders').attr('href');
+
+                if(filemanager.hasClass('searching')) {
+
+                    // Building the breadcrumbs
+
+                    breadcrumbsUrls = generateBreadcrumbs(nextDir);
+
+                    filemanager.removeClass('searching');
+                    filemanager.find('input[type=search]').val('').hide();
+                    filemanager.find('span').show();
+                }
+                else {
+                    var t = nextDir.split("/");
+                    var o='';
+                    for (var i =1;i< t.length;i++){
+                        o += t[i] + '/';
+                    }
+                    console.log(o);
+                    breadcrumbsUrls.push(nextDir);
+                }
+
+                window.location.hash = encodeURIComponent(nextDir);
+                currentPath = nextDir;
+            }
         });
 		fileList.on('click', 'li.folders', function(e){
 			e.preventDefault();
