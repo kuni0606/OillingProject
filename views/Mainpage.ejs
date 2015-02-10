@@ -115,12 +115,28 @@
 <h1 style="color:rgba(0,159,155,1); font-size:80px; text-align:center; margin:0">Room</h1>
 <div style="display:block; margin-left:10%; margin-right:10%;">
     <div class="n_list">
-        <div class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room0" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button id="crtbtn0" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room1" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button id="crtbtn1" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room2" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button id="crtbtn2" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room3" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button id="crtbtn3" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room4" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><button id="crtbtn4" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
     </div>
 </div>
 </body>
+<script>
+    var i = '<%=v_totalroom%>';
+    for (var ti = 0 ; ti < 5 ; ti++){
+        var t = document.getElementById('crtbtn'+ti);
+        var td = document.getElementById('room'+ti);
+        console.log(t);
+        if (ti==i){
+
+        }else if (ti>i) {
+            td.style.display='none';
+            t.style.visibility = 'hidden';
+        }else{
+            t.innerHTML = 'Join';
+        }
+    }
+</script>
 </html>
