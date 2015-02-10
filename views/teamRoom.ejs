@@ -11,6 +11,12 @@
             position:absolute; top:0; bottom:0; right:0; left:0;
             background-image: url("/images/Main.png"); background-size:100% 100%;
         }
+        iframe {
+            border-top: #c00 1px dotted;
+            border-right: #c00 2px dotted;
+            border-left: #c00 2px dotted;
+            border-bottom: #c00 4px dotted;
+        }
     </style>
 </head>
 <body background="Main.jpg">
@@ -18,7 +24,7 @@
         <input type="button" value="Video Conference" onclick="movePage()"/>
     </div>
 
-    <iframe src="http://210.118.74.149:3000/file" scrolling="no" frameborder="0" height="800" width="1500"></iframe>
+    <iframe name="fexp" src="http://localhost:3000/file" scrolling="no" frameborder="0" height="800" width="1500"></iframe>
     <script type="text/javascript">
         function movePage(){
             location.href = "video/canvas/1";
