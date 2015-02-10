@@ -183,13 +183,13 @@
 
             var w= screen.availWidth;
             var h= screen.availHeight;
-            $('#box0').css('width', w/5);
-            $('#box1').css('width', w/5);
-            $('#box2').css('width', w/5);
-            $('#box3').css('width', w/5);
-            $('#box4').css('width', w/5);
+            $('#box0').css('width', w/5-20);
+            $('#box1').css('width', w/5-20);
+            $('#box2').css('width', w/5-20);
+            $('#box3').css('width', w/5-20);
+            $('#box4').css('width', w/5-20);
             $('#c_room').css('width', w/5);
-            $('#c_room').css('height', h/2);
+            $('#c_room').css('height', 500);
             $('#txt').css('width', w/5-50);
         });
         //채팅창에서 스크립트 안되도록함.
@@ -274,11 +274,11 @@
     </div><br/>
     <div class="plat"  style="display:table-row, block;">
         <div>
-        <div class="plat_child" style="display:table-cell;"><video id="box0" muted="muted" volume="0"></video></div>
-        <div class="plat_child" style="display:table-cell;"><video id="box1"></video></div>
-        <div class="plat_child" style="display:table-cell;"><video id="box2"></video></div>
-        <div class="plat_child" style="display:table-cell;"><video id="box3"></video></div>
-        <div class="plat_child" style="display:table-cell;"><video id="box4"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box0" muted="muted" volume="0"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box1"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box2"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box3"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box4"></video></div>
         </div>
     </div>
 </div>
