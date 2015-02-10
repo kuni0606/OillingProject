@@ -109,21 +109,17 @@ $(function(){
             originaldir = $(this).find('a.files').attr('href');
             console.log(originaldir);
         });
+        fileList.on('dragstart', 'li.files' , function( event ){
+            event.preventDefault();
+            //if ( !$(event.target).is('.handle') ) return false;
+            od = $(this).find('a.files').attr('href');
+            return $( this ).css('opacity',.2);
+        });
         fileList.on('dragstart', 'li.folders' , function( event ){
             event.preventDefault();
             //if ( !$(event.target).is('.handle') ) return false;
-            console.log('start');
             od = $(this).find('a.folders').attr('href');
-            return $( this ).css('opacity',.5)
-                .clone().addClass('active')
-                .insertAfter( this );
-        });
-        fileList.on('drag', 'li.folders',function(e){
-            e.preventDefault();
-            $(e.dragProxy ).css({
-                top: e.offsetY,
-                left: e.offsetX
-            });
+            return $( this ).css('opacity',.2);
         });
         fileList.on('dragend', 'li.folders' , function( event ){
             event.preventDefault();
