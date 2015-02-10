@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            var w= screen.availWidth;
+            var h= screen.availHeight;
+
+            $('.form-group').css('width', w);
+        })
+    </script>
     <style type="text/css">
         html{
             height: 100%;
@@ -34,7 +43,7 @@
         </div>
     </fieldset>
     <div class="col-lg-8"></div>
-    <div class="col-lg-3" style="margin-left:90px;">
+    <div class="col-lg-3">
     <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;<input type="button" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="location.href='/login/join'"></div>
     <div class="col-lg-1"></div>
 </form>

@@ -168,16 +168,29 @@
                 }
             });
             socket.on('message', function(data){
-                $('#show_con').append('<dd style="margin:2px; text-align: left; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;">'+ data +' : <br/>' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             });
 
             socket.on('message_me', function(data){
-                $('#show_con').append('<dd style="margin:2px; text-align: right; font-size:12px;">'+ data +' : <br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="float:right; width:200px; margin:2px;text-align: right; font-size:14px;">'+'<br/>' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             })
+
+
+
+            var w= screen.availWidth;
+            var h= screen.availHeight;
+            $('#box0').css('width', w/5);
+            $('#box1').css('width', w/5);
+            $('#box2').css('width', w/5);
+            $('#box3').css('width', w/5);
+            $('#box4').css('width', w/5);
+            $('#c_room').css('width', w/5);
+            $('#c_room').css('height', h/2);
+            $('#txt').css('width', w/5-50);
         });
         //채팅창에서 스크립트 안되도록함.
         function strip_tag (str)
@@ -193,17 +206,25 @@
             position:absolute; top:0; bottom:0; right:0; left:0;
             background-image: url("/images/Main.png"); background-size:100% 100%;
         }
+        dd{
+            background-color:wheat;
+        }
+        #btnDel{
+            background-image: url("/images/button_refresh.png");
+            width:32px;
+            height: 32px;
+        }
     </style>
 </head>
 <body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">
-<div style="margin:0 auto;">
+<div>
     <div class="plat" style="display:table-row">
         <div class="plat_child" style="display:table-cell; float:left;">
         <table border="10">
             <tr>
                 <td rowspan="4">
                     <!--캔버스-->
-                    <canvas id="canvas" width="800" height="500"></canvas>
+                    <canvas id="canvas" style="background-color: white;" width="850" height="500"></canvas>
                 </td>
                 <td height="200">
                     <!--색상 선택기-->
@@ -235,7 +256,7 @@
                 </select></td>
             </tr>
             <tr>
-                <td style="background: orange;"><div><button id="btnDel">화면삭제</button></div>
+                <td style="background: orange;"><div><button id="btnDel"></button></div>
                 <div><button id="eraser" value="rgb(255,255,255)">지우개</button></div>
                 <div><button id="straight">직선</button></div>
                 <div><button id="saveImage">화면저장</button></div>
@@ -244,28 +265,21 @@
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
         <div id="chat">
-            <div style = "width:300px; height:500px; overflow:auto; border:solid 5px;" id="c_room">
+            <div style = "background-color: white; overflow:auto; border:solid 5px;" id="c_room">
                 <dl id = "show_con">
                 </dl>
             </div>
             <input type="text" style="width:255px;" id="txt"/>&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
         </div></div>
     </div><br/>
-    <div class="plat"  style="display:table-row, block; width:1500px; height:260px;">
-        <div id="fullpage" style="height:300px;" >
-        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box0" width="294" height="220" muted="muted" volume="0"></video></div>
-        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box1" width="294" height="220" ></video></div>
-        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box2" width="294" height="220" ></video></div>
-        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box3" width="294" height="220"  ></video></div>
-        <div class="plat_child" style="display:table-cell; border:solid 3px; width:292px; height:215px; margin-left:20px"><video id="box4" width="294" height="220"  ></video></div>
+    <div class="plat"  style="display:table-row, block;">
+        <div>
+        <div class="plat_child" style="display:table-cell;"><video id="box0" muted="muted" volume="0"></video></div>
+        <div class="plat_child" style="display:table-cell;"><video id="box1"></video></div>
+        <div class="plat_child" style="display:table-cell;"><video id="box2"></video></div>
+        <div class="plat_child" style="display:table-cell;"><video id="box3"></video></div>
+        <div class="plat_child" style="display:table-cell;"><video id="box4"></video></div>
         </div>
-        <!--<div id="textentryBox" onsubmit="sendText()" style="border:solid 3px;" >
-            <input type="text" id="textentryField"  class="transit boxcommon" /><br>
-        </div>
-
-        <img id="killButton" class="transit boxCommon" onclick="killActiveBox()" src="/images/button_close.png" style="display:none;z-index:3" alt="close button"/>
-        <img id="muteButton" class="transit boxCommon" onclick ="muteActiveBox()" src="/images/button_mute.png" style="display:none;z-index:3" alt="mute button" hidden />
-        <img id="textEntryButton" class="transit boxCommon" onclick ="showTextEntry()" src="/images/textEntry.png" style="z-index:3;display:none" alt="text button" hidden/>-->
     </div>
 </div>
 </body>

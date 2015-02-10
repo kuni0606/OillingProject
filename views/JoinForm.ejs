@@ -12,18 +12,27 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script>
-        var socket = io.connect();
-        var $form = $('#form');
-        function emailcheck () {
-            var email_v = document.getElementById('email');
-            socket.emit('emailcheck', email_v.value, function (data) {
-                if (data) {
-                } else {
-                    alert("이미 가입된 이메일입니다.");
-                    email_v.focus();
-                }
-            });
-        };
+        $(document).ready(function(){
+
+            var w= screen.availWidth;
+            var h= screen.availHeight;
+
+            $('.form-group').css('width', w);
+
+            var socket = io.connect();
+            var $form = $('#form');
+            function emailcheck () {
+                var email_v = document.getElementById('email');
+                socket.emit('emailcheck', email_v.value, function (data) {
+                    if (data) {
+                    } else {
+                        alert("이미 가입된 이메일입니다.");
+                        email_v.focus();
+                    }
+                });
+            };
+        });
+
         function form_check()
         {
             var form = document.frm;
@@ -97,7 +106,7 @@
         </div>
     </fieldset>
     <div class="col-lg-8"></div>
-    <div class="col-lg-3" style="margin-left:90px;">
+    <div class="col-lg-3">
     <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="form_check()">&nbsp;&nbsp;<input type="reset" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" required="required"></div>
     <div class="col-lg-1"></div>
 </form>
