@@ -14,7 +14,11 @@ var db = mysql.createConnection({
 router.use(session({secret:'secret key'}));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.render('Mainpage', { title: 'Main Page', s_uidx:req.session.uidx,s_email:req.session.email,s_name:req.session.name});
+    ///////////test/////////////////
+    req.session.uidx = 1;
+    req.session.ridx = 1;
+    ///////////test/////////////////
+    res.render('Mainpage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
 });
 
 

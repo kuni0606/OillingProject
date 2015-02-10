@@ -19,13 +19,13 @@ router.use(cookieParser());
 router.use(session({secret:'secret key'}));
 /* login */
 router.get('/', function(req, res) {
-    if(req.session.name) // 세션이 있으셔
+    if(req.session.name) // 세션이 있으셔. 로그인 한 사람이야
     {
-        res.send(req.session.email);
+        res.redirect('/main');
     }
     else // 세션 x
     {
-        res.render('loginform', { title: 'Login' });
+        res.render('LoginForm', { title: 'Login' });
     }
 });
 router.post('/', function(req, res) {
@@ -51,22 +51,15 @@ router.post('/', function(req, res) {
                 req.session.uidx = user_info.uidx;
                 req.session.email = user_info.email;
                 req.session.name = user_info.name;
-                res.redirect('/login');
+                res.redirect('/main');
             }
             else // 이메일 인증 안하셨어~x
             {
                 res.redirect('/login');
             }
-
         }
         req.session.now = (new Date()).toUTCString();
-
     });
-
-
-
-
-
 });
 /* join */
 router.get('/join', function(req, res) {

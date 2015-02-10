@@ -64,7 +64,7 @@ router.post('/plan/setting', function(req, res) {
     var i=0;
     var temp_arr;
 
-    db.query('SELECT * FROM schedule_form WHERE Room_ridx= '+mysql.escape(ridx), function(error, result) {
+    db.query('SELECT row FROM schedule_form WHERE Room_ridx= '+mysql.escape(ridx), function(error, result) {
         sf_form = result[0];
         if(sf_form)
         { //그 방의 계획된 일정이 있는지 확인하고 (아마도 이전에 검사했으니 이땐 99%있을거야)
