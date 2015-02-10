@@ -11,10 +11,6 @@
     <script>
         var socket = io.connect();
         function check_auth () {
-            /*
-            var one = '<%=s_ridx%>';
-            alert(one);
-            */
             socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
                 if (data) {//프로젝트 관리자가 계획or진행을 선택한다.
                     $(function() {

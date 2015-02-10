@@ -13,6 +13,7 @@ var db = mysql.createConnection({
 router.use(session({secret:'secret key'}));
 
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
+    console.log("yo"+req.session.ridx);
     ///////////test/////////////////
     req.session.uidx = 1;
     req.session.ridx = 1;
@@ -92,7 +93,7 @@ router.post('/plan/setting', function(req, res) {
                         temp_arr.push(temp_json2);
                     }
                     n_json.s_data = temp_arr;
-                    console.log(n_json);
+                    //console.log(n_json);
                     res.send(n_json);
                 });
             });
