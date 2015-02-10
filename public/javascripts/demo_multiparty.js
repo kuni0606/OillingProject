@@ -13,7 +13,6 @@ function getIdOfBox(boxNum) {
     return "box" + boxNum;
 }
 
-
 function reshapeFull(parentw, parenth) {
     return {
         left:0,
@@ -558,7 +557,6 @@ function callEverybodyElse(roomName, otherPeople) {
     }
 }
 
-
 function loginSuccess() {
     expandThumb(0);  // expand the mirror image initially.
 }
@@ -687,7 +685,14 @@ function appInit() {
     //window.onresize = handleWindowResize;
     //handleWindowResize(); //initial call of the top-down layout manager
 
-
+    easyrtc.joinRoom('1', null,         //'1'번방에 들어갈 수 있도록 하는 부분
+        function() {
+            /* we'll geta room entry event for the room we were actually added to */
+            console.log('success roomName : '+roomName);
+        },
+        function(errorCode, errorText, roomName) {
+            easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
+        });
     easyrtc.setRoomOccupantListener(callEverybodyElse);
     easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess);
     //easyrtc.setPeerListener(messageListener);
