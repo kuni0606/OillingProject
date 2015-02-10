@@ -5,6 +5,27 @@
     <title><%=title%></title>
     <link rel="stylesheet" href="/stylesheets/avgrund_style.css">
     <link rel="stylesheet" href="/stylesheets/avgrund.css">
+    <style type="text/css">
+        iframe {
+            border-top: #c00 1px dotted;
+            border-right: #c00 2px dotted;
+            border-left: #c00 2px dotted;
+            border-bottom: #c00 4px dotted;
+            margin-top: 20px;
+            margin-bottom: 30px;
+
+            -moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 12px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+        }
+    </style>
+    </style>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/jquery-2.1.3.min.js"></script>
     <script src="/javascripts/jquery.avgrund.js"></script>
@@ -46,5 +67,6 @@
     <input type="button" value="팀원 초대" id="invite_friend"></div>
 <div>
 <input type="button" value="일정 관리" id="show" onclick="check_auth()"></div>
+<iframe name="fexp" src="http://localhost:3000/file" scrolling="no" frameborder="0" height="800" width="1500"></iframe>
 </body>
 </html>
