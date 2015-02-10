@@ -202,7 +202,7 @@ body {
 	width: 150px;
 	white-space: nowrap;
 	display: inline-block;
-	position: absolute;
+    position: absolute;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	top: 40px;

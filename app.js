@@ -41,7 +41,6 @@ app.use('/video',video);
 app.use('/home', express.static(process.cwd(), {
     index: false,
     setHeaders: function(res, path){
-
         // Set header to force files to download
         res.setHeader('Content-Disposition', contentDisposition(path));
     }

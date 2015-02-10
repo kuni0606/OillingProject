@@ -139,7 +139,7 @@ $(function () {
           disabled: flag == true ? true : false
         } },
         $.contextMenu.separator,
-        {'이름 바꾸기': function(menuItem,menu) {
+        {'이름 바꾸기': function rnff(menuItem,menu) {
             var modal = prompt("새로운 이름","");
             if (modal.valueOf()==null){
                 return false;
@@ -171,7 +171,6 @@ $(function () {
     $('.data').contextMenu(menu2, {
         beforeShow: function() {
             $(this.menu).find('.context-menu-item').each(function() {
-                console.log($(this).hasClass("context-menu-item-disabled"));
                 if (flag && $(this).hasClass("context-menu-item-disabled")==false) {
                     $(this).toggleClass("context-menu-item-disabled");
                 }
