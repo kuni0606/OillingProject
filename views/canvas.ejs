@@ -8,6 +8,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
+    <script src="/javascripts/canvas2image.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/farbtastic.css" type = "text/css"/>
     <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
@@ -84,6 +85,18 @@
                 color = $('#eraser').val();
                 alpha = 1;
             });
+            $('button[id="straight"]').click(function(event){
+                canvas.onclick = function(event){
+                    oldPoint = new Point(event, this);
+                };
+                canvas.onclick = function(event){
+                    newPoint = new Point(event, this);
+                };
+                    context.beginPath();
+                    context.moveTo(oldPoint.x1, oldPoint.y1);
+                    context.lineTo(newPoint.x2, newPoint.y2);
+                    context.stroke();
+            });
 
             $('#slider').slider({
                 max:25, min:1,
@@ -109,6 +122,10 @@
                 context.clearRect(0,0, canvas.width, canvas.height);
                 context.beginPath();
                 localStorage.removeItem('imgData');
+            });
+            $('button[id="saveImage"]').click(function(event){
+                var strDataURI = canvas.toDataURL();
+                Canvas2Image.saveAsJPEG(canvas);
             });
             socket.on('create_room', function(data){
                // alert(data);
@@ -168,6 +185,15 @@
             return str.replace(/(<([^>]+)>)/ig,"");
         }
     </script>
+    <style type="text/css">
+        html{
+            height: 100%;
+        }
+        body{
+            position:absolute; top:0; bottom:0; right:0; left:0;
+            background-image: url("/images/Main.png"); background-size:100% 100%;
+        }
+    </style>
 </head>
 <body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">
 <div style="margin:0 auto;">
@@ -209,9 +235,11 @@
                 </select></td>
             </tr>
             <tr>
-                <td style="background: orange;"><button id="btnDel">화면삭제</button>
-                <button id="eraser" value="rgb(255,255,255)">지우개</button>
-                <button id="straight">직선</button></td>
+                <td style="background: orange;"><div><button id="btnDel">화면삭제</button></div>
+                <div><button id="eraser" value="rgb(255,255,255)">지우개</button></div>
+                <div><button id="straight">직선</button></div>
+                <div><button id="saveImage">화면저장</button></div>
+                <div><button id="rectangle">사각형</button></div></td>
             </tr>
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">

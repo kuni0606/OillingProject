@@ -57,6 +57,15 @@
         });
         */
     </script>
+    <style type="text/css">
+        html{
+            height: 100%;
+        }
+        body{
+            position:absolute; top:0; bottom:0; right:0; left:0;
+            background-image: url("/images/Main.png"); background-size:100% 100%;
+        }
+    </style>
 </head>
 <body>
 <form method="post" name="frm" class="form-horizontal" style="margin-top:400px;">
@@ -87,7 +96,10 @@
             <input type="tel" class="form-control" placeholder="Enter phone-N" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/></div>
         </div>
     </fieldset>
-    <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;Join&nbsp;&nbsp;" onclick="form_check()">&nbsp;<input type="reset" class="btn btn-success" value="&nbsp;Reset&nbsp;" required="required">
+    <div class="col-lg-8"></div>
+    <div class="col-lg-3" style="margin-left:90px;">
+    <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="form_check()">&nbsp;&nbsp;<input type="reset" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" required="required"></div>
+    <div class="col-lg-1"></div>
 </form>
 </body>
 </html>
