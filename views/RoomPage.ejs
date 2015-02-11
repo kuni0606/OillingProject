@@ -32,13 +32,7 @@
         var socket;
         $(document).ready(function(){
             socket = io.connect();
-
         });
-        var socket = io.connect();
-        function confer()
-        {
-            log_go();
-        }
         function check_auth () {
             socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
                 if (data) {//프로젝트 관리자가 계획or진행을 선택한다.
@@ -63,10 +57,17 @@
                 }
             });
         }
+        function confer()
+        {
+            log_go();
+        }
         function log_go () {
             var n_json={};
             var now = new Date();
-            now = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + "시 " + getMinutes() + "분";
+            var mi = now.getMinutes();
+            if(mi <10)
+                mi = "0" + mi;
+            now = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" +mi;
             n_json.ridx = '<%=s_ridx%>';
             n_json.uidx = '<%=s_uidx%>';
             //n_json.name = ;
