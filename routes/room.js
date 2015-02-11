@@ -15,11 +15,24 @@ router.use(session({secret:'secret key'}));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
-    req.session.uidx = 1;
-    req.session.ridx = 1;
-    ///////////test/////////////////
-    res.render('Roompage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+    var roomindex=req.query.ri;
+    console.log(roomindex);
+    db.query('SELECT Room_ridx FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx),function(error,result){
+        if (error){
+            res.send(404,"권한이 없습니다");
+        }else{
+            for (var i = 0;i<result.length;i++){
+                if (result[i].Room_ridx==roomindex){
+                    req.session.ridx=roomindex;
+                    ///////////test/////////////////
+                    res.render('Roompage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+                    return true;
+                }
+            }
+            res.send(404,"권한이 없습니다");
+            return false;
+        }
+    });
 });
-
 
 module.exports = router;

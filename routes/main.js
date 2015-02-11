@@ -48,7 +48,7 @@ router.post('/api/join/',function(req,res){
 
     console.log(roomindex);
 
-    res.redirect('/room');
+    res.redirect('/room/?ri='+roomindex);
 });
 router.post('/api/create/', function(req,res){
     var pjtitle = req.body.pt;
