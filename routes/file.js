@@ -17,7 +17,7 @@ router.use(session({secret:'secret key'}));
 
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
-    rootdir+='/'+req.session.ridx;
+    rootdir='file/'+req.session.ridx;
     res.render('File', { title: 'File System'});
 });
 // Serve files from the current directory under the /files route
@@ -26,7 +26,6 @@ router.get('/', function(req, res, next) {
 router.use(function(req, res, next) {
     var t = req.query.currentPath;
     if (typeof t=='undefined') t='';
-    console.log(t);
     var handler = multer({
         dest: './' + t,
         rename: function (fieldname, filename) {
@@ -46,7 +45,6 @@ router.post('/api/mkdir/', function(req,res){
     if (t=='') t=rootdir;
     if ( f==null) f='';
     try{
-        console.log(rootPath+'/'+t+'/'+f);
         fs.mkdirSync(rootPath+'/'+t+'/'+f);
     }catch (e){
         console.error('이미 있는 폴더');
@@ -67,7 +65,6 @@ router.post('/api/rndir/', function(req,res){
     var o = req.query.originalName;
     if (typeof t=='undefined') t='';
     if (t=='') t=rootdir;
-    console.log(rootPath+'/'+o+'-->'+rootPath+'/'+t+'/'+f);
     fs.renameSync(rootPath+'/'+o,rootPath+'/'+t+'/'+f);
 });
 
@@ -75,8 +72,9 @@ router.post('/api/upload/', function (req, res) {
     res.send({image: false, file: req.files.userFile.originalname, savedAs: req.files.userFile.name});
 });
 router.get('/api/scan', function(req,res){
-    var tree = scan('.', 'home',rootdir);
+    var tree = scan('./'+rootdir, 'home');
     console.log(rootdir);
+    console.log(tree);
     res.send(tree);
 });
 module.exports = router;

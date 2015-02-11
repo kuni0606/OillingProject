@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
     var totalroom= 0;
 
     db.query('SELECT * FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx),function(error,result){
-        if (!result[0]) {
+        if (result.length == 0) {
             res.render('Mainpage', { title: 'Main Page', s_uidx:req.session.uidx,s_email:req.session.email,s_name:req.session.name,v_totalroom:totalroom});
         }else {
             totalroom = result.length;

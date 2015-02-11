@@ -271,7 +271,12 @@ $(function(){
 			for(var i=1;i<path.length;i++){
 				path[i] = path[i-1]+ '/' +path[i];
 			}
-			return path;
+            var temp=[];
+            temp[0] = path[0];
+            for (var i=3;i<path.length;i++){
+                temp[i-2] = path[i];
+            }
+			return temp;
 		}
 
 
