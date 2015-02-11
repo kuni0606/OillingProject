@@ -41,7 +41,8 @@
               enctype="multipart/form-data"
               action="/api/upload"
               method="post">
-            <input style="background-image: url('/images/upload.png'); background-size: 50px 50px;" width="50" height="50" type="file" id="userFileInput" name="userFile" />
+            <input type="file" id="userFileInput" name="userFile" />
+            <div><img src="/images/upload.png" width="70" height="70"></div>
         </form>
         <span id="status"></span>
 
