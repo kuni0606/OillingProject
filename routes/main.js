@@ -99,7 +99,7 @@ router.post('/api/accept/',function(req,res){
                                 }
                                 else {
                                     console.log('good');
-                                    res.send(200);
+                                    res.sendStatus(200);
                                 }
                             });
                         }
@@ -108,7 +108,6 @@ router.post('/api/accept/',function(req,res){
             });
         }
     });
-    res.redirect('/main');
 });
 router.post('/api/cancel/',function(req,res){
     var roomindex = parseInt(req.body.ri);
@@ -118,7 +117,7 @@ router.post('/api/cancel/',function(req,res){
     db.query('DELETE FROM invite WHERE User_you= ' + mysql.escape(req.session.uidx) + ' and Room_idx= ' + mysql.escape(roomindex), function (error, result) {
         if(error) { console.log("drop error : "+error); }
         else{
-            res.redirect('/main');
+            res.sendStatus(200);
         }
     });
 });
@@ -142,7 +141,7 @@ router.post('/api/create/', function(req,res){
                     }
                     else {
                         console.log('good');
-                        res.redirect('/');
+                        res.redirect('/main');
                     }
                 });
             });
