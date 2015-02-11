@@ -115,27 +115,37 @@
 <h1 style="color:rgba(0,159,155,1); font-size:80px; text-align:center; margin:0">Room</h1>
 <div style="display:block; margin-left:10%; margin-right:10%;">
     <div class="n_list">
-        <div id="room0" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><br><button id="crtbtn0" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room1" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><br><button id="crtbtn1" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room2" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><br><button id="crtbtn2" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room3" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><br><button id="crtbtn3" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room4" class="n_plat"><img class="platform" src="http://placehold.it/300x200" /><br><button id="crtbtn4" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room0" class="n_plat"><img id="img0" class="platform0" src="http://placehold.it/300x200" /><br><p id="p0">a</p><button id="crtbtn0" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room1" class="n_plat"><img id="img1" class="platform1" src="http://placehold.it/300x200" /><br><p id="p1">b</p><button id="crtbtn1" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room2" class="n_plat"><img id="img2" class="platform2" src="http://placehold.it/300x200" /><br><p id="p2">c</p><button id="crtbtn2" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room3" class="n_plat"><img id="img3" class="platform3" src="http://placehold.it/300x200" /><br><p id="p3"></p><button id="crtbtn3" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room4" class="n_plat"><img id="img4" class="platform4" src="http://placehold.it/300x200" /><br><p id="p4"></p><button id="crtbtn4" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
     </div>
 </div>
 </body>
 <script>
     var i = '<%=v_totalroom%>';
+    var trooms = '<%=v_rooms%>';
+    var troomsi = '<%=v_roomsi%>';
+    var rooms = trooms.split(',');
+    var roomsi = troomsi.split(',');
+
     for (var ti = 0 ; ti < 5 ; ti++){
         var t = document.getElementById('crtbtn'+ti);
         var td = document.getElementById('room'+ti);
+        var p = document.getElementById('p'+ti);
+        var im = document.getElementById('img'+ti);
 
         if (ti==i){
             td.addEventListener('click',createListener);
+            im.style.display = 'none';
+            p.style.display = 'none';
         }else if (ti>i) {
             td.style.display='none';
-            t.style.visibility = 'hidden';
         }else{
-            t.innerHTML = 'Join';
+            t.style.display ='none';
+            console.log(rooms[ti]);
+            p.innerHTML = rooms[ti];
             td.addEventListener('click',joinListener);
         }
     }
