@@ -199,27 +199,6 @@
                 return true;
             }
         }
-        function post_goto(url, parm, target) {
-            var f = document.createElement('form');
-
-            var objs, value;
-            for (var key in parm) {
-                value = parm[key];
-                objs = document.createElement('input');
-                objs.setAttribute('type', 'hidden');
-                objs.setAttribute('name', key);
-                objs.setAttribute('value', value);
-                f.appendChild(objs);
-            }
-
-            if (target)
-                f.setAttribute('target', target);
-
-            f.setAttribute('method', 'post');
-            f.setAttribute('action', url);
-            document.body.appendChild(f);
-            f.submit();
-        }
 
         function addUser() {
             var valid = true;
@@ -292,10 +271,31 @@
     }
     function createListener(event){
         dialog.dialog( "open" );
-        //addUser();
     }
     function joinListener(event){
-        console.log('join! : '+ event);
+        var temp = parseInt(event.target.id.slice(-1));
+        post_goto('/main/api/join',{'ri':roomsi[temp]},false);
+    }
+    function post_goto(url, parm, target) {
+        var f = document.createElement('form');
+
+        var objs, value;
+        for (var key in parm) {
+            value = parm[key];
+            objs = document.createElement('input');
+            objs.setAttribute('type', 'hidden');
+            objs.setAttribute('name', key);
+            objs.setAttribute('value', value);
+            f.appendChild(objs);
+        }
+
+        if (target)
+            f.setAttribute('target', target);
+
+        f.setAttribute('method', 'post');
+        f.setAttribute('action', url);
+        document.body.appendChild(f);
+        f.submit();
     }
 </script>
 </html>

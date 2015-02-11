@@ -43,6 +43,13 @@ router.get('/', function(req, res, next) {
         }
     });
 });
+router.post('/api/join/',function(req,res){
+    var roomindex = parseInt(req.body.ri);
+
+    console.log(roomindex);
+
+    res.redirect('/room');
+});
 router.post('/api/create/', function(req,res){
     var pjtitle = req.body.pt;
     var pjnum = parseInt(req.body.pn);
@@ -64,7 +71,6 @@ router.post('/api/create/', function(req,res){
             });
         }
     });
-
 });
 
 module.exports = router;
