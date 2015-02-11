@@ -168,19 +168,16 @@
                 }
             });
             socket.on('message', function(data){
-                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;">'+ data +' : <br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;"><%=s_name%> : <br/>' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             });
 
             socket.on('message_me', function(data){
-                $('#show_con').append('<dd style="float:right; width:200px; margin:2px;text-align: right; font-size:14px;">'+'<br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="float:right; width:200px; margin:5px; line-height:25px; text-align: right; font-size:14px;">' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
-            })
-
-
-
+            });
             var w= screen.availWidth;
             var h= screen.availHeight;
             $('#box0').css('width', w/5-20);
@@ -220,7 +217,7 @@
 <div>
     <div class="plat" style="display:table-row">
         <div class="plat_child" style="display:table-cell; float:left;">
-        <table border="10">
+        <table border="3" style="background-color: white; border:solid 3px;">
             <tr>
                 <td rowspan="4">
                     <!--캔버스-->
@@ -256,11 +253,11 @@
                 </select></td>
             </tr>
             <tr>
-                <td style="background: orange;"><div><button id="btnDel"></button></div>
-                <div><button id="eraser" value="rgb(255,255,255)">지우개</button></div>
-                <div><button id="straight">직선</button></div>
-                <div><button id="saveImage">화면저장</button></div>
-                <div><button id="rectangle">사각형</button></div></td>
+                <td style="background: orange;"><div><button class="btn btn-default btn-xs" id="btnDel"></button></div>
+                <div><button class="btn btn-default btn-xs" id="eraser" value="rgb(255,255,255)">지우개</button></div>
+                <div><button class="btn btn-default btn-xs" id="straight">직선</button></div>
+                <div><button class="btn btn-default btn-xs" id="saveImage">화면저장</button></div>
+                <div><button class="btn btn-default btn-xs" id="rectangle">사각형</button></div></td>
             </tr>
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
