@@ -38,6 +38,22 @@
         var socket;
         $(document).ready(function(){
             socket = io.connect();
+
+            var w=screen.availWidth;
+            var h=screen.availHeight;
+
+            $('#video_C').css('width', w/16);
+            $('#video_C').css('height', w/16);
+            $('#video_C').css('background-size', w/16, w/16);
+            $('#invite_friend').css('width', w/16);
+            $('#invite_friend').css('height', w/16-1);
+            $('#invite_friend').css('background-size', w/16, w/16);
+            $('#show').css('width', w/16);
+            $('#show').css('height', w/16);
+            $('#show').css('background-size', w/16, w/16);
+            $('#toHome').css('width', w/16);
+            $('#toHome').css('height', w/16);
+            $('#toHome').css('background-size', w/16, w/16);
         });
         function check_auth () {
             socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
@@ -100,10 +116,10 @@
 <body style="height:98%; width:auto;">
 <div style="height:100%;width:100%; overflow: hidden;">
     <div style="height:100%;width:15%;float:left;">
-        <div style="margin-bottom:20px; margin-top:40px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/video.png'); background-color: transparent; border:none; background-size: 120px 130px; width:120px; height:130px;" type="button" id="video_C" onClick="confer();"></div>
-        <div style="margin-bottom:30px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/invite.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" id="invite_friend"></div>
-        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/calendar.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" value="" id="show" onclick="check_auth()"></div>
-        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/toHome.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" value="" id="toHome" onclick="toHome()"></div>
+        <div style="margin-bottom:20px; margin-top:40px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/video.png'); background-color: transparent; border:none;" type="button" id="video_C" onClick="confer();"></div>
+        <div style="margin-bottom:30px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/invite.png'); background-color: transparent; border:none;" type="button" id="invite_friend"></div>
+        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/calendar.png'); background-color: transparent; border:none;" type="button" value="" id="show" onclick="check_auth()"></div>
+        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/toHome.png'); background-color: transparent; border:none;" type="button" value="" id="toHome" onclick="toHome()"></div>
     </div>
     <div style="height:80%;width:70%;float:left; text-align: center;">
         <iframe name="fexp" src="/file" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
