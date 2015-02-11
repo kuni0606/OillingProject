@@ -15,6 +15,7 @@ var schedule = require('./routes/schedule');
 var file = require('./routes/file');
 global.rootPath = __dirname;
 var video = require('./routes/video');
+var log = require('./routes/log');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/room', room);
 app.use('/schedule', schedule);
 app.use('/file', file);
 app.use('/video',video);
+app.use('/log',log);
 
 app.use('/home', express.static(process.cwd(), {
     index: false,

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <style>
+        body {
+            font-size: 13px;
+        }
+        div{
+            margin:5px 0px;
+        }
+    </style>
+</head>
+<body>
+<%
+if (check)
+{
+    for(var i=0;i<log.length;++i)
+    {
+%>
+<div>
+    <%=log[i].date%><br/>
+    <%=log[i].name%>님이 <%=log[i].content%>
+</div>
+<%
+    }
+} else {
+%>
+<div>
+    데이터 없음
+</div>
+<% }%>
+</body>
+</html>
