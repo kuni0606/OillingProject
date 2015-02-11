@@ -187,6 +187,7 @@
                 $('#abtn'+i).bind('click',function(e){
                     var t = parseInt(e.target.id.slice(-1));
                     post_goto('/main/api/accept',{'ri':iroom[t],'rt':rtitle[t]},false);
+
                 });
                 $('#cbtn'+i).bind('click',function(e){
                     var t = parseInt(e.target.id.slice(-1));

@@ -99,7 +99,7 @@ router.post('/api/accept/',function(req,res){
                                 }
                                 else {
                                     console.log('good');
-                                    res.redirect('/main');
+                                    res.send(200);
                                 }
                             });
                         }
