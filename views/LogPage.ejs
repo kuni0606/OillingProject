@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
-    <style>
-        body {
-            font-size:0.6em;
+    <style type="text/css">
+        html{
+            height: 100%;
+        }
+        body{
+            background: linear-gradient( 155deg, rgb(35,35,46), transparent );
+            /*position:absolute; top:0; bottom:0; right:0; left:0;
+            background-image: url("/images/roompage.png"); background-size:100% 100%;
+            background-color: transparent;*/
         }
         div{
-            margin:5px 0px;
+            margin:1px; padding:4px; font-size:15px; border:3px solid #000000;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+        code {
+            font-family: "Source Code Pro", Consolas, Menlo, Monaco, "Courier New", monospace;
+            font-size: 0.8em;
+            color: #ffffff;
         }
     </style>
 </head>
-<style type="text/css">
-    html{
-        height: 100%;
-    }
-    body{
-        background: linear-gradient( 155deg, rgb(35,35,46), transparent );
-        /*position:absolute; top:0; bottom:0; right:0; left:0;
-        background-image: url("/images/roompage.png"); background-size:100% 100%;
-        background-color: transparent;*/
-    }
-</style>
 <body>
 <%
 if (check)
@@ -30,9 +33,9 @@ if (check)
     for(var i=0;i<log.length;++i)
     {
 %>
-<div style="margin:1px; padding:4px; font-size:15px; border:solid 3px">
+<div><code>
     <%=log[i].date%><br/>
-    <%=log[i].name%>님이 <%=log[i].content%>
+    <%=log[i].name%>님이 <%=log[i].content%></code>
 </div>
 <%
     }
