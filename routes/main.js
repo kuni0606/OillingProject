@@ -63,7 +63,6 @@ router.post('/api/create/', function(req,res){
                         console.log("progress select_cell error : " + err);
                     }
                     else {
-                        fs.mkdirSync(rootPath+'/file/'+result[0].ridx);
                         console.log('good');
                         res.redirect('/');
                     }

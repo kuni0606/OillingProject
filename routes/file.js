@@ -18,6 +18,11 @@ router.use(session({secret:'secret key'}));
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
     rootdir='file/'+req.session.ridx;
+    try{
+        fs.mkdirSync(rootPath+'/'+rootdir);
+    }catch(e){
+
+    }
     res.render('File', { title: 'File System'});
 });
 // Serve files from the current directory under the /files route
@@ -73,8 +78,6 @@ router.post('/api/upload/', function (req, res) {
 });
 router.get('/api/scan', function(req,res){
     var tree = scan('./'+rootdir, 'home');
-    console.log(rootdir);
-    console.log(tree);
     res.send(tree);
 });
 module.exports = router;
