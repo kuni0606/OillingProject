@@ -75,6 +75,53 @@ router.get('/', function(req, res, next) {
         });
     });
 });
+router.post('/api/accept/',function(req,res){
+    var roomindex = parseInt(req.body.ri);
+    var roomtitle = req.body.rt;
+
+    db.query("INSERT INTO room_join(Room_ridx,User_uidx,title) VALUES (?,?,?)", [mysql.escape(roomindex),mysql.escape(req.session.uidx),roomtitle], function(err) {
+        if(err) { console.log("plan select_cell error : "+err); }
+        else {
+            db.query('SELECT * FROM room WHERE ridx= ' + mysql.escape(roomindex), function (error, result) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    var temp = parseInt(result[0].total);
+                    db.query('UPDATE room SET total=' + mysql.escape(temp+1) + ' WHERE ridx = ' + mysql.escape(roomindex), function (err) {
+                        if (err) {
+                            console.log("plan ch_color error : " + err);
+                        }
+                        else {
+                            db.query('DELETE FROM invite WHERE User_you= ' + mysql.escape(req.session.uidx) + ' and Room_idx= ' + mysql.escape(roomindex), function (error, result) {
+                                if (error) {
+                                    console.log("drop error : " + error);
+                                }
+                                else {
+                                    console.log('good');
+                                    res.redirect('/main');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+    res.redirect('/main');
+});
+router.post('/api/cancel/',function(req,res){
+    var roomindex = parseInt(req.body.ri);
+
+    console.log(roomindex);
+
+    db.query('DELETE FROM invite WHERE User_you= ' + mysql.escape(req.session.uidx) + ' and Room_idx= ' + mysql.escape(roomindex), function (error, result) {
+        if(error) { console.log("drop error : "+error); }
+        else{
+            res.redirect('/main');
+        }
+    });
+});
 router.post('/api/join/',function(req,res){
     var roomindex = parseInt(req.body.ri);
 

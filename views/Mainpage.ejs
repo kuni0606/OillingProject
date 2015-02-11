@@ -168,6 +168,7 @@
         var tuname = '<%=v_names%>';
         var uname = tuname.split(',');
         var rtitle = '<%=v_rtitle%>'.split(',');
+        var iroom = '<%=v_iroom%>'.split(',');
 
         if (ilength>0){
             var t=document.getElementById('alarmbtn');
@@ -184,10 +185,12 @@
                         '<td><input type="button" value="거절" id="cbtn'+ i + '"></td>' +
                         '</tr><tr></tr>');
                 $('#abtn'+i).bind('click',function(e){
-                    console.log('accept!');
+                    var t = parseInt(e.target.id.slice(-1));
+                    post_goto('/main/api/accept',{'ri':iroom[t],'rt':rtitle[t]},false);
                 });
                 $('#cbtn'+i).bind('click',function(e){
-                    console.log('cancel!');
+                    var t = parseInt(e.target.id.slice(-1));
+                    post_goto('/main/api/cancel',{'ri':iroom[t]},false);
                 });
             }
         }
