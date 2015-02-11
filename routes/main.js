@@ -78,24 +78,24 @@ router.get('/', function(req, res, next) {
 router.post('/api/accept/',function(req,res){
     var roomindex = parseInt(req.body.ri);
     var roomtitle = req.body.rt;
-
-    db.query("INSERT INTO room_join(Room_ridx,User_uidx,title) VALUES (?,?,?)", [mysql.escape(roomindex),mysql.escape(req.session.uidx),roomtitle], function(err) {
-        if(err) { console.log("plan select_cell error : "+err); }
-        else {
-            db.query('SELECT * FROM room WHERE ridx= ' + mysql.escape(roomindex), function (error, result) {
+    db.query('SELECT * FROM room WHERE ridx= ' + mysql.escape(roomindex), function (error, resultk) {
+        if (error) {
+            console.log(error);
+        } else {
+            db.query('DELETE FROM invite WHERE User_you= ' + mysql.escape(req.session.uidx) + ' and Room_idx= ' + mysql.escape(roomindex), function (error, result) {
                 if (error) {
-                    console.log(error);
-                }
-                else {
-                    var temp = parseInt(result[0].total);
-                    db.query('UPDATE room SET total=' + mysql.escape(temp+1) + ' WHERE ridx = ' + mysql.escape(roomindex), function (err) {
-                        if (err) {
-                            console.log("plan ch_color error : " + err);
-                        }
+                    console.log("drop error : " + error);
+                } else if (resultk[0].total>=resultk[0].max_num) {
+                    console.log('full!!');
+                    res.sendStatus(400);
+                } else {
+                    db.query("INSERT INTO room_join(Room_ridx,User_uidx,title) VALUES (?,?,?)", [mysql.escape(roomindex),mysql.escape(req.session.uidx),roomtitle], function(err) {
+                        if(err) { console.log("plan select_cell error : "+err); }
                         else {
-                            db.query('DELETE FROM invite WHERE User_you= ' + mysql.escape(req.session.uidx) + ' and Room_idx= ' + mysql.escape(roomindex), function (error, result) {
-                                if (error) {
-                                    console.log("drop error : " + error);
+                            var temp = parseInt(resultk[0].total);
+                            db.query('UPDATE room SET total=' + mysql.escape(temp+1) + ' WHERE ridx = ' + mysql.escape(roomindex), function (err) {
+                                if (err) {
+                                    console.log("plan ch_color error : " + err);
                                 }
                                 else {
                                     console.log('good');

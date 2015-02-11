@@ -202,6 +202,9 @@
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhr.overrideMimeType('application/json');
                     xhr.send(params);
+                    if (xhr.status==400){
+                        alert('해당 프로젝트가 최대인원에 도달했습니다!');
+                    }
                     window.location.href='/main';
                 });
                 $('#cbtn'+i).bind('click',function(e){
