@@ -15,18 +15,17 @@ router.use(session({secret:'secret key'}));
 
 router.get('/plan/s', function(req, res) { // 세션 리다이렉션
     var go = url.parse(req.url,true).query;
-    req.session.uidx = go.uidx;
-    req.session.ridx = go.ridx;
+    req.session.uidx = parseInt(go.uidx);
+    req.session.ridx = parseInt(go.ridx);
     res.redirect('/schedule/plan');
 });
 router.get('/progress/s', function(req, res) { // 세션 리다이렉션
     var go = url.parse(req.url,true).query;
-    req.session.uidx = go.uidx;
-    req.session.ridx = go.ridx;
+    req.session.uidx = parseInt(go.uidx);
+    req.session.ridx = parseInt(go.ridx);
     res.redirect('/schedule/progress');
 });
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
-    console.log("yo"+req.session.ridx);
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(req.session.ridx)+' and User_master = '+mysql.escape(req.session.uidx), function(error, result) {
         if(result[0]){ //일단 그 방의 관리자가 맞는지. 잘못된 루트가 아닌지 확인하고
             db.query('SELECT * FROM schedule_form WHERE  room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
@@ -73,7 +72,7 @@ router.post('/plan/setting', function(req, res) {
     var i=0;
     var temp_arr;
 
-    db.query('SELECT row FROM schedule_form WHERE Room_ridx= '+mysql.escape(ridx), function(error, result) {
+    db.query('SELECT * FROM schedule_form WHERE Room_ridx= '+mysql.escape(ridx), function(error, result) {
         sf_form = result[0];
         if(sf_form)
         { //그 방의 계획된 일정이 있는지 확인하고 (아마도 이전에 검사했으니 이땐 99%있을거야)
@@ -102,7 +101,7 @@ router.post('/plan/setting', function(req, res) {
                         temp_arr.push(temp_json2);
                     }
                     n_json.s_data = temp_arr;
-                    //console.log(n_json);
+                    console.log(n_json);
                     res.send(n_json);
                 });
             });
