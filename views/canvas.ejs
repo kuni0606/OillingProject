@@ -186,7 +186,7 @@
             $('#box3').css('width', w/5-20);
             $('#box4').css('width', w/5-20);
             $('#c_room').css('width', w/5);
-            $('#c_room').css('height', 500);
+            $('#c_room').css('height', 475);
             $('#txt').css('width', w/5-50);
         });
         //채팅창에서 스크립트 안되도록함.
@@ -201,7 +201,7 @@
         }
         body{
             position:absolute; top:0; bottom:0; right:0; left:0;
-            background-image: url("/images/Main.png"); background-size:100% 100%;
+            background-image: url("/images/roompage.png"); background-size:100% 100%;
         }
         dd{
             background-color:wheat;
@@ -217,8 +217,8 @@
 <p id="roomn" style="display:none"><%=room%></p>
 <div>
     <div class="plat" style="display:table-row">
-        <div class="plat_child" style="display:table-cell; float:left;">
-        <table border="3" style="background-color: white; border:solid 3px;">
+        <div class="plat_child" style="margin-left:20px; margin-top:20px; display:table-cell; float:left;">
+        <table border="3" style="background-color: white; border:solid 5px;">
             <tr>
                 <td rowspan="4">
                     <!--캔버스-->
@@ -261,13 +261,13 @@
                 <div><button class="btn btn-default btn-xs" id="rectangle">사각형</button></div></td>
             </tr>
         </table></div>
-        <div class="plat_child" style="display:table-cell; float:left; padding-left:10px;">
+        <div class="plat_child" style="display:table-cell; float:left; padding-left:20px; margin-top:20px">
         <div id="chat">
             <div style = "background-color: white; overflow:auto; border:solid 5px;" id="c_room">
                 <dl id = "show_con">
                 </dl>
             </div>
-            <input type="text" style="width:255px;" id="txt"/>&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
+            <input style="border:solid 5px; margin-top:10px;" type="text" style="width:255px;" id="txt"/>&nbsp;&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
         </div></div>
     </div><br/>
     <div class="plat"  style="display:table-row, block;">

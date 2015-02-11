@@ -88,17 +88,22 @@
         function pro(){window.open( '/schedule/progress/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
     </script>
     <style type="text/css">
+        html{
+            height: 100%;
+        }
         body{
-            background: linear-gradient( 45deg, #6495ED, #FFFFFF );
+            position:absolute; top:0; bottom:0; right:0; left:0;
+            background-image: url("/images/roompage.png"); background-size:100% 100%;
         }
     </style>
 </head>
 <body style="height:98%; width:auto;">
 <div style="height:100%;width:100%; overflow: hidden;">
     <div style="height:100%;width:15%;float:left;">
-        <div style="margin-bottom:10px; margin-top:40px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/video.png'); background-color: transparent; border:none; background-size: 120px 130px; width:120px; height:130px;" type="button" id="video_C" onClick="confer();"></div>
-        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/invite.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" id="invite_friend"></div>
-        <div style="margin-bottom:10px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/calendar.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" value="" id="show" onclick="check_auth()"></div>
+        <div style="margin-bottom:20px; margin-top:40px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/video.png'); background-color: transparent; border:none; background-size: 120px 130px; width:120px; height:130px;" type="button" id="video_C" onClick="confer();"></div>
+        <div style="margin-bottom:30px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/invite.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" id="invite_friend"></div>
+        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/calendar.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" value="" id="show" onclick="check_auth()"></div>
+        <div style="margin-bottom:20px;"><input style="display:block; margin-left:auto; margin-right:auto; background-image: url('/images/toHome.png'); background-color: transparent; border:none; background-size: 120px 120px; width:120px; height:120px;" type="button" value="" id="toHome" onclick="toHome()"></div>
     </div>
     <div style="height:80%;width:70%;float:left; text-align: center;">
         <iframe name="fexp" src="/file" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
