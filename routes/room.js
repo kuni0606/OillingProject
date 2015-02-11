@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
                 if (result[i].Room_ridx==roomindex){
                     req.session.ridx=roomindex;
                     ///////////test/////////////////
-                    res.render('Roompage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+                    res.render('Roompage', { title: 'Main Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
                     return true;
                 }
             }

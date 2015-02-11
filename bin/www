@@ -100,6 +100,12 @@ io.sockets.on('connection', function (socket) {
       }
     })
   });
+  socket.on('log_go', function (data, callback) {
+    db.query('INSERT INTO log(Room_ridx,User_uidx,name,content,date) VALUES (?,?,?,?,?)',[data.ridx,data.uidx,data.name,data.content,data.date], function(err) {
+      if(err) { console.log("log insert error : "+err); callback(false); }
+      else { callback(true); }
+    })
+  });
 
   socket.on('auth_check', function (data, callback) {
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(data.ridx)+' and User_master = '+mysql.escape(data.uidx), function(error, result) {
