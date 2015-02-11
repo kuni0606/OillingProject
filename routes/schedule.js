@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
 var session = require('cookie-session');
+var url = require('url');
 var router = express.Router();
 
 var db = mysql.createConnection({
@@ -12,12 +13,20 @@ var db = mysql.createConnection({
 });
 router.use(session({secret:'secret key'}));
 
+router.get('/plan/s', function(req, res) { // 세션 리다이렉션
+    var go = url.parse(req.url,true).query;
+    req.session.uidx = go.uidx;
+    req.session.ridx = go.ridx;
+    res.redirect('/schedule/plan');
+});
+router.get('/progress/s', function(req, res) { // 세션 리다이렉션
+    var go = url.parse(req.url,true).query;
+    req.session.uidx = go.uidx;
+    req.session.ridx = go.ridx;
+    res.redirect('/schedule/progress');
+});
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
     console.log("yo"+req.session.ridx);
-    ///////////test/////////////////
-    req.session.uidx = 1;
-    req.session.ridx = 1;
-    ///////////test/////////////////
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(req.session.ridx)+' and User_master = '+mysql.escape(req.session.uidx), function(error, result) {
         if(result[0]){ //일단 그 방의 관리자가 맞는지. 잘못된 루트가 아닌지 확인하고
             db.query('SELECT * FROM schedule_form WHERE  room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
@@ -177,10 +186,6 @@ router.post('/plan/select_cell', function(req, res) {
 
 //프로젝트 진행 페이지~~~~*************************************
 router.get('/progress', function(req, res) {
-    ///////////test/////////////////
-    req.session.uidx = 1;
-    req.session.ridx = 1;
-    ///////////test/////////////////
     db.query('SELECT * FROM schedule_form WHERE  Room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
         if(result[0]){ //이미 계획한 게 있으면 exist로 1로 구별하고
             res.render('ScheduleProgress', {title: 'Schedule Progress Page', exist:1, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
