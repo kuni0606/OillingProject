@@ -116,7 +116,7 @@
     <div style="display:table-cell; vertical-align:middle; padding-right:10px; padding-left:860px;"><img src="/images/userIcon.png" width="40" height="40"/></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_name%></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_email%></div>
-    <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><img src="/images/ORB_BLACK.png" height="20" width="20"></div>
+    <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><img id="alarmbtn" src="/images/ORB_BLACK.png" height="20" width="20"></div>
     <div style="float:right; position:absolute; right:10px; top:20px; z-index:10;" id="left-info">
         <div class="etc"></div>
         <div class="etc"></div>
@@ -149,12 +149,49 @@
         </fieldset>
     </form>
 </div>
+<div id="dialog-confirm" title="새로운 초대 알림">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>새로운 초대가 있습니다!</p>
+    <table id="alarm-context" class="ui-widget ui-widget-content">
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
 </body>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script>
-    var dialog, form;
+    var dialog, form, cdialog;
     $(function() {
+
+        var ilength = '<%=v_alarmn%>';
+        var tuname = '<%=v_names%>';
+        var uname = tuname.split(',');
+        var rtitle = '<%=v_rtitle%>'.split(',');
+
+        if (ilength>0){
+            var t=document.getElementById('alarmbtn');
+            var td = document.getElementById('alarm-context');
+            t.src = 'images/ORB_RED.png';
+            t.addEventListener('click',function(e){
+                cdialog.dialog('open');
+            });
+
+            for (var i = 0;i<ilength;i++){
+                $('#alarm-context tbody').append('<tr>'+
+                        '<td>'+ uname[i] + '님이 ' + rtitle[i] + '프로젝트에 초대하셨습니다' + '</td>' +
+                        '<td><input type="button" value="수락" id="abtn'+ i + '"></td>' +
+                        '<td><input type="button" value="거절" id="cbtn'+ i + '"></td>' +
+                        '</tr><tr></tr>');
+                $('#abtn'+i).bind('click',function(e){
+                    console.log('accept!');
+                });
+                $('#cbtn'+i).bind('click',function(e){
+                    console.log('cancel!');
+                });
+            }
+        }
+
         var name = $( "#name" ),
                 num = $( "#num" ),
                 allFields = $( [] ).add( name ).add( num ),
@@ -222,6 +259,7 @@
             autoOpen: false,
             height: 400,
             width: 350,
+            resizable: false,
             modal: true,
             buttons: {
                 "Create": addUser,
@@ -232,6 +270,18 @@
             close: function() {
                 form[ 0 ].reset();
                 allFields.removeClass( "ui-state-error" );
+            }
+        });
+        cdialog = $( "#dialog-confirm" ).dialog({
+            autoOpen: false,
+            resizable: false,
+            height:400,
+            width:400,
+            modal: true,
+            buttons: {
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
             }
         });
 
@@ -270,8 +320,6 @@
             td.addEventListener('click',joinListener);
         }
     }
-
-
 
     function createListener(event){
         dialog.dialog( "open" );

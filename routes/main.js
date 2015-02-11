@@ -17,6 +17,8 @@ var db = mysql.createConnection({
 router.use(session({secret:'secret key'}));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    if (req.session.uidx==null) res.redirect('/login');
+
     var totalroom= 0;
 
     db.query('SELECT i.User_my,u.name,i.User_you,r.ridx,r.title FROM invite i, user u, room r WHERE i.User_you='+mysql.escape(req.session.uidx)+' and i.User_my = u.uidx and i.Room_idx = r.ridx',function(err,tresult) {
@@ -24,6 +26,7 @@ router.get('/', function(req, res, next) {
             var names = [],
                 inviteroom = [],
                 roomtitle = [],
+                invitedate = [],
                 tresultlength= 0;
             if (!err){
                 for (var i = 0;i<tresult.length;i++){

@@ -14,6 +14,7 @@ var db = mysql.createConnection({
 router.use(session({secret:'secret key'}));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    if (req.session.uidx==null) res.redirect('/login');
     ///////////test/////////////////
     var roomindex=req.query.ri;
     db.query('SELECT Room_ridx FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx),function(error,result){
