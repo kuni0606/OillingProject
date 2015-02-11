@@ -1,12 +1,9 @@
-
-
+var roomnum;
 var activeBox = -1;  // nothing selected
 var aspectRatio = 5/4;  // standard definition video aspect ratio
 var maxCALLERS = 4;
 var numVideoOBJS = maxCALLERS+1;
 var layout;
-
-
 easyrtc.dontAddCloseButtons(true);
 
 function getIdOfBox(boxNum) {
@@ -669,64 +666,68 @@ function messageListener(easyrtcid, msgType, content) {
 */
 
 function appInit() {
+    $(function(){
+        roomnum = document.getElementById('roomn').textContent;
 
-    // Prep for the top-down layout manager
-    //setReshaper('fullpage', reshapeFull);
-    for(var i = 0; i < numVideoOBJS; i++) {
-        prepVideoBox(i);
-    }
-    //setReshaper('killButton', killButtonReshaper);
-    //setReshaper('muteButton', muteButtonReshaper);
-    //setReshaper('textentryBox', reshapeTextEntryBox);
-    //setReshaper('textentryField', reshapeTextEntryField);
-    //setReshaper('textEntryButton', reshapeTextEntryButton);
+        // Prep for the top-down layout manager
+        //setReshaper('fullpage', reshapeFull);
+        for(var i = 0; i < numVideoOBJS; i++) {
+            prepVideoBox(i);
+        }
+        //setReshaper('killButton', killButtonReshaper);
+        //setReshaper('muteButton', muteButtonReshaper);
+        //setReshaper('textentryBox', reshapeTextEntryBox);
+        //setReshaper('textentryField', reshapeTextEntryField);
+        //setReshaper('textEntryButton', reshapeTextEntryButton);
 
-    //updateMuteImage(false);
-    //window.onresize = handleWindowResize;
-    //handleWindowResize(); //initial call of the top-down layout manager
+        //updateMuteImage(false);
+        //window.onresize = handleWindowResize;
+        //handleWindowResize(); //initial call of the top-down layout manager
 
-    easyrtc.joinRoom('1', null,         //'1'번방에 들어갈 수 있도록 하는 부분
-        function() {
-            /* we'll geta room entry event for the room we were actually added to */
-            console.log('success roomName : '+roomName);
-        },
-        function(errorCode, errorText, roomName) {
-            easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
+        easyrtc.joinRoom(roomnum, null,         //'1'번방에 들어갈 수 있도록 하는 부분
+            function() {
+                /* we'll geta room entry event for the room we were actually added to */
+                console.log('success roomName : '+roomName);
+            },
+            function(errorCode, errorText, roomName) {
+                easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
+            });
+        easyrtc.setRoomOccupantListener(callEverybodyElse);
+        easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess);
+        //easyrtc.setPeerListener(messageListener);
+        easyrtc.setDisconnectListener( function() {
+            easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
         });
-    easyrtc.setRoomOccupantListener(callEverybodyElse);
-    easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess);
-    //easyrtc.setPeerListener(messageListener);
-    easyrtc.setDisconnectListener( function() {
-        easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
-    });
-    easyrtc.setOnCall( function(easyrtcid, slot) {
-        console.log("getConnection count="  + easyrtc.getConnectionCount() );
-        boxUsed[slot+1] = true;
-        if(activeBox == 0 ) { // first connection
-            collapseToThumb();
-            //document.getElementById('textEntryButton').style.display = 'block';
-        }
-        document.getElementById(getIdOfBox(slot+1)).style.visibility = "visible";
-        //handleWindowResize();
-    });
-
-
-    easyrtc.setOnHangup(function(easyrtcid, slot) {
-        boxUsed[slot+1] = false;
-        if(activeBox > 0 && slot+1 == activeBox) {
-            collapseToThumb();
-        }
-        setTimeout(function() {
-            document.getElementById(getIdOfBox(slot+1)).style.visibility = "hidden";
-
-            if( easyrtc.getConnectionCount() == 0 ) { // no more connections
-                expandThumb(0);
-                //document.getElementById('textEntryButton').style.display = 'none';
-                //document.getElementById('textentryBox').style.display = 'none';
+        easyrtc.setOnCall( function(easyrtcid, slot) {
+            console.log("getConnection count="  + easyrtc.getConnectionCount() );
+            boxUsed[slot+1] = true;
+            if(activeBox == 0 ) { // first connection
+                collapseToThumb();
+                //document.getElementById('textEntryButton').style.display = 'block';
             }
+            document.getElementById(getIdOfBox(slot+1)).style.visibility = "visible";
             //handleWindowResize();
-        },20);
+        });
+
+
+        easyrtc.setOnHangup(function(easyrtcid, slot) {
+            boxUsed[slot+1] = false;
+            if(activeBox > 0 && slot+1 == activeBox) {
+                collapseToThumb();
+            }
+            setTimeout(function() {
+                document.getElementById(getIdOfBox(slot+1)).style.visibility = "hidden";
+
+                if( easyrtc.getConnectionCount() == 0 ) { // no more connections
+                    expandThumb(0);
+                    //document.getElementById('textEntryButton').style.display = 'none';
+                    //document.getElementById('textentryBox').style.display = 'none';
+                }
+                //handleWindowResize();
+            },20);
+        });
     });
+
 }
 
 
