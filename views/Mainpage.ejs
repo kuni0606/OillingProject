@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>D2I, for Your Health</title>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css">
     <style type="text/css">
         body {
             margin: 0px;
@@ -85,6 +86,7 @@
             vertical-align: middle;
             transition-duration: 0.5s;
             backface-visibility: hidden;
+            -webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
             /*transform-style: preserve-3d;*/
         }
         .n_plat:hover {
@@ -96,6 +98,15 @@
         .n_plat img:hover {
             outline: 3px solid rgba(0,159,155,1);
         }
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 350px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
 </head>
 <body>
@@ -115,15 +126,144 @@
 <h1 style="color:rgba(0,159,155,1); font-size:80px; text-align:center; margin:0">Room</h1>
 <div style="display:block; margin-left:10%; margin-right:10%;">
     <div class="n_list">
-        <div id="room0" class="n_plat"><img id="img0" class="platform0" src="http://placehold.it/300x200" /><br><p id="p0">a</p><button id="crtbtn0" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room1" class="n_plat"><img id="img1" class="platform1" src="http://placehold.it/300x200" /><br><p id="p1">b</p><button id="crtbtn1" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room2" class="n_plat"><img id="img2" class="platform2" src="http://placehold.it/300x200" /><br><p id="p2">c</p><button id="crtbtn2" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room3" class="n_plat"><img id="img3" class="platform3" src="http://placehold.it/300x200" /><br><p id="p3"></p><button id="crtbtn3" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
-        <div id="room4" class="n_plat"><img id="img4" class="platform4" src="http://placehold.it/300x200" /><br><p id="p4"></p><button id="crtbtn4" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room0" class="n_plat" style="visibility:hidden;"><img id="img0" class="platform0" src="http://placehold.it/300x200" /><br><p id="p0">a</p><button id="crtbtn0" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room1" class="n_plat" style="visibility:hidden;"><img id="img1" class="platform1" src="http://placehold.it/300x200" /><br><p id="p1">b</p><button id="crtbtn1" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room2" class="n_plat" style="visibility:hidden;"><img id="img2" class="platform2" src="http://placehold.it/300x200" /><br><p id="p2">c</p><button id="crtbtn2" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room3" class="n_plat" style="visibility:hidden;"><img id="img3" class="platform3" src="http://placehold.it/300x200" /><br><p id="p3"></p><button id="crtbtn3" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
+        <div id="room4" class="n_plat" style="visibility:hidden;"><img id="img4" class="platform4" src="http://placehold.it/300x200" /><br><p id="p4"></p><button id="crtbtn4" style="margin-top:10px; width:100px; height:40px;">Create</button></div>
     </div>
 </div>
+<div id="dialog-form" title="새로운 프로젝트" style="background-color:ivory" >
+    <p class="validateTips">모든 항목은 필수사항입니다.</p>
+
+    <form>
+        <fieldset>
+            <label for="name">프로젝트 명</label>
+            <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all">
+            <label for="num">최대인원</label>
+            <input type="text" name="num" id="num" value="" class="text ui-widget-content ui-corner-all">
+
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
+</div>
 </body>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script>
+    var dialog, form;
+    $(function() {
+        var name = $( "#name" ),
+                num = $( "#num" ),
+                allFields = $( [] ).add( name ).add( num ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + " 의 길이는 " +
+                min + " 에서 " + max + "사이여야 합니다." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkValue(o,n,min,max){
+            if ( o.val() > max || o.val() < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + "의 숫자는 " +
+                min + " 에서 " + max + "사이여야 합니다." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function post_goto(url, parm, target) {
+            var f = document.createElement('form');
+
+            var objs, value;
+            for (var key in parm) {
+                value = parm[key];
+                objs = document.createElement('input');
+                objs.setAttribute('type', 'hidden');
+                objs.setAttribute('name', key);
+                objs.setAttribute('value', value);
+                f.appendChild(objs);
+            }
+
+            if (target)
+                f.setAttribute('target', target);
+
+            f.setAttribute('method', 'post');
+            f.setAttribute('action', url);
+            document.body.appendChild(f);
+            f.submit();
+        }
+
+        function addUser() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( name, "프로젝트 이름", 3, 16 );
+            valid = valid && checkValue(  num , "최대 인원", 1, 5 );
+
+            valid = valid && checkRegexp( name, /^[0-9a-zA-Z가-힣\s]*$/, "특수문자나 자모음은 입력할 수 없습니다." );
+            valid = valid && checkRegexp( num, /\d/i, "최대인원은 숫자만 입력가능합니다." );
+
+            if ( valid ) {
+                post_goto('/main/api/create/',{'pt':name.val(),'pn':num.val()},false);
+                dialog.dialog( "close" );
+            }
+            return valid;
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 400,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Create": addUser,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addUser();
+        });
+
+        $( "#create-user" ).button().on( "click", function() {
+            dialog.dialog( "open" );
+        });
+    });
     var i = '<%=v_totalroom%>';
     var trooms = '<%=v_rooms%>';
     var troomsi = '<%=v_roomsi%>';
@@ -140,20 +280,22 @@
             td.addEventListener('click',createListener);
             im.style.display = 'none';
             p.style.display = 'none';
+            td.style.visibility='visible';
         }else if (ti>i) {
             td.style.display='none';
         }else{
             t.style.display ='none';
-            console.log(rooms[ti]);
             p.innerHTML = rooms[ti];
+            td.style.visibility = 'visible';
             td.addEventListener('click',joinListener);
         }
     }
     function createListener(event){
-        console.log('create!');
+        dialog.dialog( "open" );
+        //addUser();
     }
     function joinListener(event){
-        console.log('join!');
+        console.log('join! : '+ event);
     }
 </script>
 </html>
