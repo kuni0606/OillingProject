@@ -16,7 +16,6 @@ router.use(session({secret:'secret key'}));
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
     var roomindex=req.query.ri;
-    console.log(roomindex);
     db.query('SELECT Room_ridx FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx),function(error,result){
         if (error){
             res.send(404,"권한이 없습니다");

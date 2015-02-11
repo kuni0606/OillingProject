@@ -11,9 +11,13 @@ var scan = require('./scan');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var rootdir = 'file';
+var session = require('cookie-session');
+
+router.use(session({secret:'secret key'}));
 
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
+    rootdir+='/'+req.session.ridx;
     res.render('File', { title: 'File System'});
 });
 // Serve files from the current directory under the /files route
@@ -71,7 +75,8 @@ router.post('/api/upload/', function (req, res) {
     res.send({image: false, file: req.files.userFile.originalname, savedAs: req.files.userFile.name});
 });
 router.get('/api/scan', function(req,res){
-    var tree = scan('.', 'home');
+    var tree = scan('.', 'home',rootdir);
+    console.log(rootdir);
     res.send(tree);
 });
 module.exports = router;

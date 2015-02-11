@@ -1,12 +1,12 @@
 
 var fs = require('fs');
 
-module.exports = function scan(dir, alias){
+module.exports = function scan(dir, alias,rootdir){
 	return {
 		name: alias,
 		type: 'folder',
 		path: alias,
-		items: walk(dir+'/file', alias)
+		items: walk(dir+'/'+rootdir, alias)
 	};
 
 };

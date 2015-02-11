@@ -4,6 +4,7 @@ var session = require('cookie-session');
 var router = express.Router();
 var path = require('path');
 var multer = require('multer');
+var fs = require('fs');
 
 var db = mysql.createConnection({
     host : '210.118.74.149',
@@ -46,8 +47,6 @@ router.get('/', function(req, res, next) {
 router.post('/api/join/',function(req,res){
     var roomindex = parseInt(req.body.ri);
 
-    console.log(roomindex);
-
     res.redirect('/room/?ri='+roomindex);
 });
 router.post('/api/create/', function(req,res){
@@ -64,6 +63,7 @@ router.post('/api/create/', function(req,res){
                         console.log("progress select_cell error : " + err);
                     }
                     else {
+                        fs.mkdirSync(rootPath+'/file/'+result[0].ridx);
                         console.log('good');
                         res.redirect('/');
                     }
