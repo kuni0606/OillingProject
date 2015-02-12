@@ -112,7 +112,6 @@ io.sockets.on('connection', function (socket) {
     });
   });
   socket.on('log_del', function (data) {
-    console.log('1');
     db.query('DELETE FROM log WHERE Room_ridx = '+mysql.escape(data), function(err) {
       if(err) { console.log("log delete error : "+err);
         socket.emit('log_del_back', false); }

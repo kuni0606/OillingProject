@@ -50,7 +50,7 @@
                 n_json.name = '<%=s_name%>';
                 n_json.content = '로그를 삭제하셨습니다.';
                 n_json.date = now;
-                socket.emit('log_del', 1);
+                socket.emit('log_del', '<%=s_ridx%>');
                 socket.on('log_del_back',function(data){
                     if (data) {
                         socket.emit('log_gogo', n_json);
