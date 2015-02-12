@@ -31,6 +31,8 @@ router.get('/', function(req, res, next) {
 router.use(function(req, res, next) {
     var t = req.query.currentPath;
     if (typeof t=='undefined') t='';
+    if (t=='') t=rootdir;
+    if (t=='file') t=rootdir;
     var handler = multer({
         dest: './' + t,
         rename: function (fieldname, filename) {

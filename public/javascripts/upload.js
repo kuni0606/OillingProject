@@ -64,6 +64,11 @@ $(function () {
         setDisbtn();
         var formData = new FormData();
         var file = document.getElementById('userFileInput').files[0];
+        if (file.size>=50000000){
+            alert('파일 용량 초과!');
+            location.reload();
+            return false;
+        }
         formData.append('userFile',file);
         var spcp = currentPath.substr(5);
         if (spcp=='') spcp='file';
