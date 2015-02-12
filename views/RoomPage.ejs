@@ -223,19 +223,19 @@
         }
     </style>
 </head>
-<body style="height:98%; width:auto;">
+<body style="height:100%; width:auto;">
 <div style="height:100%;width:100%; overflow: hidden;">
     <div style="height:100%;width:15%;float:left;">
         <div style="margin-bottom: 20px; margin-top:40px;"><img class="room_menu" id="video_C" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="confer();" src="/images/video.png" ></div>
         <div style="margin-bottom:30px;"><img class="room_menu" src="/images/invite.png" id="invite_friend" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;"></div>
         <div style="margin-bottom:20px;"><img class="room_menu" src="/images/calendar.png" id="show" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="check_auth()"></div>
-        <div style="margin-bottom:20px;"><img class="room_menu" src="/images/toHome.png" id="toHome" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="toHome()"></div>
+        <div style="margin-bottom:20px;"><a href="/main"><img class="room_menu" src="/images/toHome.png" id="toHome" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="toHome()"></a></div>
     </div>
     <div style="height:80%;width:70%;float:left; text-align: center;">
         <iframe name="fexp" src="/file" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
     </div>
-    <div style="height:80%;width:15%;float:left;">
-        <iframe name="notice_frame" src="/log" scrolling="no" frameborder="0" height="96%" width="99%" ></iframe>
+    <div style="height:65%;width:15%;float:left;">
+        <iframe name="notice_frame" src="/log" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
     </div>
 </div>
 <div id="dialog-form" title="회원 초대" style="background-color:ivory" >

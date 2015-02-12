@@ -34,7 +34,7 @@
             var context = canvas.getContext('2d');
 
             var width = 5;
-            var alpha = 0.1;
+            var alpha = 1;
             var color = '#000000';
             var isDown = false;
             var newPoint, oldPoint;
@@ -220,7 +220,7 @@
         <div class="plat_child" style="margin-left:20px; margin-top:20px; display:table-cell; float:left;">
         <table border="3" style="background-color: white; border:solid 5px;">
             <tr>
-                <td rowspan="4">
+                <td rowspan="3">
                     <!--캔버스-->
                     <canvas id="canvas" style="background-color: white;" width="850" height="500"></canvas>
                 </td>
@@ -236,29 +236,22 @@
                 </td>
             </tr>
             <tr>
-                <td height="25">
-                    <!--슬라이더: 농도 조절-->
-                    <div id="slider1"></div>
-
-                <select id="optselector">
-                    <option value="0.1">0.1</option>
-                    <option value="0.2">0.2</option>
-                    <option value="0.3">0.3</option>
-                    <option value="0.4">0.4</option>
-                    <option value="0.5">0.5</option>
-                    <option value="0.6">0.6</option>
-                    <option value="0.7">0.7</option>
-                    <option value="0.8">0.8</option>
-                    <option value="0.9">0.9</option>
-                    <option value="1.0">1.0</option>
-                </select></td>
-            </tr>
-            <tr>
-                <td style="background: orange;"><div><button class="btn btn-default btn-xs" id="btnDel"></button></div>
-                <div><button class="btn btn-default btn-xs" id="eraser" value="rgb(255,255,255)">지우개</button></div>
-                <div><button class="btn btn-default btn-xs" id="straight">직선</button></div>
-                <div><button class="btn btn-default btn-xs" id="saveImage">화면저장</button></div>
-                <div><button class="btn btn-default btn-xs" id="rectangle">사각형</button></div></td>
+                <td style="background: transparent;">
+                    <div ><select style="display:block; margin-right:auto; margin-left:auto;" id="optselector">
+                        <option value="0.1">0.1</option>
+                        <option value="0.2">0.2</option>
+                        <option value="0.3">0.3</option>
+                        <option value="0.4">0.4</option>
+                        <option value="0.5">0.5</option>
+                        <option value="0.6">0.6</option>
+                        <option value="0.7">0.7</option>
+                        <option value="0.8">0.8</option>
+                        <option value="0.9">0.9</option>
+                        <option value="1.0">1.0</option>
+                    </select></div><div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
+                <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
+                <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
+                </td>
             </tr>
         </table></div>
         <div class="plat_child" style="display:table-cell; float:left; padding-left:20px; margin-top:20px">
