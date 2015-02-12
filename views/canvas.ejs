@@ -34,8 +34,8 @@
             var context = canvas.getContext('2d');
 
             var alpha = 1;
-            var color = '#000000';
-            var isDown = false;
+            var color = '#000000',tcolor;
+            var isDown = false,c_eraser=false;
             var radius=5, oldPoint,newPoint,selectedObject='pen';
 
             context.fillStyle="#FFFFFF";
@@ -117,9 +117,13 @@
             });
 
             $('button[id="eraser"]').click(function(event){
-                color = $('#eraser').val();
-                selectedObject = 'pen';
-                alpha = 1;
+                if (c_eraser==false) {
+                    tcolor = color;
+                    color = $('#eraser').val();
+                    selectedObject = 'pen';
+                    alpha = 1;
+                    c_eraser=true;
+                }
             });
             $('button[id="straight"]').click(function(event){
                 canvas.onclick = function(event){
@@ -163,9 +167,13 @@
             });
             $('button[id="drawRect"]').click(function(event){
                 selectedObject = 'rect';
+                color = tcolor;
+                c_eraser = true;
             });
             $('button[id="drawPen"]').click(function(event){
                 selectedObject = 'pen';
+                color = tcolor;
+                c_eraser = true;
             });
             socket.on('create_room', function(data){
                // alert(data);
