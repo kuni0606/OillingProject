@@ -693,7 +693,9 @@ function appInit() {
                 easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
             });
         easyrtc.setRoomOccupantListener(callEverybodyElse);
-        easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess);
+        easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess,function(errorCode,errorText){
+            console.log(errorCode+':'+errorText);
+        });
         //easyrtc.setPeerListener(messageListener);
         easyrtc.setDisconnectListener( function() {
             easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
