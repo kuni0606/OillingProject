@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
 var contentDisposition = require('content-disposition');
 var bodyParser = require('body-parser');
 
@@ -42,6 +43,11 @@ app.use('/file', file);
 app.use('/video',video);
 app.use('/log',log);
 
+app.use(session({secret:'secret key'}));
+app.use('/logout', function(req, res) {
+    req.session=null;
+    res.redirect('/');
+});
 app.use('/home', express.static(process.cwd(), {
     index: false,
     setHeaders: function(res, path){

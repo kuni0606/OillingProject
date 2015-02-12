@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Oilling Project</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/button.css">
     <link rel="stylesheet" href="/stylesheets/jquery-ui.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -126,6 +127,7 @@
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_name%></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_email%></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><img id="alarmbtn" src="/images/ORB_BLACK.png" height="20" width="20"></div>
+    <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><button class="button white  medium" onClick="logout()">Logout</button></div>
     </div>
 <div id="main-content">
     <img id="main" src="/images/roompage.png"/></div>
@@ -366,6 +368,10 @@
         f.setAttribute('action', url);
         document.body.appendChild(f);
         f.submit();
+    }
+    function logout()
+    {
+        location.replace('/logout');
     }
 </script>
 </html>
