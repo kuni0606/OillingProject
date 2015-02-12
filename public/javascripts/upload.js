@@ -69,6 +69,15 @@ $(function () {
             location.reload();
             return false;
         }
+        var tempf = file.name.split('.');
+        var ext = ['exe','bat','dll','reg'];
+        for (var i = 0;i<4;i++){
+            if (tempf[tempf.length-1].toLowerCase()==ext[i]){
+                alert('지원되지 않는 확장자입니다.');
+                location.reload();
+                return false;
+            }
+        }
         formData.append('userFile',file);
         var spcp = currentPath.substr(5);
         if (spcp=='') spcp='file';
