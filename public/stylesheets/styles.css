@@ -28,7 +28,7 @@ body {
 
 
 .filemanager {
-	width: 95%;
+	width: 97%;
 	max-width:1340px;
 	position: relative;
 	margin: 100px auto 50px;
@@ -155,7 +155,7 @@ body {
 -------------------------*/
 
 .filemanager .data {
-	margin-top: 60px;
+	margin-top: 20px;
 	z-index: -3;
 }
 
@@ -167,8 +167,8 @@ body {
 .filemanager .data li {
 	border-radius: 3px;
 	background-color: #373743;
-	width: 307px;
-	height: 118px;
+	width: 250px;
+	height: 110px;
 	list-style-type: none;
 	margin: 10px;
 	display: inline-block;
@@ -221,7 +221,7 @@ body {
 }
 
 .filemanager .nothingfound {
-	background-color: #373743;
+	background-color: transparent;
 	width: 23em;
 	height: 21em;
 	margin: 0 auto;
@@ -236,7 +236,7 @@ body {
 	top: 3em;
 	border-radius: 50%;
 	position:relative;
-	background-color: #d72f6e;
+	background-color: #373743;
 	width: 11em;
 	height: 11em;
 	line-height: 11.4em;

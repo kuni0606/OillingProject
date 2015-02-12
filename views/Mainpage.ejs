@@ -11,12 +11,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="/javascripts/canvas2image.js"></script>
+
+    <script src="/javascripts/jquery-2.1.3.min.js"></script>
+    <script src="/javascripts/jquery.avgrund.js"></script>
     <style type="text/css">
         body {
             margin: 0px;
             padding: 0px;
             position:absolute; top:0; bottom:0; right:0; left:0;
-            background-image: url("/images/MainPage.png"); background-size:100% 100%;
+            /*background-image: url("/images/MainPage.png"); background-size:100% 100%;*/
+            background-color:black;
         }
         a{
             text-decoration:none;
@@ -30,7 +34,7 @@
         }
         #fixed-menu {
             width: 100%;
-            background-color: rgba(50,60,62,1);
+            background-color: rgba(48,48,42,1);
             position: fixed;
             top: 0px;
             left: 0px;
@@ -98,6 +102,7 @@
         }
         .n_plat:hover {
             transform: scale(1.2,1.2) translateZ(50px);
+            cursor:pointer;
         }
         .n_plat img {
             max-width:100%;
@@ -120,25 +125,20 @@
 <div id="fixed-menu">
     <div id="d2ilogo"><a href="MainPage.html"><img style="cursor:pointer;" id="logo" src="d2iLOGO.png" width="80" height="40"/></a></div>
 
-    <div style="display:table-cell; vertical-align:middle; padding-right:10px; padding-left:860px;"><img src="/images/userIcon.png" width="40" height="40"/></div>
+    <div id="up_menu" style="display:table-cell; vertical-align:middle; padding-right:10px; padding-left:80px;"><img src="/images/6.png" width="40" height="40"/></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_name%></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><%=s_email%></div>
     <div style="display: table-cell; vertical-align:middle; padding-right:10px; color:white;"><img id="alarmbtn" src="/images/ORB_BLACK.png" height="20" width="20"></div>
-    <div style="float:right; position:absolute; right:10px; top:20px; z-index:10;" id="left-info">
-        <div class="etc"></div>
-        <div class="etc"></div>
-        <div class="etc"></div>
-        <div class="etc">  </div></div></div>
+    </div>
 <div id="main-content">
-    <img id="main" src="/images/mainMoon.png"/></div>
-<h1 style="color:rgba(0,159,155,1); font-size:80px; text-align:center; margin:0">Room</h1>
-<div style="display:block; margin-left:10%; margin-right:10%;">
+    <img id="main" src="/images/roompage.png"/></div>
+<div style="display:block; margin-left:10%; margin-right:10%; margin-top:20px;">
     <div class="n_list">
-        <div id="room0" class="n_plat" style="visibility:hidden;"><img style="border:solid white 10px" id="img0" class="img-rounded" src="/images/Main.png" width="290" height="190" /><br><p id="p0">a</p><img src="/images/plusproject.png" id="crtbtn0" width="150" height="150"></div>
-        <div id="room1" class="n_plat" style="visibility:hidden;"><img style="border:solid white 10px" id="img1" class="img-rounded" src="/images/Main.png" width="290" height="190"/><br><p id="p1">b</p><img src="/images/plusproject.png" id="crtbtn1" style="width:100px; height:100px;"></div>
-        <div id="room2" class="n_plat" style="visibility:hidden;"><img style="border:solid white 10px" id="img2" class="img-rounded" src="/images/Main.png" width="290" height="190"/><br><p id="p2">c</p><img src="/images/plusproject.png" id="crtbtn2" style="width:100px; height:100px;"></div>
-        <div id="room3" class="n_plat" style="visibility:hidden;"><img style="border:solid white 10px" id="img3" class="img-rounded" src="/images/Main.png" width="290" height="190" /><br><p id="p3"></p><img src="/images/plusproject.png" id="crtbtn3" style="width:100px; height:100px;"></div>
-        <div id="room4" class="n_plat" style="visibility:hidden;"><img style="border:solid white 10px" id="img4" class="img-rounded" src="/images/Main.png" width="290" height="190" /><br><p id="p4"></p><img src="/images/plusproject.png" id="crtbtn4" style="width:100px; height:100px;"></div>
+        <div id="room0" class="n_plat" style="visibility:hidden;"><img id="img0" class="img-rounded" src="/images/7.png" width="220" height="190" /><br><p style="color:white; font-size:20px;" id="p0">a</p><img src="/images/plusproject.png" id="crtbtn0" width="150" height="150"></div>
+        <div id="room1" class="n_plat" style="visibility:hidden;"><img id="img1" class="img-rounded" src="/images/7.png" width="220" height="190"/><br><p style="color:white; font-size:20px;" id="p1">b</p><img src="/images/plusproject.png" id="crtbtn1" style="width:100px; height:100px;"></div>
+        <div id="room2" class="n_plat" style="visibility:hidden;"><img id="img2" class="img-rounded" src="/images/7.png" width="220" height="190"/><br><p style="color:white; font-size:20px;" id="p2">c</p><img src="/images/plusproject.png" id="crtbtn2" style="width:100px; height:100px;"></div>
+        <div id="room3" class="n_plat" style="visibility:hidden;"><img id="img3" class="img-rounded" src="/images/7.png" width="220" height="190" /><br><p style="color:white; font-size:20px;" id="p3"></p><img src="/images/plusproject.png" id="crtbtn3" style="width:100px; height:100px;"></div>
+        <div id="room4" class="n_plat" style="visibility:hidden;"><img id="img4" class="img-rounded" src="/images/7.png" width="220" height="190" /><br><p style="color:white; font-size:20px;" id="p4"></p><img src="/images/plusproject.png" id="crtbtn4" style="width:100px; height:100px;"></div>
     </div>
 </div>
 <div id="dialog-form" title="새로운 프로젝트" style="background-color:ivory" >

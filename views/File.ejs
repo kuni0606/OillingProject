@@ -23,8 +23,25 @@
     </style>
 </head>
 <body id="body">
+<div style="margin-left:90%;" class="upload">
+    <form id="uploadForm"
+          enctype="multipart/form-data"
+          action="/api/upload"
+          method="post">
+        <input type="file" id="userFileInput" name="userFile" />
+        <div><img style="cursor:pointer;" src="/images/upload.png" width="70" height="70"></div>
+    </form>
+    <span id="status"></span>
 
-	<div class="filemanager" id="filemanager">
+
+    <div id="progress">
+        <span style="color:white;" id="percent">0%</span>
+
+        <div id="bar"></div>
+    </div>
+</div>
+
+	<div style="margin-top:0px;" class="filemanager" id="filemanager">
 
 		<div class="search">
 			<input type="search" placeholder="Find a file.." />
@@ -39,23 +56,7 @@
 			<span>No files here.</span>
 		</div>
 	</div>
-    <div class="upload">
-        <form id="uploadForm"
-              enctype="multipart/form-data"
-              action="/api/upload"
-              method="post">
-            <input type="file" id="userFileInput" name="userFile" />
-            <div><img src="/images/upload.png" width="70" height="70"></div>
-        </form>
-        <span id="status"></span>
 
-
-        <div id="progress">
-            <span id="percent">0%</span>
-
-            <div id="bar"></div>
-        </div>
-    </div>
 
 	<!-- Include our script files -->
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
