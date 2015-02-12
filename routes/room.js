@@ -34,5 +34,25 @@ router.get('/', function(req, res, next) {
         }
     });
 });
-
+router.post('/api/invite/', function(req,res){
+    var email = req.body.email;
+    console.log(email);
+    db.query('SELECT uidx FROM user WHERE email= '+mysql.escape(email),function(error,result) {
+        if (error){
+            console.log('해당하는 사람 x');
+            res.sendStatus(400);
+        }else{
+            db.query("INSERT INTO invite(Room_idx,User_my,User_you) VALUES (?,?,?)", [req.session.ridx,mysql.escape(req.session.uidx),mysql.escape(parseInt(result[0].uidx))], function(err) {
+                if(err) {
+                    console.log("progress select_cell error : "+err);
+                    res.sendStatus(404);
+                }
+                else {
+                    console.log('good');
+                    res.sendStatus(200);
+                }
+            });
+        }
+    });
+});
 module.exports = router;
