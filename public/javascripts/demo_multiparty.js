@@ -521,7 +521,6 @@ function muteActiveBox() {
 
 
 function callEverybodyElse(roomName, otherPeople) {
-
     easyrtc.setRoomOccupantListener(null); // so we're only called once.
 
     var list = [];
@@ -692,10 +691,13 @@ function appInit() {
             function(errorCode, errorText, roomName) {
                 easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
             });
+        easyrtc.setIceUsedInCalls( {"iceServers": [
+            {"url":"stun:stun3.l.google.com:19302"}
+        ]});
         easyrtc.setRoomOccupantListener(callEverybodyElse);
-        easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess,function(errorCode,errorText){
-            console.log(errorCode+':'+errorText);
-            asyrtc.easyApp("easyrtc.multiparty", null, ["box1", "box2", "box3", "box4"], loginSuccess);
+        easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess,function(){
+            easyrtc.connect('easyrtc.multiparty');
+            loginSuccess();
         });
         //easyrtc.setPeerListener(messageListener);
         easyrtc.setDisconnectListener( function() {
