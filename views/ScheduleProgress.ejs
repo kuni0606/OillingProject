@@ -6,6 +6,12 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/shCore.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/demo.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <style type="text/css" class="init">
         td.temp {}
         td.highlight {
@@ -14,6 +20,28 @@
         #user_color ul li{
             display:inline;
             margin-right: 30px;
+        }
+        html{
+            height: 100%;
+        }
+        body{
+            position:absolute; top:0; bottom:0; left:0; right:0;
+            background-image: url("/images/roompage.png"); background-size: 100% 100%;
+        }
+        #out_sc{
+            margin-right:10px;
+            background-image: url("/images/toHome.png");
+            background-size: 100%, 100%;
+            background-color: transparent;
+            width: 50px;
+            height: 50px;
+            border:none;
+            cursor:pointer;
+            transition-duration: 0.5s;
+            -webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
+        }
+        #out_sc:hover{
+            transform: scale(1.4,1.4) translateZ(50px);
         }
     </style>
     <script type="text/javascript" language="javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
@@ -71,7 +99,7 @@
         function set_schedule()
         { // 프로젝트 기간과 작업에 따라 동적 테이블 만듬
             var innerSource = "";
-            innerSource += "<thead><tr><th>프로젝트 일정</th>";
+            innerSource += "<thead><tr><th style=\"color:white; font-size:20px; padding-bottom:20px;\">프로젝트 일정</th>";
             $.ajax({
                 url: '/schedule/progress/setting', //테이블 세팅
                 type: 'POST',
@@ -102,9 +130,9 @@
                     }
                     innerSource += "</tr><tr>";
                     if(result.type) //0: 일  1: 주차
-                        innerSource += "<th>작업＼주차</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; \">작업＼주차</th>";
                     else
-                        innerSource += "<th>작업＼날짜</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; padding-top:10px; \">작업＼날짜</th>";
                     one_t = new Date(result.s_date);
                     if(result.type) //프로젝트 날짜 or 주차 계산
                     {
@@ -196,9 +224,10 @@
 <% if (exist) {%> <!--계획한 일정이 있을 경우-->
 <div class="container">
     <section>
-        <h1 style="text-align: center;">프로젝트 일정 관리 프로그램</h1>
-        <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr><th></th></tr></thead></table>
-        <div>Now, Select user: <span id="now_name"></span><span id="now_name_right" style="width:50px;margin-left: 5px;">　</span></div>
+        <h1 style="text-align: center; color:white;"><strong>프로젝트 일정 관리</strong></h1>
+        <div style="border:none; text-align: right;"><input type="button" id="out_sc" onclick="" /></div>
+        <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr class="something"><th></th></tr></thead></table>
+        <div style="color:white; font-size:20px; margin-top:10px;">&nbsp;&nbsp;Select user : <span id="now_name"></span><span id="now_name_right" style="border:solid white 3px; margin-left: 10px; border-radius: 20% 20%;">　</span></div>
     </section>
 </div>
 <% } else {%> <!--계획한 일정이 없을 경우 -->
