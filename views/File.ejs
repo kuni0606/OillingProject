@@ -28,8 +28,8 @@
           enctype="multipart/form-data"
           action="/api/upload"
           method="post">
-        <input type="file" id="userFileInput" name="userFile" />
-        <div><img style="cursor:pointer;" src="/images/upload.png" width="70" height="70"></div>
+        <input type="file" id="userFileInput" name="userFile" style="visibility:hidden" />
+        <div id="fileclick"><img style="cursor:pointer;" src="/images/upload.png" width="70" height="70"></div>
     </form>
     <span id="status"></span>
 
@@ -71,6 +71,9 @@
                 $('.files').css('opacity',1);
                 return $( '.folders' ).css('opacity',1);
             });
+    $('#fileclick').bind('click',function(){
+       $('#userFileInput').click();
+    });
 </script>
 </body>
 </html>
