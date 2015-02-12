@@ -348,7 +348,7 @@
     function joinListener(event){
         var temp = parseInt(event.target.id.slice(-1));
         log_go(roomsi[temp]);
-        post_goto('/room/',{'ri':roomsi[temp]},false);
+        post_goto('/main/api/join',{'ri':roomsi[temp]},false);
     }
     function post_goto(url, parm, target) {
         var f = document.createElement('form');

@@ -122,6 +122,11 @@ router.post('/api/cancel/',function(req,res){
         }
     });
 });
+router.post('/api/join/',function(req,res){
+    var roomindex = parseInt(req.body.ri);
+
+    res.redirect('/room/?ri='+roomindex);
+});
 router.post('/api/create/', function(req,res){
     var pjtitle = req.body.pt;
     var pjnum = parseInt(req.body.pn);
