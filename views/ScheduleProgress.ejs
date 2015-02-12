@@ -37,7 +37,7 @@
                 type: 'POST',
                 data: {
                     "t": t,
-                    "ridx": '1',
+                    "ridx": '<%=s_ridx%>',
                     "uidx": '<%=s_uidx%>',
                     "pos":cnt
                 },
@@ -55,8 +55,8 @@
                 url: '/schedule/progress/init_color',
                 type: 'POST',
                 data: {
-                    "ridx": '1',
-                    "uidx": '1'
+                    "ridx": '<%=s_ridx%>',
+                    "uidx": '<%=s_uidx%>'
                 },
                 success: function(result)
                 {
@@ -76,8 +76,8 @@
                 url: '/schedule/progress/setting', //테이블 세팅
                 type: 'POST',
                 data: {
-                    "ridx": '1',
-                    "uidx": '1'
+                    "ridx": '<%=s_ridx%>',
+                    "uidx": '<%=s_uidx%>'
                 },
                 success: function(result)
                 {

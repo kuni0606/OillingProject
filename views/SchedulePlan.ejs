@@ -46,7 +46,7 @@
                 type: 'POST',
                 data: {
                     "t": t,
-                    "ridx": '1',
+                    "ridx": '<%=s_ridx%>',
                     "uidx":global_now_idx,
                     "pos":cnt
                 },
@@ -73,7 +73,7 @@
                 url: '/schedule/plan/job_save',
                 type: 'POST',
                 data: {
-                    "ridx": '1',
+                    "ridx": '<%=s_ridx%>',
                     "j_idx":j_idx,
                     "job":job.value
                 },
@@ -94,7 +94,7 @@
                     url: '/schedule/plan/drop_schedule',
                     type: 'POST',
                     data: {
-                        "ridx": '1'
+                        "ridx": '<%=s_ridx%>'
                     },
                     success: function(result)
                     {
@@ -115,7 +115,7 @@
                 url: '/schedule/plan/ch_color',
                 type: 'POST',
                 data: {
-                    "ridx": '1',
+                    "ridx": '<%=s_ridx%>',
                     "c_idx": c_idx,
                     "c_color" : c_color
                 },
@@ -137,7 +137,7 @@
                 url: '/schedule/plan/init_color',
                 type: 'POST',
                 data: {
-                    "ridx": '1'
+                    "ridx": '<%=s_ridx%>'
                 },
                 success: function(result)
                 {
@@ -171,8 +171,8 @@
                 url: '/schedule/plan/setting', //테이블 세팅
                 type: 'POST',
                 data: {
-                    "ridx": '1',
-                    "uidx": '1'
+                    "ridx": '<%=s_ridx%>',
+                    "uidx": '<%=s_uidx%>'
                 },
                 success: function(result)
                 {
@@ -309,7 +309,7 @@
     <section>
         <h1 style="text-align: center;">프로젝트 일정 관리 프로그램</h1>
         <div style="text-align: right;"><input type="button" id="bt_drop" value="Drop schedule" onclick="drop_schedule()" /></div>
-        <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr><th></th></tr></thead></table>
+        <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr><th>asdf</th></tr></thead></table>
         <div>Now, Select user: <span id="now_name"></span><span id="now_name_right" style="width:50px;margin-left: 5px;">　</span></div>
         <ul class="tabs">
             <li class="active">User Color</li>

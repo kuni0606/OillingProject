@@ -98,6 +98,7 @@ router.post('/api/accept/',function(req,res){
                                     console.log("plan ch_color error : " + err);
                                 }
                                 else {
+                                    db.query("INSERT INTO schedule_color(Room_ridx,User_uidx) VALUES (?,?)", [mysql.escape(roomindex), mysql.escape(req.session.uidx)], function (err) {});
                                     console.log('good');
                                     res.sendStatus(200);
                                 }
@@ -139,7 +140,8 @@ router.post('/api/create/', function(req,res){
                     if (err) {
                         console.log("progress select_cell error : " + err);
                     }
-                    else {
+                    else { //밑에 쿼리는 그냥 insert라서 function안에 redirect 문을 안넣었는데 혹시나 나중에 color 추가 안되면 function 안에 redirect 넣자.
+                        db.query("INSERT INTO schedule_color(Room_ridx,User_uidx) VALUES (?,?)", [mysql.escape(temp), mysql.escape(req.session.uidx)], function (err) {});
                         console.log('good');
                         res.redirect('/main');
                     }
