@@ -16,11 +16,6 @@
         var socket;
         $(document).ready(function(){
 
-            var w= screen.availWidth;
-            var h= screen.availHeight;
-
-            $('.form-group').css('width', w);
-
             socket = io.connect();
             var $form = $('#form');
         });
@@ -77,46 +72,64 @@
             position:absolute; top:0; bottom:0; right:0; left:0;
             background-image: url("/images/Main.png"); background-size:100% 100%;
         }
+        #email{
+            width:21%;
+        }
+        #name{
+            width:21%;
+        }
+        #pw{
+            width:21%;
+        }
+        #pw_confirm{
+            width:21%;
+        }
+        #phone{
+            width:21%;
+        }
+        #join{
+            margin-left:69%;
+            width:8%;
+        }
+        #reset{
+            width:8%;
+        }
+        #joinform{
+            margin-top:10%;
+        }
+        #logo{
+            margin-top:6%;
+            margin-left:6%;
+            width:25%;
+            height:15%;
+        }
     </style>
 </head>
 <body>
-<img src="/images/team_icon.png" width="300" height="200" style="margin-left:100px; margin-top:50px;">
-<form method="post" name="frm" class="form-horizontal" style="margin-top:200px;">
+<img src="/images/OPlogo.png" id="logo">
+<form id="joinform" method="post" name="frm" class="form-horizontal">
     <fieldset>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputEmailcheck" class="col-sm-8 control-label"></label>
-            <div class="col-lg-3"><span id="emailc" style="color:red;"></span></div>
+            <span id="emailc" style="color:red;"></span>
         </div>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputEmail1" class="col-sm-8 control-label">Email address</label>
-            <div class="col-lg-3">
             <input type="email" class="form-control" placeholder="Enter e-mail" name="email" id="email" size="25" maxlength="25" required="required" onblur="emailcheck()" ><br/></div>
-        </div>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputName1" class="col-sm-8 control-label">Email name</label>
-            <div class="col-lg-3">
             <input type="text" class="form-control" placeholder="Enter name" name="name" id="name" size="25" required="required" pattern="^[a-zA-Z가-힣]{1,15}$"><br/></div>
-        </div>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputPassword1" class="col-sm-8 control-label">Password</label>
-            <div class="col-lg-3">
             <input type="password" class="form-control" placeholder="Enter password" name="pw" id="pw" size="25" maxlength="15" required="required"><br/></div>
-        </div>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputPassword2" class="col-sm-8 control-label">Confirm password</label>
-            <div class="col-lg-3">
-            <input type="password" class="form-control" placeholder="Confirm password" name="pw_confirm" size="25" maxlength="15" required="required"><br/></div>
-        </div>
-        <div class="form-group" style="margin-bottom:0px">
+            <input type="password" class="form-control" placeholder="Confirm password" name="pw_confirm" id="pw_confirm" size="25" maxlength="15" required="required"><br/></div>
+        <div style="margin-bottom:0px">
             <label for="exampleInputPhone1" class="col-sm-8 control-label">Phone</label>
-            <div class="col-lg-3">
             <input type="tel" class="form-control" placeholder="Enter phone-N" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/></div>
-        </div>
     </fieldset>
-    <div class="col-lg-8"></div>
-    <div class="col-lg-3">
-    <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="form_check()">&nbsp;&nbsp;<input type="reset" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" required="required"></div>
-    <div class="col-lg-1"></div>
+    <input id="join" type="submit" class="btn btn-primary" value="Join" onclick="form_check()">&nbsp;&nbsp;<input id="reset" type="reset" class="btn btn-primary" value="Reset" required="required"></div>
 </form>
 </body>
 </html>

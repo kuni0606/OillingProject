@@ -9,15 +9,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function(){
-
-            var w= screen.availWidth;
-            var h= screen.availHeight;
-
-            $('.form-group').css('width', w);
-        })
-    </script>
     <style type="text/css">
         html{
             height: 100%;
@@ -26,27 +17,43 @@
             position:absolute; top:0; bottom:0; right:0; left:0;
             background-image: url("/images/Main.png"); background-size:100% 100%;
         }
+        #email{
+            width:21%;
+        }
+        #pw{
+            width:21%;
+        }
+        #loginform{
+            margin-top:17%;
+        }
+        #login{
+            margin-left:69%;
+            width:8%;
+        }
+        #join{
+            width:8%;
+        }
+        #logo{
+            margin-top:6%;
+            margin-left:6%;
+            width:25%;
+            height:15%;
+        }
     </style>
 </head>
 <body>
-<img src="/images/team_icon.png" width="300" height="200" style="margin-left:100px; margin-top:50px;">
-<form method="post" class="form-horizontal" style="margin-top:200px;">
+<img src="/images/OPlogo.png" id="logo">
+<form method="post" id="loginform" class="form-horizontal">
     <fieldset>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputEmail1" class="col-lg-8 control-label">Email address</label>
-            <div class="col-lg-3">
                 <input type="email" class="form-control" placeholder="Enter e-mail" name="email" id="email" size="25" maxlength="25" required="required"><br/></div>
         </div>
-        <div class="form-group" style="margin-bottom:0px">
+        <div style="margin-bottom:0px">
             <label for="exampleInputPassword1" class="col-sm-8 control-label">Password</label>
-            <div class="col-lg-3">
-                <input type="password" class="form-control" placeholder="Enter password" name="pw" size="25" maxlength="15" required="required"><br/></div>
-        </div>
+                <input type="password" class="form-control" placeholder="Enter password" name="pw" id="pw" size="25" maxlength="15" required="required"><br/></div>
     </fieldset>
-    <div class="col-lg-8"></div>
-    <div class="col-lg-3">
-    <input type="submit" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;<input type="button" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="location.href='/login/join'"></div>
-    <div class="col-lg-1"></div>
+    <input id="login" width="100" type="submit" class="btn btn-primary" value="Login">&nbsp;&nbsp;<input width="200" id="join" type="button" class="btn btn-primary" value="Join" onclick="location.href='/login/join'"></div>
 </form>
 </body>
 </html>
