@@ -695,6 +695,7 @@ function appInit() {
         easyrtc.setRoomOccupantListener(callEverybodyElse);
         easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3", "box4"], loginSuccess,function(errorCode,errorText){
             console.log(errorCode+':'+errorText);
+            asyrtc.easyApp("easyrtc.multiparty", null, ["box1", "box2", "box3", "box4"], loginSuccess);
         });
         //easyrtc.setPeerListener(messageListener);
         easyrtc.setDisconnectListener( function() {
