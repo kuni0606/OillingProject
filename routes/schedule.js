@@ -31,7 +31,7 @@ router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버�
     });
 });
 router.get('/planning', function(req, res) {
-    res.render('SchedulePlan', {title: 'Schedule Plan Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+    res.render('SchedulePlan', {title: 'Schedule Plan Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
 });
 router.get('/back', function(req, res) {
     res.redirect('/room/?ri='+req.session.ridx);

@@ -97,6 +97,7 @@
             {
                 if(plan_check())
                 {
+                    log_go('프로젝트 일정을 계획하였습니다.');
                     document.form_schedule.submit();
                 }
             }
@@ -205,10 +206,10 @@
         }
         function confer()
         {
-            log_go();
+            log_go('화상회의에 접속하였습니다.');
             window.href = "/video";
         }
-        function log_go () {
+        function log_go (t_content) {
             var n_json={};
             var now = new Date();
             var mi = now.getMinutes();
@@ -218,11 +219,10 @@
             n_json.ridx = '<%=s_ridx%>';
             n_json.uidx = '<%=s_uidx%>';
             n_json.name = '<%=s_name%>';
-            n_json.content = '화상회의에 접속하였습니다.';
+            n_json.content = t_content;
             n_json.date = now;
             socket.emit('log_go', n_json);
-            top.document.log_frame.location.reload();
-            window.location.href='/video';
+            //window.location.href='/video';
         }
         function pla() {
             //window.open( '/schedule/plan/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
