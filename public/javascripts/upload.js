@@ -64,7 +64,7 @@ $(function () {
         setDisbtn();
         var formData = new FormData();
         var file = document.getElementById('userFileInput').files[0];
-        if (file.size>=50000000){
+        if (file.size>=100000000){
             alert('파일 용량 초과!');
             location.reload();
             return false;
