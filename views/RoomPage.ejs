@@ -226,10 +226,10 @@
 <body style="height:100%; width:auto;">
 <div style="height:100%;width:100%; overflow: hidden;">
     <div style="height:100%;width:15%;float:left;">
-        <div style="margin-bottom: 20px; margin-top:40px;"><img class="room_menu" id="video_C" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="confer();" src="/images/video.png" ></div>
-        <div style="margin-bottom:30px;"><img class="room_menu" src="/images/invite.png" id="invite_friend" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;"></div>
-        <div style="margin-bottom:20px;"><img class="room_menu" src="/images/calendar.png" id="show" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="check_auth()"></div>
-        <div style="margin-bottom:20px;"><a href="/main"><img class="room_menu" src="/images/toHome.png" id="toHome" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="toHome()"></a></div>
+        <div style="margin-bottom: 20px; margin-top:40px;"><img class="room_menu" id="video_C" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="confer();" src="/images/video.png" onmouseover='this.src="/images/video_hover.png"' onmouseout='this.src="/images/video.png"'></div>
+        <div style="margin-bottom:30px;"><img class="room_menu" src="/images/invite.png" id="invite_friend" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onmouseover='this.src="/images/invite_hover.png"' onmouseout='this.src="/images/invite.png"'></div>
+        <div style="margin-bottom:20px;"><img class="room_menu" src="/images/calendar.png" id="show" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="check_auth()" onmouseover='this.src="/images/calender_hover.png"' onmouseout='this.src="/images/calendar.png"'></div>
+        <div style="margin-bottom:20px;"><a href="/main"><img class="room_menu" src="/images/toHome.png" id="toHome" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="toHome()" onmouseover='this.src="/images/toHome_hover.png"' onmouseout='this.src="/images/toHome.png"'></a></div>
     </div>
     <div style="height:80%;width:70%;float:left; text-align: center;">
         <iframe name="fexp" src="/file" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
