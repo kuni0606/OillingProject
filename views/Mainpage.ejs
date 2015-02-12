@@ -181,9 +181,11 @@
             {'삭제': menuListener }
         ];
 
-        $('.n_plat').contextMenu(menu, {
-            theme: 'vista'
-        });
+        for (var ti=0;ti<'<%=v_totalroom%>';ti++) {
+            $('#room' + ti).contextMenu(menu, {
+                theme: 'vista'
+            });
+        }
         function menuListener(menuItem,menu) {
             $(this).toggleClass("context-menu-item-disabled");
             var modal = confirm("정말 삭제하시겠습니까?");
