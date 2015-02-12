@@ -14,6 +14,7 @@ var db = mysql.createConnection({
 router.use(session({secret:'secret key'}));
 
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
+    if (req.session.uidx==null) res.redirect('/login');
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(req.session.ridx)+' and User_master = '+mysql.escape(req.session.uidx), function(error, result) {
         if(result[0]){ //일단 그 방의 관리자가 맞는지. 잘못된 루트가 아닌지 확인하고
             db.query('SELECT * FROM schedule_form WHERE  room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
@@ -31,9 +32,11 @@ router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버�
     });
 });
 router.get('/planning', function(req, res) {
+    if (req.session.uidx==null) res.redirect('/login');
     res.render('SchedulePlan', {title: 'Schedule Plan Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
 });
 router.get('/back', function(req, res) {
+    if (req.session.uidx==null) res.redirect('/login');
     res.redirect('/room/?ri='+req.session.ridx);
 });
 router.post('/plan', function(req, res) { //관리자가 처음 계획 일정을 눌러서 날짜랑 job을 정했을 때 schedule_form 테이블에 정보를 넣고 reload
@@ -189,6 +192,7 @@ router.post('/progress', function(req, res) {
     });
 });
 router.get('/progress', function(req, res) {
+    if (req.session.uidx==null) res.redirect('/login');
     res.render('ScheduleProgress', {title: 'Schedule Progress Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
 });
 router.post('/progress/setting', function(req, res) {

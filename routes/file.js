@@ -16,6 +16,7 @@ var session = require('cookie-session');
 router.use(session({secret:'secret key'}));
 
 router.get('/', function(req, res, next) {
+    if (req.session.uidx==null) res.redirect('/login');
     ///////////test/////////////////
     rootdir='file/'+req.query.ri;
     try{
