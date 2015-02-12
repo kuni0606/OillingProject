@@ -48,7 +48,7 @@ app.use('/logout', function(req, res) {
     req.session=null;
     res.redirect('/');
 });
-app.use('/home', express.static(process.cwd(), {
+app.use('/file/home', express.static(process.cwd(), {
     index: false,
     setHeaders: function(res, path){
         // Set header to force files to download
