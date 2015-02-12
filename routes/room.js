@@ -13,26 +13,13 @@ var db = mysql.createConnection({
 
 router.use(session({secret:'secret key'}));
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
     if (req.session.uidx==null) res.redirect('/login');
     ///////////test/////////////////
-    var roomindex=req.query.ri;
-    db.query('SELECT Room_ridx FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx),function(error,result){
-        if (error){
-            res.send(404,"권한이 없습니다");
-        }else{
-            for (var i = 0;i<result.length;i++){
-                if (result[i].Room_ridx==roomindex){
-                    req.session.ridx=roomindex;
+    var roomindex=req.body.ri;
                     ///////////test/////////////////
-                    res.render('Roompage', { title: 'Project Room', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
-                    return true;
-                }
-            }
-            res.send(404,"권한이 없습니다");
-            return false;
-        }
-    });
+    res.render('Roompage', { title: 'Project Room', s_ridx: req.body.ri, s_uidx:req.session.uidx,s_name:req.session.name});
+    return true;
 });
 router.post('/api/invite/', function(req,res){
     var email = req.body.email;
