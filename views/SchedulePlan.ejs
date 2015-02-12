@@ -140,13 +140,16 @@
                     },
                     success: function(result)
                     {
-                        location.replace('/schedule/plan');
+                        location.replace('/schedule/back');
                     }, error: function(req,status,error) {
                         alert("서버와 통신 도중 에러가 발생하였습니다.3");
                         alert("code:"+req.status+"\n"+"message:"+req.responseText+"\n"+"error:"+error);
                     }
                 });//ajax
             }
+        }
+        function out_schedule(){
+            location.replace('/schedule/back');
         }
         function color_change(c_idx,color)
         { //팀원들의 색을 변경했을 때 db 값 변경 하고 테이블에 이미 색칠된 것들을 refresh->set_schedule().
@@ -301,7 +304,6 @@
 
 
         }
-        <% if(exist) {%>
         $(document).ready(function() {
             init_color();
             set_schedule();
@@ -313,7 +315,7 @@
                 "info":     false
             });
 
-        }); //ready<% }%>
+        }); //ready
     </script>
     <script>
         function plan_check() //관리자가 처음 프로젝트 계획 짤때, 기간과 작업 수 입력함.
@@ -347,11 +349,10 @@
     </script>
 </head>
 <body class="dt-example">
-<% if (exist) {%> <!--계획한 일정이 있을 경우-->
 <div class="container">
     <section>
         <h1 style="text-align: center; color:white;"><strong>프로젝트 일정 관리</strong></h1>
-        <div style="border:none; text-align: right;"><input type="button" id="bt_drop" onclick="drop_schedule()" /><input type="button" id="out_sc" onclick="" /></div>
+        <div style="border:none; text-align: right;"><input type="button" id="bt_drop" onclick="drop_schedule()" /><input type="button" id="out_sc" onclick="out_schedule();" /></div>
         <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr class="something"><th>asdf</th></tr></thead></table>
         <div style="color:white; font-size:20px; margin-top:10px;">&nbsp;&nbsp;Select user : <span id="now_name"></span><span id="now_name_right" style="border:solid white 3px; margin-left: 10px; border-radius: 20% 20%;">　</span></div>
         <ul class="tabs">
@@ -360,13 +361,5 @@
         <div class="tabs"><div style="padding-top:10px;" id="user_color"></div></div>
     </section>
 </div>
-<% } else {%> <!--계획한 일정이 없을 경우 먼저 날짜랑 job을 입력받아야겠지-->
-<form method="post" name="p">
-    Start  <input type="date" name="p_sdate" id="p_sdate" required="required"> End <input type="date" name="p_edate" id="p_edate" required="required"><br/>
-    Job(max:20)  <input type="number" name="p_job" id="p_job" value="5" min="1" max="20"><br/>
-    <input type="hidden" name="p_type" id="p_type" value="0"> <input type="hidden" name="p_r" id="p_r">
-    <input type="submit" value="Plan" onclick="return plan_check();">
-</form>
-<% }%>
 </body>
 </html>

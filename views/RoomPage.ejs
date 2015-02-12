@@ -50,6 +50,7 @@
             $('.room_menu').css('width', w/16);
             $('.room_menu').css('height', w/16);
             $('.room_menu').css('background-size', w/16, w/16);
+
         });
 
         $(function() {
@@ -83,7 +84,7 @@
                 resizable: false,
                 modal: true,
                 buttons: {
-                    "Create": addUser,
+                    "Plan": schedulePlan,
                     Cancel: function() {
                         cdialog.dialog( "close" );
                     }
@@ -92,6 +93,13 @@
                     cdialog.dialog('close');
                 }
             });
+            function schedulePlan()
+            {
+                if(plan_check())
+                {
+                    document.form_schedule.submit();
+                }
+            }
 
             function updateTips( t ) {
                 tips
@@ -156,7 +164,8 @@
             });
         });
         function check_auth () {
-            socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'}, function (data) {
+            socket.emit('auth_check', {ridx:'<%=s_ridx%>',uidx:'<%=s_uidx%>'});
+            socket.on('auth_check_back', function (data) {
                 if (data) {//프로젝트 관리자가 계획or진행을 선택한다.
                     $(function() {
                         $('#show').avgrund({
@@ -169,7 +178,7 @@
                             onBlurContainer: '.container',
                             //프로젝트계획 혹은 진행
                             template: '<br/><div>' +
-                            '<a href="#" class="twitter" onclick="pla()">Plan</a>' +
+                            '<a href="#" class="twitter" onclick="pla();">Plan</a>' +
                             '<a href="#" class="dribble" onclick="pro()">Progress</a>' +
                             '</div>'
                         });
@@ -218,12 +227,63 @@
         function toHome(){
             window.location.href='/main';
         }
-        //고쳐~~~~~~아래링크~~~~~~~~localhost~~~~~~~~~
         function pla() {
             //window.open( '/schedule/plan/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
-            cdialog.dialog('open');
+            $.ajax({
+                url: '/schedule/plan',
+                type: 'GET',
+                data: {
+                    "ridx": '<%=s_ridx%>',
+                    "uidx": '<%=s_uidx%>'
+                },
+                success: function(result)
+                {
+                    if(result)// 계획있음
+                    {
+                        location.replace('/schedule/planning');
+                    }
+                    else{//계획없음
+                        cdialog.dialog('open');
+                    }
+                }, error: function(req,status,error) {
+                    alert("서버와 통신 도중 에러가 발생하였습니다.(plan)");
+                    alert("code:"+req.status+"\n"+"message:"+req.responseText+"\n"+"error:"+error);
+                }
+            });//ajax
         }
         function pro(){window.open( '/schedule/progress/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+        function plan_check() //관리자가 처음 프로젝트 계획 짤때, 기간과 작업 수 입력함.
+        { // 프로젝트의 기간과 그에 따른 정보를 schedule_form 테이블에 넣고 post 형식으로 이 url 그대로 reload
+            var one = document.getElementById('p_sdate').value;
+            var two = document.getElementById('p_edate').value;
+            var three = document.getElementById('p_job').value;
+            if(one >= two) {//완료날짜가 시작날짜보다 커야됨
+                alert("프로젝트 진행 날짜를 확인해주세요.");
+                return false;
+            }
+            if(three<1 || three>20){
+                alert("작업 개수를 확인해주세요.");
+                return false;
+            }
+            var one_t = new Date(one);
+            var two_t = new Date(two);
+            var dif = two_t.getTime() - one_t.getTime();
+            var count = 0;
+            dif = (dif / (1000*3600*24)) + 1; //프로젝트 진행 기간을 계산
+            document.getElementById('p_r').value = dif;
+            if(dif>31){ // 만약 진행 기간이 31보다 작으면 1일 2일로 표시하고 31보다 크면 1주차 2주차로 표시함
+                document.getElementById('p_type').value = 1; //type이 1이면 주차로 표시하겠다는 의미임. default:0은 날짜로 표시
+                one_t.setDate( one_t.getDate()-one_t.getDay() ); // 주차의 시작, 끝의 기준은 무조건 일요일로 계산.
+                for(;one_t<= two_t;++count) { one_t.setDate(one_t.getDate()+7); } //프로젝트 기간이 총 몇주차인지 계산
+                if(count>30)
+                {
+                    alert("프로젝트 진행 기간은 최고 30주차까지 가능합니다.");
+                    return false;
+                }
+                document.getElementById('p_r').value = count;
+            }
+            return true;
+        }
     </script>
     <style type="text/css">
         html{
@@ -266,7 +326,7 @@
     <div style="height:100%;width:15%;float:left;">
         <div style="margin-bottom: 20px; margin-top:40px;"><img class="room_menu" id="video_C" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="confer();" src="/images/video.png" onmouseover='this.src="/images/video_hover.png"' onmouseout='this.src="/images/video.png"'></div>
         <div style="margin-bottom:30px;"><img class="room_menu" src="/images/invite.png" id="invite_friend" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onmouseover='this.src="/images/invite_hover.png"' onmouseout='this.src="/images/invite.png"'></div>
-        <div style="margin-bottom:20px;"><img class="room_menu" src="/images/calendar.png" id="show" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="check_auth()" onmouseover='this.src="/images/calender_hover.png"' onmouseout='this.src="/images/calendar.png"'></div>
+        <div style="margin-bottom:20px;"><img class="room_menu" src="/images/calendar.png" id="show" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="check_auth();" onmouseover='this.src="/images/calender_hover.png"' onmouseout='this.src="/images/calendar.png"'></div>
         <div style="margin-bottom:20px;"><a href="/main"><img class="room_menu" src="/images/toHome.png" id="toHome" style="cursor:pointer; display:block; margin-left:auto; margin-right:auto;" onclick="toHome()" onmouseover='this.src="/images/toHome_hover.png"' onmouseout='this.src="/images/toHome.png"'></a></div>
     </div>
     <div style="height:80%;width:70%;float:left; text-align: center;">
@@ -290,14 +350,15 @@
     </form>
 </div>
 <div id="dialog-calendar" title="일정 관리" style="background-color:ivory; height:1000px; width:1600px" >
-    <form>
+    <form method="post" name="form_schedule" id="form_schedule" action="/schedule/plan">
         <fieldset>
             <label for="start">시작 날짜</label>
-            <input type="date" name="start" id="start" class="text ui-widget-content ui-corner-all">
+            <input type="date" name="p_sdate" id="p_sdate" required="required" class="text ui-widget-content ui-corner-all">
             <label for="end">마감 날짜</label>
-            <input type="date" name="end" id="end" class="text ui-widget-content ui-corner-all">
+            <input type="date" name="p_edate" id="p_edate" required="required" class="text ui-widget-content ui-corner-all">
             <label for="job">작업 수(최대 20)</label>
-            <input type="text" name="job" id="job" value="5" class="text ui-widget-content ui-corner-all">
+            <input type="number" name="p_job" id="p_job" value="5" min="1" max="20" class="text ui-widget-content ui-corner-all">
+            <input type="hidden" name="p_type" id="p_type" value="0"> <input type="hidden" name="p_r" id="p_r">
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </fieldset>

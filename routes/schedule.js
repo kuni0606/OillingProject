@@ -13,27 +13,15 @@ var db = mysql.createConnection({
 });
 router.use(session({secret:'secret key'}));
 
-router.get('/plan/s', function(req, res) { // 세션 리다이렉션
-    var go = url.parse(req.url,true).query;
-    req.session.uidx = parseInt(go.uidx);
-    req.session.ridx = parseInt(go.ridx);
-    res.redirect('/schedule/plan');
-});
-router.get('/progress/s', function(req, res) { // 세션 리다이렉션
-    var go = url.parse(req.url,true).query;
-    req.session.uidx = parseInt(go.uidx);
-    req.session.ridx = parseInt(go.ridx);
-    res.redirect('/schedule/progress');
-});
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(req.session.ridx)+' and User_master = '+mysql.escape(req.session.uidx), function(error, result) {
         if(result[0]){ //일단 그 방의 관리자가 맞는지. 잘못된 루트가 아닌지 확인하고
             db.query('SELECT * FROM schedule_form WHERE  room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
                 if(result[0]){ //이미 계획한 게 있으면 exist로 1로 구별하고
-                    res.render('SchedulePlan', {title: 'Schedule Plan Page', exist:1, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+                    res.send(true);
                 }
                 else{ //계획한 일정이 없을 경우 0으로 구별
-                    res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+                    res.send(false);
                 }
             });
         }
@@ -42,8 +30,14 @@ router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버�
             res.send("권한이 없습니다."); }
     });
 });
+router.get('/planning', function(req, res) {
+    res.render('SchedulePlan', {title: 'Schedule Plan Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+});
+router.get('/back', function(req, res) {
+    res.redirect('/room/?ri='+req.session.ridx);
+});
 router.post('/plan', function(req, res) { //관리자가 처음 계획 일정을 눌러서 날짜랑 job을 정했을 때 schedule_form 테이블에 정보를 넣고 reload
-    var p_session = req.session.ridx;
+    var p_session = parseInt(req.session.ridx);
     var p_sdate = req.body.p_sdate;
     var p_edate = req.body.p_edate;
     var p_type = parseInt(req.body.p_type);
@@ -57,7 +51,7 @@ router.post('/plan', function(req, res) { //관리자가 처음 계획 일정을
             for(i=0;i<p_job;++i){ //JOB 개수에 따라 미리 INSERT 해놔야되. 그래야 나중에 잡 추가될때 INSERT 만 할 수 있도록 간편. (나중에 UPDATE랑 헷갈릴 수 있어서)
                 db.query("INSERT INTO schedule_job(Room_ridx,sj_idx) VALUES (?,?)", [mysql.escape(p_session),mysql.escape(i)], function() {});
             }
-            res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:1, s_ridx: p_session, s_uidx:req.session.uidx});
+            res.redirect('/schedule/planning');
         }
     });
 });

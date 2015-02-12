@@ -120,14 +120,12 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on('auth_check', function (data, callback) {
+  socket.on('auth_check', function (data) {
     db.query('SELECT * FROM room WHERE  ridx= '+mysql.escape(data.ridx)+' and User_master = '+mysql.escape(data.uidx), function(error, result) {
      if (result[0]) {// 프로젝트 관리자~
-        callback(true);
-      }
+       socket.emit('auth_check_back', true); }
       else {// 걍 팀원~
-        callback(false);
-      }
+       socket.emit('auth_check_back', false); }
     });
 
   });

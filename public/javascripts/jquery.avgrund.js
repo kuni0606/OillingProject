@@ -52,7 +52,7 @@
 			// close popup by clicking outside it
 			function onDocumentClick(e) {
 				if (options.closeByDocument) {
-					if ($(e.target).is('.avgrund-overlay, .avgrund-close')) {
+					if ($(e.target).is('.avgrund-overlay, .avgrund-close, .twitter, .dribble')) {
 						deactivate();
 					}
 				} else {
