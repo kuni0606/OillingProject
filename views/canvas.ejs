@@ -147,7 +147,7 @@
                 if($("#txt").val() != ''){
                     var message = {
                         msg: strip_tag ($('#txt').val()),
-                        user: $('#room').val()
+                        name: '<%=s_name%>'
                     };
                     socket.emit('message', message);
                     socket.emit('message_me', message);
@@ -159,7 +159,7 @@
                     if(event.which==13){
                         var message = {
                             msg: strip_tag ($('#txt').val()),
-                            user: $('#room').val()
+                            name: '<%=s_name%>'
                         };
                         socket.emit('message', message);
                         socket.emit('message_me', message);
@@ -168,7 +168,7 @@
                 }
             });
             socket.on('message', function(data){
-                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;"><%=s_name%> : <br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;">' + data.name+ ' : <br/>' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             });
