@@ -207,26 +207,26 @@
                 }
             });
             socket.on('message', function(data){
-                $('#show_con').append('<dd style="float:left; margin:2px; width:200px; text-align: left; font-size:14px;">' + data.name+ ' : <br/>' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="padding-left:10px; color:white; float:left; margin:5px; width:200px; text-align: left; font-size:14px;">' + data.name+ ' : <br/>' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             });
 
             socket.on('message_me', function(data){
-                $('#show_con').append('<dd style="float:right; width:200px; margin:5px; line-height:25px; text-align: right; font-size:14px;">' + data.msg + '</dd>');
+                $('#show_con').append('<dd style="color:white; float:right; width:200px; margin:5px; line-height:25px; text-align: right; font-size:14px;">' + data.msg + '</dd>');
                 scroll_down();
                 scroll_down();
             });
             var w= screen.availWidth;
             var h= screen.availHeight;
-            $('#box0').css('width', w/5-20);
-            $('#box1').css('width', w/5-20);
-            $('#box2').css('width', w/5-20);
-            $('#box3').css('width', w/5-20);
-            $('#box4').css('width', w/5-20);
+            var h2 = $('.video').height();
+            $('.video').css('width', w/5-20);
             $('#c_room').css('width', w/5);
             $('#c_room').css('height', 475);
             $('#txt').css('width', w/5-50);
+            $('.plat_child_rtc').css('width', w/5-20);
+            $('.plat_child_rtc').css('height', h2);
+
         });
         //채팅창에서 스크립트 안되도록함.
         function strip_tag (str)
@@ -243,12 +243,70 @@
             background-image: url("/images/roompage.png"); background-size:100% 100%;
         }
         dd{
-            background-color:wheat;
+            background-color:black;
+            border-radius: 10px;
+            padding-right:10px;
         }
         #btnDel{
             background-image: url("/images/button_refresh.png");
             width:32px;
             height: 32px;
+        }
+        #c_room{
+            -moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 12px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+        }
+        #txt{
+            -moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 5px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+            background-color: transparent;
+        }
+        #canvas{
+            -moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 5px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+        }
+        table{
+            -moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 20px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+        }
+        .video{
+            moz-border-radius: 12px;
+            -webkit-border-radius: 12px;
+            border-radius: 20px;
+
+            -moz-box-shadow: 4px 4px 14px #000;
+            -webkit-box-shadow: 4px 4px 14px #000;
+            box-shadow: 4px 4px 14px #000;
+
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
         }
     </style>
 </head>
@@ -257,11 +315,11 @@
 <div>
     <div class="plat" style="display:table-row">
         <div class="plat_child" style="margin-left:20px; margin-top:20px; display:table-cell; float:left;">
-        <table border="3" style="background-color: white; border:solid 5px;">
+        <table style="background-color:#b0b0b0 ; border-radius: 20px;">
             <tr>
                 <td rowspan="3">
                     <!--캔버스-->
-                    <canvas id="canvas" style="background-color: white;" width="850" height="500"></canvas>
+                    <canvas id="canvas" style="border-radius: 20px; background-color: white;" width="850" height="500"></canvas>
                 </td>
                 <td height="200">
                     <!--색상 선택기-->
@@ -288,30 +346,30 @@
                         <option value="0.9">0.9</option>
                         <option selected="selected" value="1.0">1.0</option>
                     </select></div>
-                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
-                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
-                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
-                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/rect.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
-                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/pen.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
+                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
+                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
+                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
+                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
+                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
                 </td>
             </tr>
         </table></div>
-        <div class="plat_child" style="display:table-cell; float:left; padding-left:20px; margin-top:20px">
+        <div class="plat_child" style="display:table-cell; float:left; padding-left:17px; margin-top:20px">
         <div id="chat">
-            <div style = "background-color: white; overflow:auto; border:solid 5px;" id="c_room">
+            <div style = "background-color: transparent; overflow:auto;" id="c_room">
                 <dl id = "show_con">
                 </dl>
             </div>
-            <input style="border:solid 5px; margin-top:10px;" type="text" style="width:255px;" id="txt"/>&nbsp;&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
+            <input style="margin-top:10px;" type="text" style="width:255px;" id="txt"/>&nbsp;&nbsp;<input type="button" class="btn btn-default btn-xs" value="Enter" id="btn"/>
         </div></div>
     </div><br/>
     <div class="plat"  style="display:table-row, block;">
         <div>
-        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box0" muted="muted" volume="0"></video></div>
-        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box1"></video></div>
-        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box2"></video></div>
-        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box3"></video></div>
-        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video id="box4"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video class="video" id="box0" muted="muted" volume="0"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video class="video" id="box1"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video class="video" id="box2"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video class="video" id="box3"></video></div>
+        <div class="plat_child_rtc" style="display:table-cell; padding-left:17px"><video class="video" id="box4"></video></div>
         </div>
     </div>
 </div>
