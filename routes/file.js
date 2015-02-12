@@ -17,7 +17,7 @@ router.use(session({secret:'secret key'}));
 
 router.get('/', function(req, res, next) {
     ///////////test/////////////////
-    rootdir='file/'+req.session.ridx;
+    rootdir='file/'+req.query.ri;
     try{
         fs.mkdirSync(rootPath+'/'+rootdir);
     }catch(e){
@@ -78,7 +78,7 @@ router.post('/api/rndir/', function(req,res){
 router.post('/api/upload/', function (req, res) {
     res.send({image: false, file: req.files.userFile.originalname, savedAs: req.files.userFile.name});
 });
-router.get('/api/scan', function(req,res){
+router.get('/file/api/scan', function(req,res){
     var tree = scan('./'+rootdir, 'home');
     res.send(tree);
 });
