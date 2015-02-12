@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="/javascripts/canvas2image.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/jquery-2.1.3.min.js"></script>
     <script src="/javascripts/jquery-ui.js"></script>
     <script src="/javascripts/jquery.avgrund.js"></script>
@@ -346,6 +347,7 @@
     }
     function joinListener(event){
         var temp = parseInt(event.target.id.slice(-1));
+        log_go(roomsi[temp]);
         post_goto('/main/api/join',{'ri':roomsi[temp]},false);
     }
     function post_goto(url, parm, target) {
@@ -373,5 +375,24 @@
     {
         location.replace('/logout');
     }
+
+    var socket;
+    function log_go (t_ridx) {
+        var n_json={};
+        var now = new Date();
+        var mi = now.getMinutes();
+        if(mi <10)
+            mi = "0" + mi;
+        now = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" +mi;
+        n_json.ridx = t_ridx;
+        n_json.uidx = '<%=s_uidx%>';
+        n_json.name = '<%=s_name%>';
+        n_json.content = '방에 접속하였습니다.';
+        n_json.date = now;
+        socket.emit('log_go', n_json);
+    }
+    $(document).ready(function() {
+        socket = io.connect();
+    });
 </script>
 </html>

@@ -108,6 +108,7 @@ io.sockets.on('connection', function (socket) {
   });
   socket.on('log_go', function (data) {
     db.query('INSERT INTO log(Room_ridx,User_uidx,name,content,date) VALUES (?,?,?,?,?)',[data.ridx,data.uidx,data.name,data.content,data.date], function(err) {});
+    console.log('asdfdsasaadsfdasds');
   });
   socket.on('log_gogo', function (data) {
     db.query('INSERT INTO log(Room_ridx,User_uidx,name,content,date) VALUES (?,?,?,?,?)',[data.ridx,data.uidx,data.name,data.content,data.date], function(err) {
