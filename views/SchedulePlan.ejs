@@ -227,7 +227,7 @@
         function set_schedule()
         { // 프로젝트 기간과 작업에 따라 동적 테이블 만듬
             var innerSource = "";
-            innerSource += "<thead><tr><th style=\"color:white; font-size:20px; padding-bottom:20px;\">프로젝트 일정</th>";
+            innerSource += "<thead><tr><th style=\"color:white; font-size:20px; padding-bottom:20px; text-align: center;\">프로젝트 일정</th>";
             $.ajax({
                 url: '/schedule/plan/setting', //테이블 세팅
                 type: 'POST',
@@ -254,13 +254,13 @@
                                 one_t.setDate(one_t.getDate()+1);
                         }
                         --i;
-                        innerSource += "<th colspan=\""+i+"\">"+(mont+1)+"월</th>";
+                        innerSource += "<th colspan=\""+i+"\" style=\"color:#72b0f5;\">"+(mont+1)+"월</th>";
                     }
                     innerSource += "</tr><tr>";
                     if(result.type) //0: 일  1: 주차
-                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; \">작업＼주차</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; text-align: center;\">작업＼주차</th>";
                     else
-                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; padding-top:10px; \">작업＼날짜</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; padding-top:10px; text-align: center;\">작업＼날짜</th>";
                     one_t = new Date(result.s_date);
                     if(result.type) //프로젝트 날짜 or 주차 계산
                     {
@@ -268,7 +268,7 @@
                         cnt = 1;
                         while(one_t <= two_t)
                         {
-                            innerSource += "<th>"+cnt+"</th>";
+                            innerSource += "<th style=\"color:#9eccff;\">"+cnt+"</th>";
                             one_t.setDate(one_t.getDate()+7);
                             ++cnt;
                         }
@@ -277,7 +277,7 @@
                     {
                         while(one_t <= two_t)
                         {
-                            innerSource += "<th>"+one_t.getDate()+"</th>";
+                            innerSource += "<th style=\"color:#abd1fb; text-align: center;\">"+one_t.getDate()+"</th>";
                             one_t.setDate(one_t.getDate()+1);
                         }
                     }
@@ -289,7 +289,7 @@
                     var cnt_p = 0;
                     result.s_data.push(-1,-1);
                     cnt = 0;
-                    innerSource += "<tbody>";
+                    innerSource += "<tbody style=\"background\">";
                     for(i=0;i<t_col;++i)
                     {//job 써주고
                         innerSource += "<tr>";
