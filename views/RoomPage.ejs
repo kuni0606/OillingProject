@@ -156,6 +156,21 @@
                         });
                     });
                 } else { //걍 팀원은 진행만 볼 수 있다.
+                    $(function() {
+                        $('#show').avgrund({
+                            height: 100,
+                            width: 150,
+                            holderClass: 'custom',
+                            showClose: true,
+                            showCloseText: 'Close',
+                            enableStackAnimation: true,
+                            onBlurContainer: '.container',
+                            //프로젝트계획 혹은 진행
+                            template: '<br/><div>' +
+                            '<a href="#" class="dribble" onclick="pro()">Progress</a>' +
+                            '</div>'
+                        });
+                    });
 
                 }
             });
