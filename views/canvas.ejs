@@ -33,11 +33,10 @@
             var canvas = document.getElementById('canvas');
             var context = canvas.getContext('2d');
 
-            var width = 5;
             var alpha = 1;
             var color = '#000000';
             var isDown = false;
-            var newPoint, oldPoint;
+            var radius=5, oldPoint,newPoint;
 
             context.fillStyle="#FFFFFF";
             context.fillRect(0,0,canvas.width, canvas.height);
@@ -53,14 +52,15 @@
                     newPoint = new Point(event, this);
 
                     socket.emit('draw', {
-                        width: width,
                         color: color,
-                        x1: oldPoint.x,
-                        y1: oldPoint.y,
-                        x2: newPoint.x,
-                        y2: newPoint.y,
+                        x1: newPoint.x,
+                        y1: newPoint.y,
+                        x2: oldPoint.x,
+                        y2: oldPoint.y,
+                        r: radius,
                         gAlpha: alpha
                     });
+
                     oldPoint = newPoint;
                 }
             };
@@ -68,13 +68,18 @@
             var socket = io.connect();
             socket.emit('join', '<%=room%>');
             socket.on('line', function(data){
-                context.lineWidth = data.width;
                 context.strokeStyle = data.color;
                 context.beginPath();
-                context.moveTo(data.x1, data.y1);
-                context.lineTo(data.x2, data.y2);
+                var tx = (data.x2-data.x1)/20;
+                var ty = (data.y2-data.y1)/20;
+                for (var i = 0;i<20;i++) {
+                    context.fillStyle = data.color;
+                    context.fill();
+                    context.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
+                }
                 context.stroke();
                 context.globalAlpha = data.gAlpha;
+                context.closePath();
             });
 
             $('#colorpicker').farbtastic(function(data){
@@ -89,20 +94,18 @@
                 canvas.onclick = function(event){
                     oldPoint = new Point(event, this);
                 };
-                canvas.onclick = function(event){
-                    newPoint = new Point(event, this);
-                };
-                    context.beginPath();
-                    context.moveTo(oldPoint.x1, oldPoint.y1);
-                    context.lineTo(newPoint.x2, newPoint.y2);
-                    context.stroke();
+                context.beginPath();
+                context.arc(oldPoint.x, oldPoint.y, radius, 0, Math.PI*2, false);
+                context.stroke();
+                context.globalAlpha = alpha;
+                context.closePath();
             });
 
             $('#slider').slider({
                 max:25, min:1,
                 //value: 30,
                 change: function(event, ui){
-                    width = ui.value;
+                    radius = ui.value;
                 }
             });
 
