@@ -110,6 +110,39 @@ router.post('/api/accept/',function(req,res){
         }
     });
 });
+router.post('/api/delete/',function(req,res){
+    var roomindex = parseInt(req.body.ri);
+
+    db.query('SELECT * FROM room WHERE ridx= ' + mysql.escape(roomindex), function (error, result) {
+        if (parseInt(result[0].User_master)!=req.session.uidx) {
+            var temp = parseInt(result[0].total);
+            db.query('UPDATE room SET total=' + mysql.escape(temp-1) + ' WHERE ridx = ' + mysql.escape(roomindex), function (err) {
+                if (err) {
+                    console.log("plan ch_color error : " + err);
+                }
+                else {
+                    db.query('DELETE FROM room_join WHERE User_uidx= ' + mysql.escape(req.session.uidx) + ' and Room_ridx= ' + mysql.escape(roomindex), function (error, result) {
+                        if (error) {
+                            console.log("drop error : " + error);
+                        }
+                        else {
+                            res.sendStatus(200);
+                        }
+                    });
+                }
+            });
+        }else {
+            db.query('DELETE FROM room WHERE ridx= ' + mysql.escape(roomindex), function (error, result) {
+                if (error) {
+                    console.log("drop error : " + error);
+                }
+                else {
+                    res.sendStatus(201);
+                }
+            });
+        }
+    });
+});
 router.post('/api/cancel/',function(req,res){
     var roomindex = parseInt(req.body.ri);
 
