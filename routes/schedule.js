@@ -189,7 +189,7 @@ router.post('/progress', function(req, res) {
     });
 });
 router.get('/progress', function(req, res) {
-    res.render('ScheduleProgress', {title: 'Schedule Progress Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+    res.render('ScheduleProgress', {title: 'Schedule Progress Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx,s_name:req.session.name});
 });
 router.post('/progress/setting', function(req, res) {
     var ridx = req.body.ridx;
