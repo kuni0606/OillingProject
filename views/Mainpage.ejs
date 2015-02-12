@@ -202,6 +202,7 @@
                     if (xhr.status==400){
                         alert('해당 프로젝트가 최대인원에 도달했습니다!');
                     }
+                    log_go(iroom[t],'프로젝트에 참여하였습니다.');
                     window.location.href='/main';
                 });
                 $('#cbtn'+i).bind('click',function(e){
@@ -347,7 +348,7 @@
     }
     function joinListener(event){
         var temp = parseInt(event.target.id.slice(-1));
-        log_go(roomsi[temp]);
+        log_go(roomsi[temp],'방에 접속하였습니다.');
         post_goto('/main/api/join',{'ri':roomsi[temp]},false);
     }
     function post_goto(url, parm, target) {
@@ -377,7 +378,7 @@
     }
 
     var socket;
-    function log_go (t_ridx) {
+    function log_go (t_ridx,t_content) {
         var n_json={};
         var now = new Date();
         var mi = now.getMinutes();
@@ -387,7 +388,7 @@
         n_json.ridx = t_ridx;
         n_json.uidx = '<%=s_uidx%>';
         n_json.name = '<%=s_name%>';
-        n_json.content = '방에 접속하였습니다.';
+        n_json.content = t_content;
         n_json.date = now;
         socket.emit('log_go', n_json);
     }
