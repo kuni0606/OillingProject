@@ -37,21 +37,35 @@ router.get('/', function(req, res, next) {
 router.post('/api/invite/', function(req,res){
     var email = req.body.email;
     console.log(email);
-    db.query('SELECT uidx FROM user WHERE email= '+mysql.escape(email),function(error,result) {
+    db.query('SELECT * FROM room_join WHERE User_uidx= '+mysql.escape(req.session.uidx) + ' and Room_Ridx= '+mysql.escape(req.session.ridx),function(error,result) {
         if (error){
-            console.log('해당하는 사람 x');
-            res.sendStatus(400);
-        }else{
-            db.query("INSERT INTO invite(Room_idx,User_my,User_you) VALUES (?,?,?)", [req.session.ridx,mysql.escape(req.session.uidx),mysql.escape(parseInt(result[0].uidx))], function(err) {
-                if(err) {
-                    console.log("progress select_cell error : "+err);
-                    res.sendStatus(404);
-                }
-                else {
-                    console.log('good');
-                    res.sendStatus(200);
+            db.query('SELECT uidx FROM user WHERE email= ' + mysql.escape(email), function (error, resultk) {
+                if (error) {
+                    console.log('해당하는 사람 x');
+                    res.sendStatus(400);
+                } else {
+                    db.query('SELECT * FROM invite WHERE User_you= '+mysql.escape(parseInt(resultk[0].uidx)) + ' and Room_idx= '+mysql.escape(req.session.ridx),function(error,result) {
+                        if (error){
+                            db.query("INSERT INTO invite(Room_idx,User_my,User_you) VALUES (?,?,?)", [req.session.ridx, mysql.escape(req.session.uidx), mysql.escape(parseInt(resultk[0].uidx))], function (err) {
+                                if (err) {
+                                    console.log("progress select_cell error : " + err);
+                                    res.sendStatus(404);
+                                }
+                                else {
+                                    console.log('good');
+                                    res.sendStatus(200);
+                                }
+                            });
+                        }else{
+                            console.log('해당 방에 이미 초대');
+                            res.sendStatus(401);
+                        }
+                    });
                 }
             });
+        }else{
+            console.log('해당 방에 이미 가입');
+            res.sendStatus(401);
         }
     });
 });

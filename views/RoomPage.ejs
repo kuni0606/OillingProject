@@ -124,6 +124,8 @@
                         dialog.dialog( "close" );
                     }else if (xhr.status==400){
                         alert('해당 이메일을 찾지 못했습니다.');
+                    }else if (xhr.status==401){
+                        alert('해당 사용자가 이미 초대되었습니다');
                     }
                 }
                 return valid;
