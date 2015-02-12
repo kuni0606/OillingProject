@@ -35,6 +35,8 @@
             cursor:pointer;
             transition-duration: 0.5s;
             -webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
+            margin-left:20px;
+            vertical-align: bottom;
         }
         #bt_drop:hover{
             transform: scale(1.4,1.4) translateZ(50px);
@@ -50,6 +52,7 @@
             cursor:pointer;
             transition-duration: 0.5s;
             -webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
+            margin-right:10px;
         }
         #out_sc:hover{
              transform: scale(1.4,1.4) translateZ(50px);
@@ -60,6 +63,17 @@
         body{
             position:absolute; top:0; bottom:0; left:0; right:0;
             background-image: url("/images/roompage.png"); background-size: 100% 100%;
+        }
+        .form-control {
+            padding: 10px;
+            border: solid 1px #fff;
+            box-shadow: inset 1px 1px 2px 0 #e3e3e3;
+            transition: border 0.3s;
+        }
+        .form-control:focus{
+            background: #fff;
+            box-shadow: 0 0 0 3px #4f7682, inset 0 2px 3px rgba( 0, 0, 0, 0.2 ), 0px 5px 5px rgba( 0, 0, 0, 0.15 );
+            outline: none;
         }
     </style>
     <script src="/socket.io/socket.io.js"></script>
@@ -126,6 +140,8 @@
         }
         function save_job(j_idx,job)
         {
+            if(job.value == "")
+                return false;
             $.ajax({
                 url: '/schedule/plan/job_save',
                 type: 'POST',
@@ -289,7 +305,7 @@
                     var cnt_p = 0;
                     result.s_data.push(-1,-1);
                     cnt = 0;
-                    innerSource += "<tbody style=\"background\">";
+                    innerSource += "<tbody style=\"opacity: 0.6;\">";
                     for(i=0;i<t_col;++i)
                     {//job 써주고
                         innerSource += "<tr>";
@@ -369,8 +385,8 @@
 <body class="dt-example">
 <div class="container">
     <section>
-        <h1 style="text-align: center; color:white;"><strong>프로젝트 일정 관리</strong></h1>
-        <div style="border:none; text-align: right;"><input type="button" id="bt_drop" onclick="drop_schedule()" /><input type="button" id="out_sc" onclick="out_schedule();" /></div>
+        <h1 style="text-align: center; color:white;"><img src="/images/scheduling.png" height="70px;"><input type="button" id="bt_drop" onclick="drop_schedule()" /></h1>
+        <div style="border:none; text-align: right;"><input type="button" id="out_sc" onclick="out_schedule();" /></div>
         <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr class="something"><th>asdf</th></tr></thead></table>
         <div style="color:white; font-size:20px; margin-top:10px;">&nbsp;&nbsp;Select user : <span id="now_name"></span><span id="now_name_right" style="border:solid white 3px; margin-left: 10px; border-radius: 20% 20%;">　</span></div>
         <ul class="tabs">

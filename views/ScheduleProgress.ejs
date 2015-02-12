@@ -39,6 +39,7 @@
             cursor:pointer;
             transition-duration: 0.5s;
             -webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
+            margin-right:10px;
         }
         #out_sc:hover{
             transform: scale(1.4,1.4) translateZ(50px);
@@ -124,7 +125,7 @@
         function set_schedule()
         { // 프로젝트 기간과 작업에 따라 동적 테이블 만듬
             var innerSource = "";
-            innerSource += "<thead><tr><th style=\"color:white; font-size:20px; padding-bottom:20px;\">프로젝트 일정</th>";
+            innerSource += "<thead><tr><th style=\"color:white; font-size:20px; padding-bottom:20px;text-align: center;\">프로젝트 일정</th>";
             $.ajax({
                 url: '/schedule/progress/setting', //테이블 세팅
                 type: 'POST',
@@ -151,13 +152,13 @@
                                 one_t.setDate(one_t.getDate()+1);
                         }
                         --i;
-                        innerSource += "<th colspan=\""+i+"\">"+(mont+1)+"월</th>";
+                        innerSource += "<th colspan=\""+i+"\" style=\"color:#72b0f5;\">"+(mont+1)+"월</th>";
                     }
                     innerSource += "</tr><tr>";
                     if(result.type) //0: 일  1: 주차
-                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; \">작업＼주차</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; text-align: center;\">작업＼주차</th>";
                     else
-                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; padding-top:10px; \">작업＼날짜</th>";
+                        innerSource += "<th style=\"color:white; font-size:15px; padding-bottom:15px; padding-top:10px;text-align: center; \">작업＼날짜</th>";
                     one_t = new Date(result.s_date);
                     if(result.type) //프로젝트 날짜 or 주차 계산
                     {
@@ -165,7 +166,7 @@
                         cnt = 1;
                         while(one_t <= two_t)
                         {
-                            innerSource += "<th>"+cnt+"</th>";
+                            innerSource += "<th style=\"color:#9eccff;\">"+cnt+"</th>";
                             one_t.setDate(one_t.getDate()+7);
                             ++cnt;
                         }
@@ -174,7 +175,7 @@
                     {
                         while(one_t <= two_t)
                         {
-                            innerSource += "<th>"+one_t.getDate()+"</th>";
+                            innerSource += "<th style=\"color:#abd1fb; text-align: center;\">"+one_t.getDate()+"</th>";
                             one_t.setDate(one_t.getDate()+1);
                         }
                     }
@@ -187,11 +188,11 @@
                     result.s_data.push(-1,-1,-1);
                     result.sp_progress.push(-1,-1);
                     cnt = 0;
-                    innerSource += "<tbody>";
+                    innerSource += "<tbody style=\"opacity: 0.6;\">";
                     for(i=0;i<t_col;++i)
                     {//job 써주고
                         innerSource += "<tr>";
-                        innerSource += "<td style=\"text-align: center;\">"+result.sj_job[i].job+"</td>";
+                        innerSource += "<td style=\"text-align: center; border-right: 2px dashed #4f7682;\">"+result.sj_job[i].job+"</td>";
 
                         for(j=0;j<t_row;++j,++cnt) // 날짜 색칠 계산하고
                         {
@@ -249,7 +250,7 @@
 <body class="dt-example">
 <div class="container">
     <section>
-        <h1 style="text-align: center; color:white;"><strong>프로젝트 일정 관리</strong></h1>
+        <h1 style="text-align: center; color:white;"><img src="/images/scheduling.png" height="70px;"></h1>
         <div style="border:none; text-align: right;"><input type="button" id="out_sc" onclick="out_schedule();" /></div>
         <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr class="something"><th></th></tr></thead></table>
         <div style="color:white; font-size:20px; margin-top:10px;">&nbsp;&nbsp;Select user : <span id="now_name"></span><span id="now_name_right" style="border:solid white 3px; margin-left: 10px; border-radius: 20% 20%;">　</span></div>
