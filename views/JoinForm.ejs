@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
     <script>
+        var socket;
         $(document).ready(function(){
 
             var w= screen.availWidth;
@@ -19,19 +21,20 @@
 
             $('.form-group').css('width', w);
 
-            var socket = io.connect();
+            socket = io.connect();
             var $form = $('#form');
-            function emailcheck () {
-                var email_v = document.getElementById('email');
-                socket.emit('emailcheck', email_v.value, function (data) {
-                    if (data) {
-                    } else {
-                        alert("이미 가입된 이메일입니다.");
-                        email_v.focus();
-                    }
-                });
-            };
         });
+        function emailcheck () {
+            var email_v = document.getElementById('email');
+            socket.emit('emailcheck', email_v.value);
+            socket.on('emailcheck_back',function(data){
+                if (data) {
+                    $('#emailc').html('');
+                } else {
+                    $('#emailc').html('이미 가입된 이메일입니다!');
+                }
+            });
+        }
 
         function form_check()
         {
@@ -80,6 +83,10 @@
 <img src="/images/team_icon.png" width="300" height="200" style="margin-left:100px; margin-top:50px;">
 <form method="post" name="frm" class="form-horizontal" style="margin-top:200px;">
     <fieldset>
+        <div class="form-group" style="margin-bottom:0px">
+            <label for="exampleInputEmailcheck" class="col-sm-8 control-label"></label>
+            <div class="col-lg-3"><span id="emailc" style="color:red;"></span></div>
+        </div>
         <div class="form-group" style="margin-bottom:0px">
             <label for="exampleInputEmail1" class="col-sm-8 control-label">Email address</label>
             <div class="col-lg-3">

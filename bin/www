@@ -87,23 +87,37 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on('emailcheck', function (data, callback) {
+  socket.on('emailcheck', function (data) {
     var sql = 'SELECT * FROM user WHERE email = ' + mysql.escape(data);
     db.query(sql, function(err, results) {
       if (!results[0]) {
         emailcheck = 1; // 아이디 없을시 회원가입 가능하게.
         console.log('email 중복 check 가동중');
-        callback(true);
+        socket.emit('emailcheck_back', true);
       } else {
         emailcheck = 0;
-        callback(false);
+        socket.emit('emailcheck_back', false);
       }
     });
   });
-  socket.on('log_go', function (data, callback) {
+  socket.on('log_go', function (data) {
+    db.query('INSERT INTO log(Room_ridx,User_uidx,name,content,date) VALUES (?,?,?,?,?)',[data.ridx,data.uidx,data.name,data.content,data.date], function(err) {});
+  });
+  socket.on('log_gogo', function (data) {
     db.query('INSERT INTO log(Room_ridx,User_uidx,name,content,date) VALUES (?,?,?,?,?)',[data.ridx,data.uidx,data.name,data.content,data.date], function(err) {
-      if(err) { console.log("log insert error : "+err); callback(false); }
-      else { callback(true); }
+      if(err) { console.log("log gogo error : "+err);
+        socket.emit('log_gogo_back', false); }
+      else {
+        socket.emit('log_gogo_back', true); }
+    });
+  });
+  socket.on('log_del', function (data) {
+    console.log('1');
+    db.query('DELETE FROM log WHERE Room_ridx = '+mysql.escape(data), function(err) {
+      if(err) { console.log("log delete error : "+err);
+        socket.emit('log_del_back', false); }
+      else {
+        socket.emit('log_del_back', true); }
     });
   });
 

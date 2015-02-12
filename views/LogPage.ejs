@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/button.css">
+    <script type="text/javascript" language="javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <style type="text/css">
         html{
             height: 100%;
@@ -26,11 +29,48 @@
             color: #ffffff;
         }
     </style>
+    <script>
+        var socket;
+        $(document).ready(function(){
+            socket = io.connect();
+        });
+        function delete_message()
+        {
+            var check = confirm("정말로 지우시겠습니까?");
+            if(check)
+            {
+                var n_json={};
+                var now = new Date();
+                var mi = now.getMinutes();
+                if(mi <10)
+                    mi = "0" + mi;
+                now = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" +mi;
+                n_json.ridx = '<%=s_ridx%>';
+                n_json.uidx = '<%=s_uidx%>';
+                n_json.name = '<%=s_name%>';
+                n_json.content = '로그를 삭제하셨습니다.';
+                n_json.date = now;
+                socket.emit('log_del', 1);
+                socket.on('log_del_back',function(data){
+                    if (data) {
+                        socket.emit('log_gogo', n_json);
+                        socket.on('log_gogo_back',function(data){
+                            if(data){ location.reload(); }
+                            else{}
+                        });
+                    } else {
+                    }
+                });
+            }
+        }
+    </script>
 </head>
 <body>
 <%
 if (check)
-{
+{%>
+<button class="black black medium" onClick="delete_message()">Delete Message</button>
+<%
     for(var i=0;i<log.length;++i)
     {
 %>
@@ -43,7 +83,7 @@ if (check)
 } else {
 %>
 <div>
-    데이터 없음
+    No Log
 </div>
 <% }%>
 </body>

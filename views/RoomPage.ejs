@@ -177,7 +177,7 @@
             n_json.name = '<%=s_name%>';
             n_json.content = '화상회의에 접속하였습니다.';
             n_json.date = now;
-            socket.emit('log_go', n_json, function (data) {});
+            socket.emit('log_go', n_json);
             window.location.href='/video';
         }
         function toHome(){
