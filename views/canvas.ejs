@@ -114,11 +114,11 @@
 
             $('#colorpicker').farbtastic(function(data){
                 color = data;
+                tcolor = data;
             });
 
             $('button[id="eraser"]').click(function(event){
                 if (c_eraser==false) {
-                    tcolor = color;
                     color = $('#eraser').val();
                     selectedObject = 'pen';
                     alpha = 1;
@@ -168,12 +168,12 @@
             $('button[id="drawRect"]').click(function(event){
                 selectedObject = 'rect';
                 color = tcolor;
-                c_eraser = true;
+                c_eraser = false;
             });
             $('button[id="drawPen"]').click(function(event){
                 selectedObject = 'pen';
                 color = tcolor;
-                c_eraser = true;
+                c_eraser = false;
             });
             socket.on('create_room', function(data){
                // alert(data);
