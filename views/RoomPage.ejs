@@ -193,6 +193,7 @@
             n_json.content = '화상회의에 접속하였습니다.';
             n_json.date = now;
             socket.emit('log_go', n_json);
+            top.document.log_frame.location.reload();
             window.location.href='/video';
         }
         function toHome(){
@@ -250,7 +251,7 @@
         <iframe name="fexp" src="/file" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
     </div>
     <div style="height:65%;width:15%;float:left;">
-        <iframe name="notice_frame" src="/log" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
+        <iframe name="log_frame" src="/log" scrolling="no" frameborder="3" height="96%" width="99%" ></iframe>
     </div>
 </div>
 <div id="dialog-form" title="회원 초대" style="background-color:ivory" >
