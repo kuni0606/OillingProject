@@ -309,6 +309,13 @@
 
             filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
         }
+        .drawBtn{
+            transition-duration: 0.5s;
+            -webkit-animation: showSlowlyElement 700ms;
+        }
+        .drawBtn:hover{
+            transform: scale(1.2,1.2) translateZ(60px);
+        }
     </style>
 </head>
 <body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">
@@ -347,11 +354,11 @@
                         <option value="0.9">0.9</option>
                         <option selected="selected" value="1.0">1.0</option>
                     </select></div>
-                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
-                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
-                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
-                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/rect.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
-                    <div><button style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/pen.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
+                    <div><button class="drawBtn" style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/pen.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawPen"></button></div>
+                    <div><button class="drawBtn" style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/rect.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
+                    <div><button class="drawBtn" style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
+                    <div><button class="drawBtn" style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
+                    <div><button class="drawBtn" style="border:none; display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
                 </td>
             </tr>
         </table></div>
