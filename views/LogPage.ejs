@@ -82,15 +82,15 @@ if (check)
 {%>
 <button class="button black medium" onClick="delete_message()">Delete Message</button>
 <%
-    for(var i=0;i<log.length;++i)
-    {
+for(var i=0;i<log.length;++i)
+{
 %>
 <div><code>
-    <%=log[i].date%><br/>
-    <%=log[i].name%>님이 <%=log[i].content%></code>
+        <%=log[i].date%><br/>
+        <%=log[i].name%>님이 <%=log[i].content%></code>
 </div>
 <%
-    }
+}
 } else {
 %>
 <div><code>No Log</code>
