@@ -114,11 +114,12 @@
 
             $('#colorpicker').farbtastic(function(data){
                 color = data;
-                tcolor = data;
+                tcolor = color;
             });
 
             $('button[id="eraser"]').click(function(event){
                 if (c_eraser==false) {
+                    tcolor = color;
                     color = $('#eraser').val();
                     selectedObject = 'pen';
                     alpha = 1;
