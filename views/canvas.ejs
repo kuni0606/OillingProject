@@ -38,7 +38,7 @@
             ctxBuffer.canvas.height = canvas.height;
 
             var alpha = 1;
-            var color = '#000000',tcolor;
+            var color = '#000000',tcolor='#000000';
             var isDown = false,c_eraser=false;
             var radius=5, oldPoint,newPoint,selectedObject='pen';
 
@@ -88,7 +88,18 @@
                             oldPoint = newPoint;
                             break;
                         case 'rect':
+                            newPoint = new Point(event, this);
 
+                            context.drawImage(canvas_buffer, 0, 0);
+
+                            context.strokeStyle = color;
+                            context.lineWidth = radius;
+                            context.beginPath();
+                            context.rect(oldPoint.x,oldPoint.y,newPoint.x-oldPoint.x,newPoint.y-oldPoint.y);
+                            context.stroke();
+                            context.globalAlpha = alpha;
+                            context.closePath();
+                                
                             break;
                     }
                 }
@@ -97,21 +108,21 @@
             var socket = io.connect();
             socket.emit('join', '<%=room%>');
             socket.on('line', function(data){
-                ctxBuffer.strokeStyle = data.color;
-                ctxBuffer.beginPath();
+                context.strokeStyle = data.color;
+                context.beginPath();
                 var tx = (data.x2-data.x1)/20;
                 var ty = (data.y2-data.y1)/20;
                 for (var i = 0;i<20;i++) {
-                    ctxBuffer.fillStyle = data.color;
-                    ctxBuffer.fill();
-                    ctxBuffer.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
+                    context.fillStyle = data.color;
+                    context.fill();
+                    context.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
                 }
-                ctxBuffer.stroke();
-                ctxBuffer.globalAlpha = data.gAlpha;
-                ctxBuffer.closePath();
-                context.drawImage(canvas_buffer, 0, 0);
+                context.stroke();
+                context.globalAlpha = data.gAlpha;
+                context.closePath();
             });
             socket.on('rect', function(data){
+                ctxBuffer.drawImage(canvas, 0, 0);
                 ctxBuffer.strokeStyle = data.color;
                 ctxBuffer.lineWidth = data.width;
                 ctxBuffer.beginPath();
@@ -181,6 +192,7 @@
                 Canvas2Image.saveAsJPEG(canvas);
             });
             $('button[id="drawRect"]').click(function(event){
+                ctxBuffer.drawImage(canvas, 0, 0);
                 selectedObject = 'rect';
                 color = tcolor;
                 c_eraser = false;
