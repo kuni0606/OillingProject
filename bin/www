@@ -66,6 +66,12 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
+    socket.on('drawRect', function(data){
+        socket.get('room', function(err, room){
+            io.sockets.in(room).emit('rect', data);
+        });
+    });
+
   socket.on('clear', function(data){
     socket.get('room', function(err, room){
       io.sockets.in(room).emit('board', data);

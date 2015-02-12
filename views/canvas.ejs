@@ -36,7 +36,7 @@
             var alpha = 1;
             var color = '#000000';
             var isDown = false;
-            var radius=5, oldPoint,newPoint;
+            var radius=5, oldPoint,newPoint,selectedObject='pen';
 
             context.fillStyle="#FFFFFF";
             context.fillRect(0,0,canvas.width, canvas.height);
@@ -46,22 +46,43 @@
             };
             canvas.onmouseup = function(){
                 isDown = false;
+                switch(selectedObject){
+                    case 'rect':
+                        newPoint = new Point(event, this);
+
+                        socket.emit('drawRect', {
+                            color: color,
+                            x1: newPoint.x,
+                            y1: newPoint.y,
+                            x2: oldPoint.x,
+                            y2: oldPoint.y,
+                            width: radius,
+                            gAlpha: alpha
+                        });
+
+                        oldPoint = newPoint;
+                        break;
+                }
             };
             canvas.onmousemove = function(event){
                 if(isDown){
-                    newPoint = new Point(event, this);
+                    switch(selectedObject){
+                        case 'pen':
+                            newPoint = new Point(event, this);
 
-                    socket.emit('draw', {
-                        color: color,
-                        x1: newPoint.x,
-                        y1: newPoint.y,
-                        x2: oldPoint.x,
-                        y2: oldPoint.y,
-                        r: radius,
-                        gAlpha: alpha
-                    });
+                            socket.emit('draw', {
+                                color: color,
+                                x1: newPoint.x,
+                                y1: newPoint.y,
+                                x2: oldPoint.x,
+                                y2: oldPoint.y,
+                                r: radius,
+                                gAlpha: alpha
+                            });
 
-                    oldPoint = newPoint;
+                            oldPoint = newPoint;
+                            break;
+                    }
                 }
             };
 
@@ -77,6 +98,15 @@
                     context.fill();
                     context.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
                 }
+                context.stroke();
+                context.globalAlpha = data.gAlpha;
+                context.closePath();
+            });
+            socket.on('rect', function(data){
+                context.strokeStyle = data.color;
+                context.lineWidth = data.width;
+                context.beginPath();
+                context.rect(data.x2,data.y2,data.x1-data.x2,data.y1-data.y2);
                 context.stroke();
                 context.globalAlpha = data.gAlpha;
                 context.closePath();
@@ -129,6 +159,12 @@
             $('button[id="saveImage"]').click(function(event){
                 var strDataURI = canvas.toDataURL();
                 Canvas2Image.saveAsJPEG(canvas);
+            });
+            $('button[id="drawRect"]').click(function(event){
+                selectedObject = 'rect';
+            });
+            $('button[id="drawPen"]').click(function(event){
+                selectedObject = 'pen';
             });
             socket.on('create_room', function(data){
                // alert(data);
@@ -240,7 +276,7 @@
             </tr>
             <tr>
                 <td style="background: transparent;">
-                    <div ><select style="display:block; margin-right:auto; margin-left:auto;" id="optselector">
+                    <div ><select style="display:block; margin-right:auto; margin-left:auto;" id="optselector" >
                         <option value="0.1">0.1</option>
                         <option value="0.2">0.2</option>
                         <option value="0.3">0.3</option>
@@ -250,10 +286,13 @@
                         <option value="0.7">0.7</option>
                         <option value="0.8">0.8</option>
                         <option value="0.9">0.9</option>
-                        <option value="1.0">1.0</option>
-                    </select></div><div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
-                <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
-                <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
+                        <option selected="selected" value="1.0">1.0</option>
+                    </select></div>
+                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/trash.png'); background-size: 100% 100%; width:50px; height:50px;" id="btnDel"></button></div>
+                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/eraser.png'); background-size: 100% 100%; width:50px; height:50px;" id="eraser" value="white"></button></div>
+                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/save.png'); background-size: 100% 100%; width:50px; height:50px;" id="saveImage"></button></div>
+                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/rect.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
+                    <div><button style="display:block; margin-right:auto; margin-left:auto; background-color: transparent; background-image: url('/images/pen.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawRect"></button></div>
                 </td>
             </tr>
         </table></div>
