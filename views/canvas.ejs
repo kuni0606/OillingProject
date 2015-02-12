@@ -31,15 +31,20 @@
     <script>
         $(document).ready(function(){
             var canvas = document.getElementById('canvas');
+            var canvas_buffer = document.createElement('canvas');
             var context = canvas.getContext('2d');
+            var ctxBuffer = canvas_buffer.getContext('2d');
+            ctxBuffer.canvas.width = canvas.width;
+            ctxBuffer.canvas.height = canvas.height;
 
             var alpha = 1;
             var color = '#000000',tcolor;
             var isDown = false,c_eraser=false;
             var radius=5, oldPoint,newPoint,selectedObject='pen';
 
-            context.fillStyle="#FFFFFF";
-            context.fillRect(0,0,canvas.width, canvas.height);
+            ctxBuffer.fillStyle="#FFFFFF";
+            ctxBuffer.fillRect(0,0,canvas.width, canvas.height);
+            context.drawImage(canvas_buffer, 0, 0);
             canvas.onmousedown = function(event){
                 isDown = true;
                 oldPoint = new Point(event, this);
@@ -82,6 +87,9 @@
 
                             oldPoint = newPoint;
                             break;
+                        case 'rect':
+
+                            break;
                     }
                 }
             };
@@ -89,27 +97,29 @@
             var socket = io.connect();
             socket.emit('join', '<%=room%>');
             socket.on('line', function(data){
-                context.strokeStyle = data.color;
-                context.beginPath();
+                ctxBuffer.strokeStyle = data.color;
+                ctxBuffer.beginPath();
                 var tx = (data.x2-data.x1)/20;
                 var ty = (data.y2-data.y1)/20;
                 for (var i = 0;i<20;i++) {
-                    context.fillStyle = data.color;
-                    context.fill();
-                    context.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
+                    ctxBuffer.fillStyle = data.color;
+                    ctxBuffer.fill();
+                    ctxBuffer.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
                 }
-                context.stroke();
-                context.globalAlpha = data.gAlpha;
-                context.closePath();
+                ctxBuffer.stroke();
+                ctxBuffer.globalAlpha = data.gAlpha;
+                ctxBuffer.closePath();
+                context.drawImage(canvas_buffer, 0, 0);
             });
             socket.on('rect', function(data){
-                context.strokeStyle = data.color;
-                context.lineWidth = data.width;
-                context.beginPath();
-                context.rect(data.x2,data.y2,data.x1-data.x2,data.y1-data.y2);
-                context.stroke();
-                context.globalAlpha = data.gAlpha;
-                context.closePath();
+                ctxBuffer.strokeStyle = data.color;
+                ctxBuffer.lineWidth = data.width;
+                ctxBuffer.beginPath();
+                ctxBuffer.rect(data.x2,data.y2,data.x1-data.x2,data.y1-data.y2);
+                ctxBuffer.stroke();
+                ctxBuffer.globalAlpha = data.gAlpha;
+                ctxBuffer.closePath();
+                context.drawImage(canvas_buffer, 0, 0);
             });
 
             $('#colorpicker').farbtastic(function(data){
@@ -130,11 +140,12 @@
                 canvas.onclick = function(event){
                     oldPoint = new Point(event, this);
                 };
-                context.beginPath();
-                context.arc(oldPoint.x, oldPoint.y, radius, 0, Math.PI*2, false);
-                context.stroke();
-                context.globalAlpha = alpha;
-                context.closePath();
+                ctxBuffer.beginPath();
+                ctxBuffer.arc(oldPoint.x, oldPoint.y, radius, 0, Math.PI*2, false);
+                ctxBuffer.stroke();
+                ctxBuffer.globalAlpha = alpha;
+                ctxBuffer.closePath();
+                context.drawImage(canvas_buffer, 0, 0);
             });
 
             $('#slider').slider({
@@ -158,9 +169,12 @@
             });
 
             $('button[id="btnDel"]').click(function(event){
-                context.clearRect(0,0, canvas.width, canvas.height);
-                context.beginPath();
-                localStorage.removeItem('imgData');
+                ctxBuffer.clearRect(0,0, canvas_buffer.width, canvas_buffer.height);
+                ctxBuffer.beginPath();
+                ctxBuffer.fillStyle="#FFFFFF";
+                ctxBuffer.fillRect(0,0,canvas.width, canvas.height);
+                ctxBuffer.closePath();
+                context.drawImage(canvas_buffer, 0, 0);
             });
             $('button[id="saveImage"]').click(function(event){
                 var strDataURI = canvas.toDataURL();
@@ -344,7 +358,7 @@
             <tr>
                 <td rowspan="3">
                     <!--캔버스-->
-                    <canvas id="canvas" style="border-radius: 20px; background-color: white;" width="850" height="500"></canvas>
+                    <canvas id="canvas" style="border-radius: 20px; background-color: white; position:relative;" width="850" height="500"></canvas>
                 </td>
                 <td height="200">
                     <!--색상 선택기-->
