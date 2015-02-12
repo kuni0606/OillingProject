@@ -9,9 +9,9 @@ var ejs = require('ejs');
 
 router.use(session({secret:'secret key'}));
 
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
     ///////////test/////////////////
-    res.render('canvas', { room: req.session.ridx,s_name:req.session.name } );
+    res.render('canvas', { room: req.body.ri,s_name:req.session.name } );
 });
 
 router.get('/room', function(req, res){
