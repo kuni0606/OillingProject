@@ -40,6 +40,7 @@
     <script src="/javascripts/jquery-ui.js"></script>
     <script>
         var socket;
+        var cdialog;
         $(document).ready(function(){
             socket = io.connect();
 
@@ -73,6 +74,22 @@
                 close: function() {
                     form[ 0 ].reset();
                     allFields.removeClass( "ui-state-error" );
+                }
+            });
+            cdialog = $( "#dialog-calendar" ).dialog({
+                autoOpen: false,
+                height: 400,
+                width: 350,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    "Create": addUser,
+                    Cancel: function() {
+                        cdialog.dialog( "close" );
+                    }
+                },
+                close: function() {
+                    cdialog.dialog('close');
                 }
             });
 
@@ -202,7 +219,10 @@
             window.location.href='/main';
         }
         //고쳐~~~~~~아래링크~~~~~~~~localhost~~~~~~~~~
-        function pla(){window.open( '/schedule/plan/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+        function pla() {
+            //window.open( '/schedule/plan/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
+            cdialog.dialog('open');
+        }
         function pro(){window.open( '/schedule/progress/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
     </script>
     <style type="text/css">
@@ -264,6 +284,20 @@
             <label for="name">이메일</label>
             <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all">
 
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
+</div>
+<div id="dialog-calendar" title="일정 관리" style="background-color:ivory; height:1000px; width:1600px" >
+    <form>
+        <fieldset>
+            <label for="start">시작 날짜</label>
+            <input type="date" name="start" id="start" class="text ui-widget-content ui-corner-all">
+            <label for="end">마감 날짜</label>
+            <input type="date" name="end" id="end" class="text ui-widget-content ui-corner-all">
+            <label for="job">작업 수(최대 20)</label>
+            <input type="text" name="job" id="job" value="5" class="text ui-widget-content ui-corner-all">
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </fieldset>
