@@ -39,7 +39,7 @@ router.post('/api/invite/', function(req,res){
     console.log(email);
 
     db.query('SELECT uidx FROM user WHERE email= ' + mysql.escape(email), function (error, resultk) {
-        if (error) {
+        if (error|!resultk[0]) {
             console.log('해당하는 사람 x');
             res.sendStatus(400);
         } else {
