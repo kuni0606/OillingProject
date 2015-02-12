@@ -100,7 +100,7 @@ router.post('/plan/setting', function(req, res) {
                 });
             });
         }
-        else{ res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0}); }
+        else{ res.sendStatus(404); }
     });
 });
 
@@ -115,7 +115,7 @@ router.post('/plan/init_color', function(req, res) {
             //console.log(n_json);
             res.send(n_json);
         }
-        else{ res.render('SchedulePlan', {title: 'Schedule Plan Page',exist:0}); }
+        else{ res.sendStatus(404); }
     });
 });
 router.post('/plan/ch_color', function(req, res) {
@@ -178,20 +178,19 @@ router.post('/plan/select_cell', function(req, res) {
 });
 
 //프로젝트 진행 페이지~~~~*************************************
-router.get('/progress', function(req, res) {
+router.post('/progress', function(req, res) {
     db.query('SELECT * FROM schedule_form WHERE  Room_ridx= '+mysql.escape(req.session.ridx), function(error, result) {
         if(result[0]){ //이미 계획한 게 있으면 exist로 1로 구별하고
-            res.render('ScheduleProgress', {title: 'Schedule Progress Page', exist:1, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+            res.send(true);
         }
         else{ //계획한 일정이 없을 경우 0으로 구별
-            res.render('ScheduleProgress', {title: 'Schedule Progress Page',exist:0, s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+            res.send(false);
         }
     });
-        /*else{
-            console.log("ridx:"+req.session.ridx+"uidx:"+req.session.uidx);
-            res.send("권한이 없습니다."); }*/
 });
-
+router.get('/progress', function(req, res) {
+    res.render('ScheduleProgress', {title: 'Schedule Progress Page', s_ridx: req.session.ridx, s_uidx:req.session.uidx});
+});
 router.post('/progress/setting', function(req, res) {
     var ridx = req.body.ridx;
     var uidx = req.body.uidx;

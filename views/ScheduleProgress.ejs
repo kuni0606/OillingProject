@@ -15,7 +15,7 @@
     <style type="text/css" class="init">
         td.temp {}
         td.highlight {
-            border:3px solid red;
+            border:3px solid #FF0000;
         }
         #user_color ul li{
             display:inline;
@@ -49,6 +49,9 @@
     <script type="text/javascript" language="javascript" src="/javascripts/shCore.js"></script>
     <script type="text/javascript" language="javascript" src="/javascripts/demo.js"></script>
     <script type="text/javascript" language="javascript" class="init">
+        function out_schedule(){
+            location.replace('/schedule/back');
+        }
         function select_cell(cnt)
         {
             var t;
@@ -221,21 +224,13 @@
     </script>
 </head>
 <body class="dt-example">
-<% if (exist) {%> <!--계획한 일정이 있을 경우-->
 <div class="container">
     <section>
         <h1 style="text-align: center; color:white;"><strong>프로젝트 일정 관리</strong></h1>
-        <div style="border:none; text-align: right;"><input type="button" id="out_sc" onclick="" /></div>
+        <div style="border:none; text-align: right;"><input type="button" id="out_sc" onclick="out_schedule();" /></div>
         <table id="schedul_table" class="display cell-border compact" cellspacing="0" width="100%"><thead><tr class="something"><th></th></tr></thead></table>
         <div style="color:white; font-size:20px; margin-top:10px;">&nbsp;&nbsp;Select user : <span id="now_name"></span><span id="now_name_right" style="border:solid white 3px; margin-left: 10px; border-radius: 20% 20%;">　</span></div>
     </section>
 </div>
-<% } else {%> <!--계획한 일정이 없을 경우 -->
-<script language="javascript">
-    alert('계획된 프로젝트 일정이 없습니다.\n 관리자에게 문의바랍니다.');
-    opener = self;
-    window.close();
-</script>
-<% }%>
 </body>
 </html>

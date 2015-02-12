@@ -251,7 +251,29 @@
                 }
             });//ajax
         }
-        function pro(){window.open( '/schedule/progress/s?uidx=<%=s_uidx%>&ridx=<%=s_ridx%>','_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');}
+        function pro(){
+            $.ajax({
+                url: '/schedule/progress',
+                type: 'POST',
+                data: {
+                    "ridx": '<%=s_ridx%>',
+                    "uidx": '<%=s_uidx%>'
+                },
+                success: function(result)
+                {
+                    if(result)// 계획있음
+                    {
+                        location.replace('/schedule/progress');
+                    }
+                    else{//계획없음
+                        alert('계획된 프로젝트 일정이 없습니다.\n 관리자에게 문의바랍니다.');
+                    }
+                }, error: function(req,status,error) {
+                    alert("서버와 통신 도중 에러가 발생하였습니다.(progress)");
+                    alert("code:"+req.status+"\n"+"message:"+req.responseText+"\n"+"error:"+error);
+                }
+            });//ajax
+        }
         function plan_check() //관리자가 처음 프로젝트 계획 짤때, 기간과 작업 수 입력함.
         { // 프로젝트의 기간과 그에 따른 정보를 schedule_form 테이블에 넣고 post 형식으로 이 url 그대로 reload
             var one = document.getElementById('p_sdate').value;
