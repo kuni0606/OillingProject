@@ -37,7 +37,6 @@
             ctxBuffer.canvas.width = canvas.width;
             ctxBuffer.canvas.height = canvas.height;
 
-            var alpha = 1;
             var color = '#000000',tcolor='#000000';
             var isDown = false,c_eraser=false;
             var radius=5, oldPoint,newPoint,selectedObject='pen';
@@ -47,31 +46,31 @@
             context.drawImage(canvas_buffer, 0, 0);
             canvas.onmouseover = function(){
                 isDown = false;
-                console.log('상자탈출');
             }
             canvas.onmousedown = function(event){
                 isDown = true;
                 oldPoint = new Point(event, this);
             };
             canvas.onmouseup = function(){
-                isDown = false;
-                switch(selectedObject){
-                    case 'rect':
-                        newPoint = new Point(event, this);
+                if (isDown) {
+                    switch (selectedObject) {
+                        case 'rect':
+                            newPoint = new Point(event, this);
 
-                        socket.emit('drawRect', {
-                            color: color,
-                            x1: newPoint.x,
-                            y1: newPoint.y,
-                            x2: oldPoint.x,
-                            y2: oldPoint.y,
-                            width: radius,
-                            gAlpha: alpha
-                        });
+                            socket.emit('drawRect', {
+                                color: color,
+                                x1: newPoint.x,
+                                y1: newPoint.y,
+                                x2: oldPoint.x,
+                                y2: oldPoint.y,
+                                width: radius
+                            });
 
-                        oldPoint = newPoint;
-                        break;
+                            oldPoint = newPoint;
+                            break;
+                    }
                 }
+                isDown = false;
             };
             canvas.onmousemove = function(event){
                 if(isDown){
@@ -85,8 +84,7 @@
                                 y1: newPoint.y,
                                 x2: oldPoint.x,
                                 y2: oldPoint.y,
-                                r: radius,
-                                gAlpha: alpha
+                                r: radius
                             });
 
                             oldPoint = newPoint;
@@ -101,9 +99,8 @@
                             context.beginPath();
                             context.rect(oldPoint.x,oldPoint.y,newPoint.x-oldPoint.x,newPoint.y-oldPoint.y);
                             context.stroke();
-                            context.globalAlpha = alpha;
                             context.closePath();
-                                
+
                             break;
                     }
                 }
@@ -122,7 +119,6 @@
                     ctxBuffer.arc(data.x1+tx*i, data.y1+ty*i, data.r, 0, Math.PI * 2, true);
                 }
                 ctxBuffer.stroke();
-                ctxBuffer.globalAlpha = data.gAlpha;
                 ctxBuffer.closePath();
                 context.drawImage(canvas_buffer, 0, 0);
             });
@@ -133,7 +129,6 @@
                 ctxBuffer.beginPath();
                 ctxBuffer.rect(data.x2,data.y2,data.x1-data.x2,data.y1-data.y2);
                 ctxBuffer.stroke();
-                ctxBuffer.globalAlpha = data.gAlpha;
                 ctxBuffer.closePath();
                 context.drawImage(canvas_buffer, 0, 0);
             });
@@ -148,20 +143,8 @@
                     tcolor = color;
                     color = $('#eraser').val();
                     selectedObject = 'pen';
-                    alpha = 1;
                     c_eraser=true;
                 }
-            });
-            $('button[id="straight"]').click(function(event){
-                canvas.onclick = function(event){
-                    oldPoint = new Point(event, this);
-                };
-                ctxBuffer.beginPath();
-                ctxBuffer.arc(oldPoint.x, oldPoint.y, radius, 0, Math.PI*2, false);
-                ctxBuffer.stroke();
-                ctxBuffer.globalAlpha = alpha;
-                ctxBuffer.closePath();
-                context.drawImage(canvas_buffer, 0, 0);
             });
 
             $('#slider').slider({
@@ -172,21 +155,9 @@
                 }
             });
 
-            /*$('#slider1').slider({
-                max:10, min:1,
-                value: 0.5,
-                change: function(event, ui){
-                    alpha = ui.value;
-               }
-            });*/
-
-            $('select[id="optselector"]').click(function(event){
-               alpha=$('#optselector').val();
-            });
-
             $('button[id="btnDel"]').click(function(event){
-                ctxBuffer.clearRect(0,0, canvas_buffer.width, canvas_buffer.height);
                 ctxBuffer.beginPath();
+                ctxBuffer.clearRect(0,0, canvas.width, canvas.height);
                 ctxBuffer.fillStyle="#FFFFFF";
                 ctxBuffer.fillRect(0,0,canvas.width, canvas.height);
                 ctxBuffer.closePath();
@@ -390,18 +361,6 @@
             </tr>
             <tr>
                 <td style="background: transparent;">
-                    <div ><select style="display:block; margin-right:auto; margin-left:auto;" id="optselector" >
-                        <option value="0.1">0.1</option>
-                        <option value="0.2">0.2</option>
-                        <option value="0.3">0.3</option>
-                        <option value="0.4">0.4</option>
-                        <option value="0.5">0.5</option>
-                        <option value="0.6">0.6</option>
-                        <option value="0.7">0.7</option>
-                        <option value="0.8">0.8</option>
-                        <option value="0.9">0.9</option>
-                        <option selected="selected" value="1.0">1.0</option>
-                    </select></div>
                     <div style="margin-right:auto; margin-left:auto; display:block;">
                     <div style="margin-bottom:5px;">
                         <span style="padding-left: 20%;"><button class="drawBtn" style="border:none; background-color: transparent; background-image: url('/images/pen.png'); background-size: 100% 100%; width:50px; height:50px;" id="drawPen"></button></span>
