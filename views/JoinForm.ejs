@@ -49,8 +49,10 @@
                 form.email.focus();
                 return false;
             }
-            alert('인증 메일을 발송했습니다');
-            return true;
+            else{
+                alert('인증 메일을 발송했습니다');
+                return true;
+            }
         }
         /*
         $form.submit(function() {
@@ -127,7 +129,7 @@
             <label for="exampleInputEmail1" class="col-sm-8 control-label">Email address</label>
             <input type="email" class="form-control" placeholder="Enter e-mail" name="email" id="email" size="25" maxlength="25" required="required" onblur="emailcheck()" ><br/></div>
         <div style="margin-bottom:0px">
-            <label for="exampleInputName1" class="col-sm-8 control-label">Email name</label>
+            <label for="exampleInputName1" class="col-sm-8 control-label">name</label>
             <input type="text" class="form-control" placeholder="Enter name" name="name" id="name" size="25" required="required" pattern="^[a-zA-Z가-힣]{1,15}$"><br/></div>
         <div style="margin-bottom:0px">
             <label for="exampleInputPassword1" class="col-sm-8 control-label">Password</label>
@@ -139,7 +141,7 @@
             <label for="exampleInputPhone1" class="col-sm-8 control-label">Phone</label>
             <input type="tel" class="form-control" placeholder="Enter phone-N" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/></div>
     </fieldset>
-    <input id="join" type="submit" class="btn btn-primary" value="Join" onclick="form_check()">&nbsp;&nbsp;<input id="reset" type="reset" class="btn btn-primary" value="Reset" required="required"></div>
+    <input id="join" type="submit" class="btn btn-primary" value="Join" onclick="return form_check();">&nbsp;&nbsp;<input id="reset" type="reset" class="btn btn-primary" value="Reset" required="required"></div>
 </form>
 </body>
 </html>

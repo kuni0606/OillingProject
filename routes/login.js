@@ -85,41 +85,47 @@ router.post('/join', function(req, res) {
         "pw" : pw,
         "phone" : phone
     };
-    db.query("INSERT INTO user SET ?", member, function() {
-        //이메일 인증
-        var email_key = parseInt(Math.random() * 9999999+1000000);
-        db.query("SELECT uidx FROM user WHERE email = ?", [email], function(error, result) {
-            idx = result[0];
-            db.query("INSERT INTO confirm VALUES (?,?)", [idx.uidx,email_key], function() {});
-            var smtpTrans = nodemailer.createTransport("SMTP", {
-                service: 'Gmail',
-                auth: { user: 'clzlckzkcyzh@gmail.com', pass: 'tony0606'}
-            });
-            var mail_text = '<img src="http://210.118.74.149:3000/images/ssm_logo.gif" alt="ssm_logo"/>';
-            mail_text += '<h1>Welcome to Oilling Project!</h1><br/>';
-            mail_text += '<p>Dear, <strong>'+name +',</strong><br/><br/>';
-            mail_text += 'You have registered for a OP account with the <strong>' + email + '.</strong><br/>';
-            mail_text += 'This will be used to log into your OP account.<br/><br/>';
-            mail_text += 'Now, please <a href="http://210.118.74.149:3000/login/join/confirm/'+email_key+'" target="_blank"><span style="font-size: large; font-weight: bolder">verify your account.</span></a></br>';
-            mail_text += 'It will return you to the OP site where you can complete the process.<br/><br/>';
-            mail_text += 'If the link is not clickable, copy and paste the following URL into your web browser. </p>';
-            mail_text += '<p>http://210.118.74.149:3000/login/join/confirm/'+email_key+'</p><br/>';
-            var mailOptions = {
-                from: 'OP <clzlckzkcyzh@gmail.com>',
-                to: email,
-                subject: 'Oilling Project - Verify Your Account',
-                html: mail_text
-            }
-            smtpTrans.sendMail(mailOptions, function(error, response){
-                if (error){
-                    console.log("sendMail error : "+error);
-                } else {
-                    console.log("Message sent : " + response.message);
-                }
-                smtpTrans.close();
-                res.redirect('/login');
-            });
-        });
+    db.query("SELECT uidx FROM user WHERE email = ?", [mysql.escape(email)], function(error, result) {
+       if(result[0]) //이미 가입된 이메일
+       { res.redirect('/login/join'); }
+        else{
+           db.query("INSERT INTO user SET ?", member, function() {
+               //이메일 인증
+               var email_key = parseInt(Math.random() * 9999999+1000000);
+               db.query("SELECT uidx FROM user WHERE email = ?", [mysql.escape(email)], function(error, result) {
+                   idx = result[0];
+                   db.query("INSERT INTO confirm VALUES (?,?)", [idx.uidx,email_key], function() {});
+                   var smtpTrans = nodemailer.createTransport("SMTP", {
+                       service: 'Gmail',
+                       auth: { user: 'clzlckzkcyzh@gmail.com', pass: 'tony0606'}
+                   });
+                   var mail_text = '<img src="http://210.118.74.149:3000/images/ssm_logo.gif" alt="ssm_logo"/>';
+                   mail_text += '<h1>Welcome to Oilling Project!</h1><br/>';
+                   mail_text += '<p>Dear, <strong>'+name +',</strong><br/><br/>';
+                   mail_text += 'You have registered for a OP account with the <strong>' + email + '.</strong><br/>';
+                   mail_text += 'This will be used to log into your OP account.<br/><br/>';
+                   mail_text += 'Now, please <a href="http://210.118.74.149:3000/login/join/confirm/'+email_key+'" target="_blank"><span style="font-size: large; font-weight: bolder">verify your account.</span></a></br>';
+                   mail_text += 'It will return you to the OP site where you can complete the process.<br/><br/>';
+                   mail_text += 'If the link is not clickable, copy and paste the following URL into your web browser. </p>';
+                   mail_text += '<p>http://210.118.74.149:3000/login/join/confirm/'+email_key+'</p><br/>';
+                   var mailOptions = {
+                       from: 'OP <clzlckzkcyzh@gmail.com>',
+                       to: email,
+                       subject: 'Oilling Project - Verify Your Account',
+                       html: mail_text
+                   }
+                   smtpTrans.sendMail(mailOptions, function(error, response){
+                       if (error){
+                           console.log("sendMail error : "+error);
+                       } else {
+                           console.log("Message sent : " + response.message);
+                       }
+                       smtpTrans.close();
+                       res.redirect('/login');
+                   });
+               });
+           });
+       }
     });
 });
 /* email response */
