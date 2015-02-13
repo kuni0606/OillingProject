@@ -55,6 +55,7 @@
                 if (isDown) {
                     switch (selectedObject) {
                         case 'rect':
+                            context.drawImage(canvas_buffer, 0, 0);
                             newPoint = new Point(event, this);
 
                             socket.emit('drawRect', {
