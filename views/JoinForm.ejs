@@ -13,6 +13,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" language="javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
     <script>
+        var check_email = 0;
         var socket;
         $(document).ready(function(){
 
@@ -24,8 +25,10 @@
             socket.emit('emailcheck', email_v.value);
             socket.on('emailcheck_back',function(data){
                 if (data) {
+                    check_email = 0;
                     $('#emailc').html('');
                 } else {
+                    check_email = 1;
                     $('#emailc').html('이미 가입된 이메일입니다!');
                 }
             });
@@ -38,6 +41,12 @@
             {
                 alert("비밀번호가 서로 다릅니다.");
                 form.pw_confirm.focus();
+                return false;
+            }
+            if(check_email)
+            {
+                alert("이미 가입된 이메일입니다!");
+                form.email.focus();
                 return false;
             }
             alert('인증 메일을 발송했습니다');
