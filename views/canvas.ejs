@@ -45,6 +45,10 @@
             ctxBuffer.fillStyle="#FFFFFF";
             ctxBuffer.fillRect(0,0,canvas.width, canvas.height);
             context.drawImage(canvas_buffer, 0, 0);
+            canvas.onmouseover = function(){
+                isDown = false;
+                console.log('상자탈출');
+            }
             canvas.onmousedown = function(event){
                 isDown = true;
                 oldPoint = new Point(event, this);
