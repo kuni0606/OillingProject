@@ -26,7 +26,7 @@ $(function(){
 
 			goto(window.location.hash);
 
-			// We are triggering the event. This will execute 
+			// We are triggering the event. This will execute
 			// this function on page load, so that we show the correct folder:
 
 		}).trigger('hashchange');
@@ -185,6 +185,7 @@ $(function(){
                 for (var i =1;i< t.length;i++){
                     o += t[i] + '/';
                 }
+                location.reload(true);
                 console.log(o);
 				breadcrumbsUrls.push(nextDir);
 			}
@@ -204,6 +205,7 @@ $(function(){
 			breadcrumbsUrls.length = Number(index);
 
 			window.location.hash = encodeURIComponent(nextDir);
+            location.reload(true);
 		});
 
 
