@@ -10,6 +10,7 @@ var ejs = require('ejs');
 router.use(session({secret:'secret key'}));
 
 router.post('/', function(req, res, next) {
+    if (req.session.uidx==null) res.redirect('/login');
     ///////////test/////////////////
     res.render('canvas', { room: req.body.ri,s_name:req.session.name } );
 });
