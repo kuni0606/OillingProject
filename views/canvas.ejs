@@ -179,14 +179,15 @@
                 color = tcolor;
                 c_eraser = false;
             });
-            socket.on('create_room', function(data){
-               // alert(data);
-                $('#show_con').append('<dd style="margin:0px; text-align: center">' + data + '님이 '+data+'번 방에 접속 하셨습니다.</dd>');
+
+            /*var confirm = {
+                enter : '<%=s_name%>'
+            }
+            socket.emit('enter_room', confirm);
+            socket.on('enter_room', function(data){
+                $('#show_con').append('<dd style="margin:0px; text-align: center">' + data.enter + '님이 방에 접속 하셨습니다.</dd>');
                 scroll_down();
-            });
-            //socket.on('confirm_room', function(data){
-            //    $('#show_con').append('<dd style="margin:0px; text-align: center">' + data + '님이 '+data.room+'번 방에 접속 하셨습니다.</dd>');
-            //});
+            });*/
 
             function scroll_down() {
                 var aa = document.getElementById('c_room');

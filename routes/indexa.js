@@ -65,10 +65,6 @@ io.sockets.on('connection', function(socket){
         io.sockets.emit('create_room', data.toString());
     });
 
-    socket.on('confirm_user', function(data){
-        io.sockets.emit('confirm_user', data.toString());
-    });
-
     socket.on('message', function(message){
         socket.get('room', function(error, room){
             socket.broadcast.in(room).emit('message', message);

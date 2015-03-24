@@ -78,12 +78,10 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on('create_room', function(data){
-    io.sockets.emit('create_room', data.toString());
-  });
-
-  socket.on('confirm_user', function(data){
-    io.sockets.emit('confirm_user', data.toString());
+  socket.on('enter_room', function(name){
+    socket.get('room', function(error, room){
+      socket.in(room).emit('enter_room', name);
+    });
   });
 
   socket.on('message', function(message){
