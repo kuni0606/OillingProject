@@ -200,6 +200,11 @@
                 {
                     set_schedule();
                     init_color();
+                    if(c_idx == global_now_idx)
+                    {
+                        $('#now_name_right').css("background-color", c_color);
+                        global_now_color = c_color;
+                    }
                 }, error: function(req,status,error) {
                     alert("서버와 통신 도중 에러가 발생하였습니다.4");
                     alert("code:"+req.status+"\n"+"message:"+req.responseText+"\n"+"error:"+error);
