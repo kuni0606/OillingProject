@@ -50,31 +50,37 @@
                 return false;
             }
             else{
-                alert('인증 메일을 발송했습니다');
                 return true;
             }
         }
+        function email_ing(form)
+        {
+            alert('인증 메일을 발송했습니다');
+            form.join.value = "ing...";
+            form.join.disabled = true;
+            return true;
+        }
         /*
-        $form.submit(function() {
-            var $email = document.getElementById('email').value;
-            var $name = document.getElementById('name').value;
-            var $pw = document.getElementById('pw').value;
-            var $phone = document.getElementById('phone').value;
-            var regist = {};
-            regist['email'] = $email;
-            regist['name'] = $name;
-            regist['pw'] = $pw;
-            regist['phone'] = $phone;
-            socket.emit('regist', regist, function (data) {
-                if (data) {
-                    alert('We sent a verification email to '+$email +'.');
-                    window.location = 'http://127.0.0.1:3000/';
-                } else {
-                    alert('Join, Fail!!');
-                }
-            });
-        });
-        */
+         $form.submit(function() {
+         var $email = document.getElementById('email').value;
+         var $name = document.getElementById('name').value;
+         var $pw = document.getElementById('pw').value;
+         var $phone = document.getElementById('phone').value;
+         var regist = {};
+         regist['email'] = $email;
+         regist['name'] = $name;
+         regist['pw'] = $pw;
+         regist['phone'] = $phone;
+         socket.emit('regist', regist, function (data) {
+         if (data) {
+         alert('We sent a verification email to '+$email +'.');
+         window.location = 'http://127.0.0.1:3000/';
+         } else {
+         alert('Join, Fail!!');
+         }
+         });
+         });
+         */
     </script>
     <style type="text/css">
         html{
@@ -119,7 +125,7 @@
 </head>
 <body>
 <img src="/images/OPlogo.png" id="logo">
-<form id="joinform" method="post" name="frm" class="form-horizontal">
+<form id="joinform" method="post" name="frm" class="form-horizontal" onsubmit="return email_ing(this);">
     <fieldset>
         <div style="margin-bottom:0px">
             <label for="exampleInputEmailcheck" class="col-sm-8 control-label"></label>
@@ -141,7 +147,7 @@
             <label for="exampleInputPhone1" class="col-sm-8 control-label">Phone</label>
             <input type="tel" class="form-control" placeholder="Enter phone-N" name="phone" id="phone" size="25" required="required" pattern="\d{3}-\d{3,4}-\d{4}$"><br/></div>
     </fieldset>
-    <input id="join" type="submit" class="btn btn-primary" value="Join" onclick="return form_check();">&nbsp;&nbsp;<input id="reset" type="reset" class="btn btn-primary" value="Reset" required="required"></div>
+    <input id="join" type="submit" class="btn btn-primary" value="Join" onclick="return form_check();" >&nbsp;&nbsp;<input id="reset" type="reset" class="btn btn-primary" value="Reset" required="required"></div>
 </form>
 </body>
 </html>
