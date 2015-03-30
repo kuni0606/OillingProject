@@ -132,6 +132,14 @@
         h1 { font-size: 1.2em; margin: .6em 0; }
         .ui-dialog .ui-state-error { padding: .3em; }
         .validateTips { border: 1px solid transparent; padding: 0.3em; }
+
+        .manual_img{
+            transition-duration: 0.5s;
+            -webkit-animation: showSlowlyElement 700ms;
+        }
+        .manual_img:hover{
+            transform: scale(1.4,1.4) translateZ(60px);
+        }
     </style>
 </head>
 <body>
@@ -175,11 +183,11 @@
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>1. 로그인</legend>
-            <div class="aa"><img class="manual_img" src="/images/1_1.png" /></div>
+            <div class="aa"><img class="manual_img" src="/images/login_1.png" /></div>
             <div class="aa"><p style="margin:auto;">1.아이디와 비밀번호를 입력 후 로그인을 합니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/1_2.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/login_2.png" /></div>
                 <div class="aa"><p style="margin:auto;">2. 아이디가 없다면 회원가입을 통해 로그인을 할 수 있습니다.</p></div>
             </div>
         </fieldset>
@@ -187,16 +195,16 @@
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>2. 프로젝트 생성</legend>
-            <div class="aa"><img class="manual_img" src="/images/19_1.png" /></div>
+            <div class="aa"><img class="manual_img" src="/images/main_1.png" /></div>
             <div class="aa"><p style="margin:auto;">1. 프로젝트 생성 버튼을 클릭해서 새로운 프로젝트를 계획할 수 있습니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/2.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/main_2.png" /></div>
                 <div class="aa"><p style="margin:auto;">2. 프로젝트의 이름과 팀원의 수를 요구조건에 맞게 입력 후 Create버튼을 클릭합니다.</p></div>
             </div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/19.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/main_3.png" /></div>
                 <div class="aa"><p style="margin:auto;">3. 입력한 정보대로 프로젝트가 생성된 것을 확인할 수 있습니다.</p></div>
             </div>
         </fieldset>
@@ -204,67 +212,97 @@
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>3-1. 프로젝트 룸 - File upload</legend>
-            <div class="aa"><img class="manual_img" src="/images/4.png" /></div>
+            <div class="aa"><img class="manual_img" src="/images/file_1.png" /></div>
             <div class="aa"><p style="margin:auto;">1. 파일을 업로드하기 위해서 우측 상단의 파일모양의 버튼을 클릭합니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/upload-1.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/file_2.png" /></div>
                 <div class="aa"><p style="margin:auto;">2. 파일 선택 창에서 업로드할 파일을 선택하여 업로드합니다.</p></div>
             </div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/6.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/file_3.png" /></div>
                 <div class="aa"><p style="margin:auto;">3. 파일이 제대로 업로드 된 것을 확인할 수 있습니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/file_4.png" /></div>
+                <div class="aa"><p style="margin:auto;">4. 컨텍스트 메뉴를 통해 새폴더 생성, 이름 바꾸기, 삭제의 기능을 사용할 수 있습니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/file_5.png" /></div>
+                <div class="aa"><p style="margin:auto;">5. 폴더가 제대로 만들어 진 것을 확인할 수 있습니다.</p></div>
             </div>
         </fieldset>
     </div>
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>3-2. 프로젝트 룸 - Invite</legend>
-            <div class="aa"><img class="manual_img" src="/images/7-1.png" /></div>
+            <div class="aa"><img class="manual_img" src="/images/invite_1.png" /></div>
             <div class="aa"><p style="margin:auto;">1. 좌측의 두 번째 초대 버튼을 클릭해서 다른 인원을 프로젝트의 일원으로 초대할 수 있습니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/8.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/invite_2.png" /></div>
                 <div class="aa"><p style="margin:auto;">2. 상대방의 이메일을 입력해 초대 메시지를 보낸 다음, 상대방이 승낙하면 해당 프로젝트의 일원으로 참여할 수 있습니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/invite_3.png" /></div>
+                <div class="aa"><p style="margin:auto;">3. 상대방은 초대메시지가 온다면 메일 옆의 빨간 버튼이 활성화 됩니다. 해당 버튼을 클릭합니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/invite_4.png" /></div>
+                <div class="aa"><p style="margin:auto;">4. 초대메시지를 확인 후 프로젝트의 참여 여부를 결정합니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/invite_5.png" /></div>
+                <div class="aa"><p style="margin:auto;">5. 초대메시지를 수락한다면 프로젝트 방이 생기고 팀원으로 참여했다는 로그가 방에 남게 됩니다.</p></div>
             </div>
         </fieldset>
     </div>
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>3-3. 프로젝트 룸 - Plan</legend>
-            <div class="aa"><img class="manual_img" src="/images/9.png" /></div>
-            <div class="aa"><p style="margin:auto;">1. 달력버튼을 클릭하면 계획과 과정 두 선택지가 나타납니다.</p></div>
+            <div class="aa"><img class="manual_img" src="/images/plan_1.png" /></div>
+            <div class="aa"><p style="margin:auto;">1. 달력버튼을 클릭하면 프로젝트에 대한 일정을 관리할 수 있습니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/10.png" /></div>
-                <div class="aa"><p style="margin:auto;">2. Plan버튼을 클릭시 일정에 대한 잡 배분이 가능하고, Progress버튼을 클릭시 일정에 대한 확인이 가능합니다.</p></div>
+                <div class="aa"><img class="manual_img" src="/images/plan_2.png" /></div>
+                <div class="aa"><p style="margin:auto;">2. Plan버튼을 클릭시 일정에 대한 잡 배분이 가능(PM만 가능)하고, Progress버튼을 클릭시 일정에 대한 확인이 가능합니다.</p></div>
             </div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/11.png" /></div>
-                <div class="aa"><p style="margin:auto;">3. 프로젝트 시작 날짜와 종료 날짜, Job수를 입력하고 다음 페이지로 넘어가게 됩니다.</p></div>
+                <div class="aa"><img class="manual_img" src="/images/plan_3.png" /></div>
+                <div class="aa"><p style="margin:auto;">3. 플랜 버튼을 클릭 시 프로젝트 시작 날짜와 종료 날짜, Job수를 입력하고 다음 페이지로 넘어가게 됩니다.</p></div>
             </div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/12.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/plan_4.png" /></div>
                 <div class="aa"><p style="margin:auto;">4. 관리자만 수정 가능한 페이지로, 프로젝트 팀원들에 대해 각각의 일을 배분하고 색을 선택해 팀원을 구분할 수 있게 됩니다.</p></div>
             </div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/13.png" /></div>
-                <div class="aa"><p style="margin:auto;">5. 팀원은 Progress기능을 통해서 프로젝트에 대한 전체의 일정 확인이 가능하고 자신의 일에 대해 진행과정을 체크할 수 있습니다.</p></div>
+                <div class="aa"><img class="manual_img" src="/images/plan_5.png" /></div>
+                <div class="aa"><p style="margin:auto;">5. Progress버튼을 클릭 시 프로젝트에 대한 전체 팀원에 대한 역할을 확인할 수 있습니다.</p></div>
+            </div>
+            <hr />
+            <div class="img_src">
+                <div class="aa"><img class="manual_img" src="/images/plan_6.png" /></div>
+                <div class="aa"><p style="margin:auto;">6. 팀원은 Progress기능을 통해서 프로젝트에 대한 전체의 일정 확인이 가능하고 자신의 일에 대해 진행과정을 체크할 수 있습니다.</p></div>
             </div>
         </fieldset>
     </div>
     <div class="img_src">
         <fieldset style="border-radius:10px;">
             <legend>3-4. 프로젝트 룸 - Video Conference</legend>
-            <div class="aa"><img class="manual_img" src="/images/14.png" /></div>
+            <div class="aa"><img class="manual_img" src="/images/video_1.png" /></div>
             <div class="aa"><p style="margin:auto;">1. 비디오버튼을 클릭 시 화상회의를 진행할 수 있는 페이지로 넘어가게 됩니다.</p></div>
             <hr />
             <div class="img_src">
-                <div class="aa"><img class="manual_img" src="/images/15.png" /></div>
+                <div class="aa"><img class="manual_img" src="/images/video_2.png" /></div>
                 <div class="aa"><p style="margin:auto;">2. 화상회의에 참석한 팀원들과 화상채팅을 하며 캔버스에 자신의 의견이나 아이디어를 자유롭게 공유 가능합니다.</p></div>
             </div>
         </fieldset>
@@ -460,7 +498,7 @@
             width:800,
             modal: true,
             buttons: {
-                Cancel: function() {
+                확인: function() {
                     $( this ).dialog( "close" );
                 }
             }
