@@ -92,7 +92,7 @@ router.post('/join', function(req, res) {
            db.query("INSERT INTO user SET ?", member, function() {
                //이메일 인증
                var email_key = parseInt(Math.random() * 9999999+1000000);
-               db.query("SELECT uidx FROM user WHERE email = ?", [mysql.escape(email)], function(error, result) {
+               db.query("SELECT uidx FROM user WHERE email = ?", [email], function(error, result) {
                    idx = result[0];
                    db.query("INSERT INTO confirm VALUES (?,?)", [idx.uidx,email_key], function() {});
                    var smtpTrans = nodemailer.createTransport("SMTP", {
