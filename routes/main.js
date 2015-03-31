@@ -21,58 +21,38 @@ router.get('/', function(req, res, next) {
 
     var totalroom= 0;
 
-    db.query('SELECT i.User_my,u.name,i.User_you,r.ridx,r.title FROM invite i, user u, room r WHERE i.User_you='+mysql.escape(req.session.uidx)+' and i.User_my = u.uidx and i.Room_idx = r.ridx',function(err,tresult) {
-        db.query('SELECT * FROM room_join WHERE User_uidx= ' + mysql.escape(req.session.uidx), function (error, result) {
-            var names = [],
-                inviteroom = [],
-                roomtitle = [],
-                invitedate = [],
-                tresultlength= 0;
-            if (!err){
-                for (var i = 0;i<tresult.length;i++){
-                    names.push(tresult[i].name);
-                    inviteroom.push(tresult[i].ridx);
-                    roomtitle.push(tresult[i].title);
-                }
-                tresultlength=tresult.length;
-            }
-            if (error) {
-                res.render('Mainpage', {
-                    title: 'Main Page',
-                    s_uidx: req.session.uidx,
-                    s_email: req.session.email,
-                    s_name: req.session.name,
-                    v_totalroom: totalroom,
-                    v_alarmn: tresultlength,
-                    v_names: names,
-                    v_iroom: inviteroom,
-                    v_rtitle: roomtitle
-                });
-            } else {
-                totalroom = result.length;
-                var rooms = [];
-                var roomsi = [];
+    db.query('SELECT * FROM room_join WHERE User_uidx= ' + mysql.escape(req.session.uidx), function (error, result) {
+        var names = [];
+        if (error) {
+            res.render('Mainpage', {
+                title: 'Main Page',
+                s_uidx: req.session.uidx,
+                s_email: req.session.email,
+                s_name: req.session.name,
+                v_totalroom: totalroom,
+                v_names: names
+            });
+        } else {
+            totalroom = result.length;
+            var rooms = [];
+            var roomsi = [];
 
-                for (var i = 0; i < totalroom; i++) {
-                    rooms.push(result[i].title);
-                    roomsi.push(result[i].Room_ridx);
-                }
-
-                res.render('Mainpage', {
-                    title: 'Main Page',
-                    s_uidx: req.session.uidx,
-                    s_email: req.session.email,
-                    s_name: req.session.name,
-                    v_totalroom: totalroom,
-                    v_rooms: rooms,
-                    v_roomsi: roomsi,
-                    v_alarmn: tresultlength,
-                    v_names: names,
-                    v_iroom: inviteroom,
-                    v_rtitle: roomtitle
-                });
+            for (var i = 0; i < totalroom; i++) {
+                rooms.push(result[i].title);
+                roomsi.push(result[i].Room_ridx);
             }
-        });
+
+            res.render('Mainpage', {
+                title: 'Main Page',
+                s_uidx: req.session.uidx,
+                s_email: req.session.email,
+                s_name: req.session.name,
+                v_totalroom: totalroom,
+                v_rooms: rooms,
+                v_roomsi: roomsi,
+                v_names: names
+            });
+        }
     });
 });
 router.post('/api/accept/',function(req,res){
@@ -108,6 +88,19 @@ router.post('/api/accept/',function(req,res){
                 }
             });
         }
+    });
+});
+router.post('/api/data',function(req,res){
+    db.query('SELECT i.User_my,u.name,i.User_you,r.ridx,r.title FROM invite i, user u, room r WHERE i.User_you='+mysql.escape(req.session.uidx)+' and i.User_my = u.uidx and i.Room_idx = r.ridx',function(err,tresult) {
+        var resdata = [];
+
+        if (!err){
+            for (var i = 0;i<tresult.length;i++){
+                var temp = tresult[i].name+'|'+tresult[i].title+'|'+tresult[i].ridx;
+                resdata.push(temp);
+            }
+        }
+        res.send(resdata);
     });
 });
 router.post('/api/delete/',function(req,res){

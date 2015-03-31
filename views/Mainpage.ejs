@@ -99,7 +99,7 @@
 
         .n_list {
             /*transform-style:preserve-3d;*/
-            display: table-row, block;
+            display: table-row;
             vertical-align:middle;
             margin-bottom:30px;
             text-align:center;
@@ -320,12 +320,73 @@
 <script>
     var dialog, form, cdialog, mdialog;
     $(function() {
+        function idclick(e) {
+            cdialog.dialog('open');
+        }
+        function loadf() {
+            jQuery.ajax({
+                type: "post",
+                url: "/main/api/data",
+                success: function (data) {
+                    // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+                    // TODO
+                    var t=document.getElementById('alarmbtn');
+                    $('#alarm-context tbody *').remove();
 
-        var ilength = '<%=v_alarmn%>';
+                    if (data[0]!=''&&data.length>0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var splitddta = data[i].split('|');
+                            $('#alarm-context tbody').append('<tr>' +
+                            '<td>' + splitddta[0] + '님이 ' + splitddta[1] + '프로젝트에 초대하셨습니다' + '</td>' +
+                            '<td><input type="button" value="수락" id="abtnadd' + i + '"></td>' +
+                            '<td><input type="button" value="거절" id="cbtnadd' + i + '"></td>' +
+                            '</tr><tr></tr>');
+                            $('#abtnadd' + i).bind('click', function (e) {
+                                var t = parseInt(e.target.id.slice(-1));
+                                //post_goto('/main/api/accept',{'ri':iroom[t],'rt':rtitle[t]},false);
+                                console.log(t);
+                                var params = 'ri=' + splitddta[2] + '&rt=' + splitddta[1];
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('post', '/main/api/accept', false);
+                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                xhr.overrideMimeType('application/json');
+                                xhr.send(params);
+                                if (xhr.status == 400) {
+                                    alert('해당 프로젝트가 최대인원에 도달했습니다!');
+                                }
+                                log_go(splitddta[1], '프로젝트에 참여하였습니다.');
+                                window.location.href = '/main';
+                            });
+                            $('#cbtnadd' + i).bind('click', function (e) {
+                                var t = parseInt(e.target.id.slice(-1));
+                                var params = 'ri=' + splitddta[2];
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('post', '/main/api/cancel', false);
+                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                xhr.overrideMimeType('application/json');
+                                xhr.send(params);
+                                window.location.reload();
+                            });
+                            t.src = 'images/ORB_RED.png';
+                            t.addEventListener('click', idclick);
+                        }
+                    }else{
+                        t.src = 'images/ORB_BLACK.png';
+                        t.removeEventListener('click',idclick);
+                    }
+                },
+                complete: load,
+                error: function (xhr, status, error) {
+                    alert("에러발생");
+                }
+            });
+        }
+        function load() {
+            setTimeout(loadf,5000);
+        }
+        loadf();
         var tuname = '<%=v_names%>';
         var uname = tuname.split(',');
-        var rtitle = '<%=v_rtitle%>'.split(',');
-        var iroom = '<%=v_iroom%>'.split(',');
 
         var menu =[
             {'삭제': menuListener }
@@ -339,63 +400,20 @@
         function menuListener(menuItem,menu) {
             $(this).toggleClass("context-menu-item-disabled");
             var modal = confirm("정말 삭제하시겠습니까?");
-            if (modal==true){
+            if (modal == true) {
                 var t = ($(this).attr('id')).slice(-1);
 
-                var params = 'ri='+roomsi[t];
+                var params = 'ri=' + roomsi[t];
                 var xhr = new XMLHttpRequest();
-                 xhr.open('post', '/main/api/delete', false);
-                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                 xhr.overrideMimeType('application/json');
-                 xhr.send(params);
-                 if (xhr.status==200){
-                     console.log('탈퇴');
-                     log_go(roomsi[t],'프로젝트에서 탈퇴하였습니다.');
-                 }
-                 window.location.href='/main';
-            }
-        }
-
-        if (ilength>0){
-            var t=document.getElementById('alarmbtn');
-            var td = document.getElementById('alarm-context');
-            t.src = 'images/ORB_RED.png';
-            t.addEventListener('click',function(e){
-                cdialog.dialog('open');
-            });
-
-            for (var i = 0;i<ilength;i++){
-                $('#alarm-context tbody').append('<tr>'+
-                        '<td>'+ uname[i] + '님이 ' + rtitle[i] + '프로젝트에 초대하셨습니다' + '</td>' +
-                        '<td><input type="button" value="수락" id="abtn'+ i + '"></td>' +
-                        '<td><input type="button" value="거절" id="cbtn'+ i + '"></td>' +
-                        '</tr><tr></tr>');
-                $('#abtn'+i).bind('click',function(e){
-                    var t = parseInt(e.target.id.slice(-1));
-                    //post_goto('/main/api/accept',{'ri':iroom[t],'rt':rtitle[t]},false);
-                    console.log(t);
-                    var params = 'ri='+iroom[t]+'&rt='+rtitle[t];
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('post', '/main/api/accept', false);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.overrideMimeType('application/json');
-                    xhr.send(params);
-                    if (xhr.status==400){
-                        alert('해당 프로젝트가 최대인원에 도달했습니다!');
-                    }
-                    log_go(iroom[t],'프로젝트에 참여하였습니다.');
-                    window.location.href='/main';
-                });
-                $('#cbtn'+i).bind('click',function(e){
-                    var t = parseInt(e.target.id.slice(-1));
-                    var params = 'ri='+iroom[t];
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('post', '/main/api/cancel', false);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.overrideMimeType('application/json');
-                    xhr.send(params);
-                    window.location.reload();
-                });
+                xhr.open('post', '/main/api/delete', false);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.overrideMimeType('application/json');
+                xhr.send(params);
+                if (xhr.status == 200) {
+                    console.log('탈퇴');
+                    log_go(roomsi[t], '프로젝트에서 탈퇴하였습니다.');
+                }
+                window.location.href = '/main';
             }
         }
 
