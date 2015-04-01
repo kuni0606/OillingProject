@@ -4,6 +4,11 @@ var aspectRatio = 5/4;  // standard definition video aspect ratio
 var maxCALLERS = 4;
 var numVideoOBJS = maxCALLERS+1;
 var layout;
+var img;
+var canvas;
+var canvas_buffer;
+var context;
+var ctxBuffer;
 easyrtc.dontAddCloseButtons(true);
 
 function getIdOfBox(boxNum) {
@@ -732,6 +737,9 @@ function appInit() {
             },20);
         });
     });
+
+
+
 
 }
 
