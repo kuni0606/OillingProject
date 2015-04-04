@@ -1,16 +1,11 @@
 var express = require('express');
 var mysql = require('mysql');
+var conn = require('./db.js');
 var session = require('cookie-session');
 var url = require('url');
 var router = express.Router();
 
-var db = mysql.createConnection({
-    host : '210.118.74.149',
-    port : 3306,
-    user : 'root',
-    password : 'tony0606',
-    database : 'opdb'
-});
+var db = conn.dbcon();
 router.use(session({secret:'secret key'}));
 
 router.get('/plan', function(req, res) { // 관리자가 프로젝트 계획버튼을 눌렀을 때 이미 계획한 일정이 있나 없나 확인
@@ -37,7 +32,29 @@ router.get('/planning', function(req, res) {
 });
 router.get('/back', function(req, res) {
     if (req.session.uidx==null) res.redirect('/login');
-    res.redirect('/room/?ri='+req.session.ridx);
+    db.query('SELECT * FROM canvas_state WHERE ridx = '+mysql.escape(req.session.ridx), function(error, result) {
+        if (error){
+            console.log("canvas_state select error : "+error);
+        }
+        else {
+            if (result[0]) {//방 있음.
+                var temp = parseInt(result[0].total);
+                if(temp < 2) {
+                    db.query('DELETE FROM canvas_state WHERE ridx = '+mysql.escape(req.session.ridx), function () {
+                        res.redirect('/room/?ri='+req.session.ridx);
+                    });
+                }
+                else {
+                    db.query('UPDATE canvas_state SET total=' + mysql.escape(temp-1) + ' WHERE ridx = ' + mysql.escape(req.session.ridx), function() {
+                        res.redirect('/room/?ri='+req.session.ridx);
+                    });
+                }
+            }
+            else { //방 없어
+                res.redirect('/room/?ri='+req.session.ridx);
+            }
+        }
+    });
 });
 router.post('/plan', function(req, res) { //관리자가 처음 계획 일정을 눌러서 날짜랑 job을 정했을 때 schedule_form 테이블에 정보를 넣고 reload
     var p_session = parseInt(req.session.ridx);
@@ -142,9 +159,9 @@ router.post('/plan/drop_schedule', function(req, res) {
                     if(err) { console.log("drop error : "+err); }
                     else { res.send(ridx); }
                     /*db.query('DELETE FROM schedule_color WHERE Room_ridx='+mysql.escape(ridx), function(err) {
-                        if(err) { console.log("drop error : "+err); }
-                        else { res.send(ridx); }
-                    });*/
+                     if(err) { console.log("drop error : "+err); }
+                     else { res.send(ridx); }
+                     });*/
                 });
             });
         }

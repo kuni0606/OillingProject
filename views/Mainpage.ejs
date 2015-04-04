@@ -172,7 +172,7 @@
             <label for="name">프로젝트 명</label>
             <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all">
             <label for="num">최대인원</label>
-            <input type="text" name="num" id="num" value="" class="text ui-widget-content ui-corner-all">
+            <input type="text" name="num" id="num" value="" class="text ui-widget-content ui-corner-all" required="required" pattern="[1-5]{1}$">
 
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">

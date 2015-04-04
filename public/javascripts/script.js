@@ -1,4 +1,4 @@
-var currentPath='';
+var currentPath="";
 var originaldir;
 var od;
 $(function(){

@@ -1,15 +1,10 @@
 var express = require('express');
 var mysql = require('mysql');
+var conn = require('./db.js');
 var session = require('cookie-session');
 var router = express.Router();
 
-var db = mysql.createConnection({
-    host : '210.118.74.149',
-    port : 3306,
-    user : 'root',
-    password : 'tony0606',
-    database : 'opdb'
-});
+var db = conn.dbcon();
 
 router.use(session({secret:'secret key'}));
 /* GET users listing. */
@@ -29,7 +24,6 @@ router.get('/', function(req, res, next) {
                     return true;
                 }
             }
-            res.send(404,"권한이 없습니다");
             return false;
         }
     });

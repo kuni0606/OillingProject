@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
 var contentDisposition = require('content-disposition');
 var bodyParser = require('body-parser');
-var toobusy = require('toobusy');
+var toobusy = require('toobusy').maxLag(10);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -60,9 +60,7 @@ app.use('/file/home', express.static(process.cwd(), {
 app.use(function(req, res, next) {
     if (toobusy()) res.send(503,'서버가 혼잡합니다.');
     else {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
+        next();
     }
 });
 // error handlers
@@ -71,11 +69,15 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        if (toobusy()) res.send(503,'서버가 혼잡합니다.');
+        else {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+            next();
+        }
     });
 }
 // production error handler

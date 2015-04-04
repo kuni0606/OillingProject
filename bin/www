@@ -9,18 +9,13 @@ var debug = require('debug')('OillingProject:server');
 var http = require('http');
 var socketio = require('socket.io');
 var mysql = require('mysql');
+var conn = require('../routes/db.js');
 var ejs = require('ejs');
 var easyrtc = require('easyrtc');
 var io;
 var emailcheck = 0; //중복이메일 체크
 
-var db = mysql.createConnection({
-  host : '210.118.74.149',
-  port : 3306,
-  user : 'root',
-  password : 'tony0606',
-  database : 'opdb'
-});
+var db = conn.dbcon();
 db.connect(function(err){ //db연결에러시 출력
   if (err) console.log(err)
 });
