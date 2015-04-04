@@ -30,17 +30,15 @@
     </script>
     <script>
         $(document).ready(function(){
+            var strDataURI, resBount = false;
             var canvas = document.getElementById('canvas');
             var canvas_buffer = document.createElement('canvas');
             var context = canvas.getContext('2d');
             var ctxBuffer = canvas_buffer.getContext('2d');
+
             ctxBuffer.canvas.width = canvas.width;
             ctxBuffer.canvas.height = canvas.height;
-            var img = document.getElementById("scream");
-            img.onload = function(){
-                context.drawImage(img, 0, 0);
-                ctxBuffer.drawImage(img, 0, 0);
-            }
+            var initDataURI='';
 
             var color = '#000000',tcolor='#000000';
             var isDown = false,c_eraser=false;
@@ -114,6 +112,7 @@
 
             var socket = io.connect();
             socket.emit('join', '<%=room%>');
+            socket.emit('begin');
             socket.on('line', function(data){
                 ctxBuffer.strokeStyle = data.color;
                 ctxBuffer.beginPath();
@@ -139,13 +138,28 @@
                 context.drawImage(canvas_buffer, 0, 0);
             });
             socket.on('begin', function(data){
-                var strDataURI = canvas.toDataURL();
-                socket.emit('resBegin', {
-                    dataURL: strDataURI
-                });
+                if (initDataURI=='') {
+                    initDataURI = canvas.toDataURL();
+                }else{
+                    strDataURI = canvas.toDataURL();
+                    if (strDataURI!=initDataURI) {
+                        console.log("send : " + strDataURI);
+                        socket.emit('resBegin', {
+                            dataURL: strDataURI
+                        });
+                        resBount = true;
+                    }
+                }
             });
             socket.on('resBegin', function(data){
-                ctxBuffer.src = data.dataURL;
+                if ((resBount == false) && (strDataURI != data.dataURL)) {
+                    resBount = true;
+                    console.log("receive : " + data.dataURL);
+                    var image = new Image();
+                    image.src = data.dataURL;
+                    context.drawImage(image,0,0);
+                    ctxBuffer.drawImage(image,0,0);
+                }
             });
 
             $('#colorpicker').farbtastic(function(data){
@@ -353,7 +367,6 @@
     </style>
 </head>
 <body onload="appInit()" style="position:absolute; top:0; bottom:0; left:0; right:0;">
-<img style="border:1px solid #d3d3d3; display:none;" id="scream" src="/images/testimg3.jpg">
 <p id="roomn" style="display:none"><%=room%></p>
 <div>
     <div class="plat" style="display:table-row">
