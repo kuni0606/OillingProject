@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
 var contentDisposition = require('content-disposition');
 var bodyParser = require('body-parser');
+var toobusy = require('toobusy');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -57,9 +58,12 @@ app.use('/file/home', express.static(process.cwd(), {
 }));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    if (toobusy()) res.send(503,'서버가 혼잡합니다.');
+    else {
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    }
 });
 // error handlers
 
