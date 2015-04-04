@@ -61,6 +61,17 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
+  socket.on('begin', function(data){
+    socket.get('room', function(err, room){
+      io.sockets.in(room).emit('begin', data);
+    });
+  });
+
+  socket.on('resBegin', function(data){
+    socket.get('room', function(err, room){
+      io.sockets.in(room).emit('resBegin', data);
+    });
+  });
     socket.on('drawRect', function(data){
         socket.get('room', function(err, room){
             io.sockets.in(room).emit('rect', data);
