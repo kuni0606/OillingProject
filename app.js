@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
 var contentDisposition = require('content-disposition');
 var bodyParser = require('body-parser');
-var toobusy = require('toobusy').maxLag(10);
+var Ddos = require('ddos');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,7 +19,8 @@ global.rootPath = __dirname;
 var video = require('./routes/video');
 var log = require('./routes/log');
 
-var app = express();
+var app = express()
+var ddos = new Ddos;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,27 +58,17 @@ app.use('/file/home', express.static(process.cwd(), {
     }
 }));
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    if (toobusy()) res.send(503,'서버가 혼잡합니다.');
-    else {
-        next();
-    }
-});
 // error handlers
-
+app.use(ddos.express);
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        if (toobusy()) res.send(503,'서버가 혼잡합니다.');
-        else {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: err
-            });
-            next();
-        }
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
 }
 // production error handler
