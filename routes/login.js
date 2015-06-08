@@ -92,7 +92,7 @@ router.post('/join', function(req, res) {
                    db.query("INSERT INTO confirm VALUES (?,?)", [idx.uidx,email_key], function() {});
                    var smtpTrans = nodemailer.createTransport("SMTP", {
                        service: 'Gmail',
-                       auth: { user: 'clzlckzkcyzh@gmail.com', pass: 'tony0606'}
+                       auth: { user: 'clzlckzkcyzh@gmail.com', pass: 'tony060606'}
                    });
                    var mail_text = '<img src="http://210.118.74.149:3000/images/ssm_logo.gif" alt="ssm_logo"/>';
                    mail_text += '<h1>Welcome to Oilling Project!</h1><br/>';
